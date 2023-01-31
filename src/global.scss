@@ -1,10 +1,94 @@
 // Import all of Bootstrap's CSS
 @import '~bootstrap/scss/bootstrap';
-
-* {
-    box-sizing: border-box;
+@font-face {
+    font-family: Gilroy;
+    src:url('./assets/fonts/Gilroy-ExtraBold.otf');
+    src:url('./assets/fonts/Gilroy-Light.otf');
 }
-
+* {
+    box-sizing: border-box;    
+}
+.main__wrapper {
+    width: 80%;
+   // border: solid red;
+}
+.logo::after {
+    content: '.';
+    color:red;
+}
+.header {
+    width: 100%;
+    height: 65px;
+    z-index: 100;
+    opacity: 1;
+    background-color: white;
+}
+.header-wrapper {
+    height: 100%;
+    width: 80%;
+}
+.navigation__reg {
+    color: #ff6960;
+    font-family: Gilroy, sans-serif;
+    font-size: 1rem;
+}
+.main__wrapper {
+    //border: solid red;
+    top:150px;
+    margin: 0 auto;
+    margin-top: 150px;
+}
+.subheader {
+    max-width: 540px;
+}
+.subheader p {
+    font-size: 21px;
+    font-family: Gilroy, sans-serif;
+}
+h1 {
+    font-size: 64px;
+    font-weight: 600;
+    font-family: Gilroy, sans-serif;
+}
+h2 {
+    padding: 50px 0;
+}
+.main__button {
+    border-radius: 50px;
+    width: fit-content;
+    min-width: 180px;
+    height: 70px;
+    border: .1px solid rgb(233, 233, 233);
+}
+.main__button.active {
+    background-color: #ff6960;
+    color: white;
+    border: none;
+}
+.how {
+    width: 100%;
+}
+.how .row {
+    margin-bottom: 50px;
+}
+.how__img {
+    width: 640px;
+    height: 640px;
+    border: 1px solid;
+    border-radius: 30px;
+}
+.how__numbers {
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    color: #ff6960;
+    background-color: #ffe0de;
+}
+.how__text {
+    padding-top: 25px;
+    width: 400px;
+}
 html {
     height: 100%;
 }
@@ -25,18 +109,30 @@ a {
     justify-content: center;
     align-items: center;
 }
-
+.center-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.main__banner {
+    position: relative;
+    top:65px;
+}
+.main__lights {
+    position: absolute;
+    top:240px;
+}
 .between {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-
 .footer {
     width: 100%;
     height: 120px;
-    background-color: black;
+    background-color: #67568c;
     z-index: 95;
     display: flex;
     justify-content: space-between;
@@ -50,7 +146,10 @@ a {
     width: 100px;
     height: 100px;
 }
-
+.footer__buttons {
+    color: white;
+    width: 30%;
+}
 .footer_date {
     color: white;
 }

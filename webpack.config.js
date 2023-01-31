@@ -21,7 +21,7 @@ const baseConfig = {
             },
             { test: /\.ts$/i, use: 'ts-loader' },
             {
-                test: /\.(jpg|svg|png|jpeg)$/,
+                test: /\.(jpg|svg|png|jpeg|otf)$/,
                 loader: 'file-loader',
                 options: {
                     name: '[path][name].[ext]'
