@@ -2,19 +2,27 @@
 @import '~bootstrap/scss/bootstrap';
 @font-face {
     font-family: Gilroy;
-    src:url('./assets/fonts/Gilroy-ExtraBold.otf');
-    src:url('./assets/fonts/Gilroy-Light.otf');
+    src: url('./assets/fonts/Gilroy-ExtraBold.otf');
+    src: url('./assets/fonts/Gilroy-Light.otf');
+}
+.accordion-button {
+    background-color: unset !important;
+    color: unset !important;
+}
+:focus {
+    outline: 0 !important;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
 * {
-    box-sizing: border-box;    
+    box-sizing: border-box;
 }
 .main__wrapper {
     width: 80%;
-   // border: solid red;
+    // border: solid red;
 }
 .logo::after {
     content: '.';
-    color:red;
+    color: red;
 }
 .header {
     width: 100%;
@@ -34,12 +42,13 @@
 }
 .main__wrapper {
     //border: solid red;
-    top:150px;
+    top: 150px;
     margin: 0 auto;
     margin-top: 150px;
 }
 .subheader {
     max-width: 540px;
+    margin-bottom: 50px;
 }
 .subheader p {
     font-size: 21px;
@@ -50,18 +59,20 @@ h1 {
     font-weight: 600;
     font-family: Gilroy, sans-serif;
 }
-h2 {
-    padding: 50px 0;
+h3 {
+    padding-bottom: 40px;
 }
 .main__button {
     border-radius: 50px;
     width: fit-content;
-    min-width: 180px;
-    height: 70px;
-    border: .1px solid rgb(233, 233, 233);
+    min-width: 200px;
+    height: 60px;
+    border: 0.1px solid rgb(233, 233, 233);
+    font-weight: 400;
 }
+
 .main__button.active {
-    background-color: #ff6960;
+    background-color: #ff6960 !important;
     color: white;
     border: none;
 }
@@ -117,21 +128,33 @@ a {
 }
 .main__banner {
     position: relative;
-    top:65px;
+    top: 65px;
+    background: linear-gradient(180deg,#d0e5f2,#d0e5f2 54%,#fdfdff);
 }
 .main__lights {
     position: absolute;
-    top:240px;
+    top: 240px;
 }
 .between {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+.questions__icon-img {
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.extra-faq {
+    background-color: #f1ecfe;
+    border-radius: 15px;
+    margin: 50px 0;
+    height: 120px;
+    padding: 0 50px;
+    color: #67568c;
+}
 .footer {
     width: 100%;
-    height: 120px;
+    height: 130px;
     background-color: #67568c;
     z-index: 95;
     display: flex;
@@ -195,7 +218,6 @@ a {
     font-weight: 100;
     height: 50px;
 }
-
 
 @media screen and (max-width: 410px) {
     .footer_img-rs {
