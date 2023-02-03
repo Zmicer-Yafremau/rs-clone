@@ -1504,21 +1504,21 @@
                     <p class="center text-center">Организуй тайный обмен подарками между друзьями или коллегами</p>
                 </div>
                 <div class="row">
-                    <div class="col-6 center">
+                    <div class="col center">
                         <button type="button" class="btn main__button bg-light active">
                             Создать коробку
                         </button>
                     </div>
-                    <div class="col-6 center">
+                    <div class="col center">
                         <button type="button" class="btn main__button bg-light">Быстрая жеребьёвка</button>
                     </div>
                 </div>
             </section>
-            <section class="how container-fluid">
-                <h3>Как это работает?</h3>
+            <section class="how container-fluid center">
                 <div class="container-fluid how__content">
+                    <h3 class="how__header">Как это работает?</h3>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col screenshot__col">
                             <div class="how__numbers center">1</div>
                             <p class="how__text">
                                 Создайте коробку для жеребьевки, указав её название, ограничение на стоимость
@@ -1526,7 +1526,7 @@
                                 коробку или через ввод их email адресов вручную.
                             </p>
                         </div>
-                        <div class="col-6">
+                        <div class="col screenshot__col">
                             <div class="screenshot screenshot--cost">
                                 <div class="screenshot__container">
                                     <div class="screenshot__header">
@@ -1569,7 +1569,7 @@
                                                             d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                                                     </svg></button>
                                             </div>
-                                            <div class="col center">Шаг 2 из 4</div>
+                                            <div class="col center text-center">Шаг 2 из 4</div>
                                             <div class="col center">
                                                 <button type="button" class="screenshot__btn active"><svg
                                                         xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -1585,8 +1585,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
+                    <div class="row screenshot__second-row">
+                        <div class="col screenshot__col screenshot__second-text">
+                            <div>
+                            <div class="how__numbers center">2</div>
+                            <p class="how__text ">
+                                Участники могут добавить в карточку свои пожелания по подарку и почтовый адрес.
+                                Следите за пополнением карточек участников, и, как только все игроки
+                                зарегистрировались, проведите тайную жеребьевку.
+                            </p>
+                        </div>
+                        </div>
+                        <div class="col screenshot__col screenshot__second-pic">
                             <div class="screenshot screenshot--part">
                                 <div class="screenshot__container">
                                     <div class="screenshot__header ">
@@ -1632,24 +1642,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="how__numbers center">2</div>
-                            <p class="how__text">
-                                Участники могут добавить в карточку свои пожелания по подарку и почтовый адрес.
-                                Следите за пополнением карточек участников, и, как только все игроки
-                                зарегистрировались, проведите тайную жеребьевку.
-                            </p>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col screenshot__col">
                             <div class="how__numbers center">3</div>
                             <p class="how__text center">
                                 Сразу после проведения жеребьевки всем участникам на почту придёт уведомление, и они
                                 узнают, кому нужно подготовить подарок.
                             </p>
                         </div>
-                        <div class="col-6">
+                        <div class="col screenshot__col">
                             <div class="screenshot screenshot--ward">
                                 <div class="screenshot__container">
                                     <div class="screenshot__header center">
@@ -1657,7 +1659,7 @@
                                     </div>
                                     <div class="screenshot__body">
                                         <div class="screenshot__ward-icons">
-                                            <div class="screenshot__icon-left"><svg width="150" height="150"
+                                            <span class="screenshot--circle screenshot__icon-left center"><svg width="150" height="150"
                                                     viewBox="0 0 150 150" fill="none"
                                                     style="background: none; width: 5rem; height: 5rem;">
                                                     <path
@@ -1706,8 +1708,8 @@
                                                         d="M66.746 128.279c3.633 9.283 17.962 10.248 20.539-.25.24-.965-1.246-1.375-1.483-.409-2.193 8.925-14.462 8.196-17.574.25-.357-.914-1.844-.517-1.482.409"
                                                         fill="#1F1611"></path>
                                                     <path fill="#fff" fill-opacity="0.01" d="M149 149h1v1h-1z"></path>
-                                                </svg></div>
-                                            <div class="screenshot__icon-right"><svg width="150" height="150"
+                                                </svg></span>
+                                            <span class="screenshot--circle screenshot__icon-right center"><svg width="150" height="150"
                                                     viewBox="0 0 150 150" fill="none"
                                                     style="background: none; width: 5rem; height: 5rem;">
                                                     <path
@@ -1736,7 +1738,7 @@
                                                         fill="#CF5363"></path>
                                                     <path fill="#fff" fill-opacity="0" d="M0 0h1v1H0zM149 148h1v1h-1z">
                                                     </path>
-                                                </svg></div>
+                                                </svg></span>
                                         </div>
                                         <div class="screenshot__ward-text">Здравствуйте, Евгений!<br><br>Жеребьевка в
                                             коробке «Тайный Санта» была проведена, и у вас появился подопечный! Скорее
@@ -2020,16 +2022,13 @@
             </a>
         </div>
         <div class="footer__buttons between">
-            <span>Быстрая жеребьевка</span>
-            <span>Частые вопросы</span>
-            <span>Идеи подарков</span>
+            <a>Быстрая жеребьевка</a>
+            <a>Частые вопросы</a>
+            <a>Помочь проекту</a>
+            <a>Не пришло письмо?</a>
+            <a>Обратная связь</a>
         </div>
         <h2 class="footer_date">2023</h2>
-        <div class="footer__buttons between">
-            <span>Помочь проекту</span>
-            <span>Не пришло письмо?</span>
-            <span>Обратная связь</span>
-        </div>
         <a href="https://rs.school/js/" target="_blank">
             <img class="footer_img-rs" src="https://rs.school/images/rs_school_js.svg" alt="rs" />
         </a>
