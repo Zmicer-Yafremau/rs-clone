@@ -33,7 +33,8 @@ const baseConfig = {
         extensions: ['.js','.ts'],
     },
     output: {
-        filename: 'index.js',
+        //filename: 'index.js',
+        filename: filename("js/", ".js"),
         path: path.resolve(__dirname, './dist'),
     },
     plugins: [
