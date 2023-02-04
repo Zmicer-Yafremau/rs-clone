@@ -1,23 +1,41 @@
 // Import all of Bootstrap's CSS
 @import '~bootstrap/scss/bootstrap';
 
+@font-face {
+    font-family: Gilroy;
+    src: url('./assets/fonts/Gilroy-ExtraBold.otf');
+    src: url('./assets/fonts/Gilroy-Light.otf');
+}
+
+.accordion-button {
+    background-color: unset !important;
+    color: unset !important;
+}
+
+
 * {
     box-sizing: border-box;
+    // border: .1px solid;
 }
 
 html {
     height: 100%;
 }
+
 a {
     text-decoration: none !important;
     color: black;
 }
-.body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    overflow-x: hidden;
+
+h1 {
+    font-size: 64px;
+    font-weight: 600;
+    font-family: Gilroy, sans-serif;
+}
+
+:focus {
+    outline: 0 !important;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
 
 .center {
@@ -32,31 +50,352 @@ a {
     align-items: center;
 }
 
+.body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100%;
+    height: 65px;
+    z-index: 100;
+    background-color: white;
+}
+
+.header-wrapper {
+    height: 100%;
+    width: 95%;
+    max-width: 1500px;
+}
+
+.logo::after {
+    content: '.';
+    color: red;
+}
+
+.navigation__reg {
+    color: #ff6960;
+    font-family: Gilroy, sans-serif;
+    font-size: 1rem;
+}
+
+.main {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.main__wrapper {
+    max-width: 1500px;
+    margin: 0 auto;
+    //border: solid red;
+    top: 150px;
+    margin: 0 auto;
+    margin-top: 150px;
+}
+
+.main__button {
+    border-radius: 50px;
+    width: fit-content;
+    min-width: 200px;
+    height: 60px;
+    border: 0.1px solid rgb(233, 233, 233);
+    font-weight: 400;
+}
+
+.main__button.active {
+    background-color: #ff6960 !important;
+    color: white;
+    border: none;
+}
+
+.main__banner {
+    width: 100%;
+    height: 320px;
+    position: relative;
+    top: 65px;
+    background: linear-gradient(180deg, #d0e5f2, #d0e5f2 54%, #fdfdff);
+    overflow: hidden;
+}
+
+.main__lights {
+    position: absolute;
+    top: 240px;
+}
+
+
+.subheader {
+    max-width: 540px;
+    margin-bottom: 50px;
+}
+
+.subheader p {
+    font-size: 21px;
+    font-family: Gilroy, sans-serif;
+}
+
+.how {
+    width: 100%;
+}
+
+.how .row {
+    margin-bottom: 50px;
+}
+
+.how__text {
+    width: 50%;
+    height: auto;
+    padding-top: 25px;
+}
+
+.how__numbers {
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    color: #ff6960;
+    background: #ffe0de;
+}
+
+.screenshot {
+    width: 640px;
+    min-width: 290px;
+    height: 640px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.screenshot__col {
+    margin: 20px 0;
+}
+
+.screenshot__container {
+    width: 80%;
+    height: 80%;
+    padding: 20px 0;
+    border-radius: 30px;
+    background-color: white;
+    position: relative;
+}
+
+.screenshot--cost {
+    background-color: #f1ecfe;
+}
+
+.screenshot--part {
+    background-color: #ffeff3;
+}
+
+.screenshot--ward {
+    background-color: #e7f5ff;
+}
+
+.screenshot__header {
+    padding: 10px;
+}
+
+.screenshot__second-row {
+    flex-direction: row-reverse;
+}
+
+.screenshot__second-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.screenshot__body {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.screenshot__limit {
+    background-color: #f3f6f9;
+    width: 95%;
+    height: auto;
+    border-radius: 15px;
+    padding: 20px 30px;
+    margin-left: 10px;
+}
+
+.screenshot__toggle-input {
+    background-color: #67568c !important;
+    width: 45px !important;
+    height: 25px !important;
+    border-radius: 15px;
+    border: unset;
+    padding: 3px;
+}
+
+.screenshot__inputs {
+    margin: 20px 0;
+}
+
+.screenshot__footer {
+    position: absolute;
+    width: 100%;
+    border-radius: 0 0 30px 30px;
+    bottom: 0;
+    height: 15%;
+    background-color: #67568c;
+    color: white;
+}
+
+.screenshot__footer-row {
+    width: 100%;
+    height: 100%;
+}
+
+.screenshot__btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #50426c;
+    border: none;
+}
+
+.screenshot__btn.active {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #ff6960;
+    border: none;
+}
+
+.screenshot--circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    border: solid white;
+    position: relative;
+}
+
+.screenshot__ward-icons {
+    display: flex;
+    flex-direction: row;
+}
+
+.screenshot__icon {
+    margin-left: 20px;
+}
+
+.screenshot__name {
+    display: inline-block;
+    width: 70%;
+    text-align: center;
+    padding-bottom: 10%;
+}
+
+.screenshot__part-text {
+    font-family: Gilroy, sans-serif;
+    font-size: 1.4375rem;
+    font-weight: 600;
+    justify-content: flex-start;
+    letter-spacing: 0;
+    line-height: 2rem;
+    max-height: 30rem;
+    overflow-wrap: anywhere;
+    overflow-y: auto;
+    scrollbar-width: none;
+    text-align: center;
+    white-space: break-spaces;
+    width: 100%;
+    height: auto;
+}
+
+.screenshot__ward-text {
+    text-align: center;
+    margin: 20px 0;
+    color: #333640;
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.375rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.screenshot__icon-left {
+    left: 90px;
+    background-color: #ffecd7;
+    z-index: 2;
+}
+
+.screenshot__icon-right {
+    right: 90px;
+    z-index: 3;
+    background-color: #ffeaed;
+}
+
+.center-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.questions__icon-img {
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.extra-faq {
+    background-color: #f1ecfe;
+    border-radius: 30px;
+    margin: 50px 0;
+    width: 100%;
+    height: auto;
+    padding: 30px 50px;
+    color: #67568c;
+    flex-wrap: wrap;
+}
 
 .footer {
     width: 100%;
-    height: 120px;
-    background-color: black;
+    height: auto;
+    background-color: #67568c;
     z-index: 95;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px;
     flex-wrap: wrap;
     margin-top: 20px;
 }
 
 .footer_img-rs {
     width: 100px;
-    height: 100px;
+    height: auto;
+}
+
+.footer__buttons {
+    color: white;
+    width: 40%;
+    height: auto;
+    flex-wrap: wrap;
+    height: fit-content;
 }
 
 .footer_date {
     color: white;
 }
+
 .footer__link {
     width: 100%;
+    display: block;
+    text-decoration: none;
+    color: white;
+    font-weight: 100;
 }
+
 .footer_img-git {
     display: inline-block;
     width: 20px;
@@ -65,17 +404,21 @@ a {
     background-color: white;
     border-radius: 30px;
 }
+
 .footer__name {
     display: inline-block;
     width: 65%;
+    font-weight: 500;
+    font-family: Gilroy, sans-serif;
 }
+
 .footer__produced {
-    width: 200px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    height: 100%;
+    height: auto;
     padding: 5px;
 }
 
@@ -89,35 +432,80 @@ a {
     margin-bottom: 5px;
 }
 
-.footer__link {
-    display: block;
-    text-decoration: none;
-    color: white;
-    font-weight: 100;
-    height: 50px;
+@media (max-width: 700px) {
+    .main__button {
+        margin: 10px 0;
+    }
+
+    .screenshot {
+        width: 90%;
+    }
+
+    .footer__buttons {
+        font-size: 14px;
+        width: 40%;
+    }
+
+    .extra-faq {
+        justify-content: center !important;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    .accordion-body {
+        font-size: 14px;
+    }
+
+    .screenshot__body {
+        padding: 10px;
+    }
 }
 
+@media (max-width: 410px) {
+    .screenshot__ward-text {
+        font-size: 16px;
+        line-height: 1rem;
+        padding: 0.5rem;
+    }
 
-@media screen and (max-width: 410px) {
+    .screenshot__part-text {
+        font-size: 20px;
+    }
+
+    .how__text {
+        width: 100%;
+    }
+
     .footer_img-rs {
         width: 60px;
     }
+
     .footer_date {
         font-size: 16px;
     }
+
     .footer__produced {
-        font-size: 16px;
-        width: 40%;
+        font-size: 14px;
+        width: 50%;
     }
-    .footer__produced > a {
-        font-size: 12px;
+
+    .footer__produced>a {
+        font-size: 12x;
     }
+
     .footer__header {
         font-size: 12px;
     }
+
     .footer_img-git {
-        width: 10px;
-        height: 10px;
+        width: 20px;
+        height: 20px;
         margin-left: 5px;
         border: 0.1px solid white;
     }
