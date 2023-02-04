@@ -1,16 +1,20 @@
 import { Controller } from '../controller/index';
 import { Model } from '../model/index';
-import { BoxesView } from './boxesView/index';
+import { AccountView } from './accountView';
 import { MainView } from './mainView/index';
-import { create } from '../types/types';
 import { Routing } from '../types/routing';
 import { ErrorView } from './errorView';
+import { DonateView } from './donateView';
+import { create } from '../utils/utils';
+import { getSelector } from '../utils/utils';
+
 
 export class View {
     root: Element;
-    boxesView: BoxesView;
+    accountView: AccountView;
     mainView: MainView;
     errorView: ErrorView;
+    donateView: DonateView;
 
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
@@ -18,9 +22,10 @@ export class View {
         this.renderContent();
         const main = document.querySelector('.main__wrapper') as Element;
 
-        this.boxesView = new BoxesView(this.controller, this.model, main);
+        this.accountView = new AccountView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
+        this.donateView = new DonateView(this.controller, this.model, main)
         this.renderRoute();
     }
 
@@ -32,7 +37,7 @@ export class View {
 
     renderRoute() {
         const route = this.model.route;
-        const [, path, id] = route.path;
+        const [, path, path2, path3] = route.path;
         console.log(route);
 
         switch (path) {
@@ -41,13 +46,27 @@ export class View {
                 this.mainView.render();
                 break;
 
-            case Routing.BOXES:
-                this.boxesView.render(id);
+            case Routing.ACCOUNT:
+                if (route.path.length===2||route.path.length===3&&(path2==='boxes'||path2==='')) {
+                    this.accountView.render(path2); 
+                }
+                else{this.errorView.render();}
+                break;
+            
+            case Routing.DONATE:
+                this.donateView.render();
                 break;
 
             default:
-                //console.log('404');
                 this.errorView.render();
+        }
+    }
+
+    addHandlers() {
+        for (const link of getSelector(".nav__link") as NodeListOf<Element>) {
+        link.addEventListener("click", (e: Event) => {
+            this.controller.route(link.getAttribute('href')!, e);
+        });
         }
     }
 

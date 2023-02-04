@@ -3,9 +3,9 @@ export enum Routing {
     ACCOUNT = 'account',
     LOGIN = 'login',
     REGISTER = 'register',
+    DONATE = 'donate',
     FAQ = 'faq',
-    //BOXES = 'account/boxes',
-    BOXES = 'boxes',
+    //BOXES = 'account/boxes',+
     //NEW_BOX = 'box/new',
     //BOX = 'box/name',
     //CARD = 'box/name/card',
