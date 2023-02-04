@@ -34,8 +34,9 @@ const baseConfig = {
     },
     output: {
         //filename: 'index.js',
-        filename: filename("js/", ".js"),
+        filename: "js/" +  "[name]" + ".js",
         path: path.resolve(__dirname, './dist'),
+        publicPath: "/"
     },
     plugins: [
         new HtmlWebpackPlugin({
