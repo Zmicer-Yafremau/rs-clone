@@ -33,8 +33,10 @@ const baseConfig = {
         extensions: ['.js','.ts'],
     },
     output: {
-        filename: 'index.js',
+        //filename: 'index.js',
+        filename: "js/" +  "[name]" + ".js",
         path: path.resolve(__dirname, './dist'),
+        publicPath: "/"
     },
     plugins: [
         new HtmlWebpackPlugin({
