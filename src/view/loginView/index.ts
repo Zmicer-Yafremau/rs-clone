@@ -5,7 +5,7 @@ export class LoginView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
     render() {
-        this.root.innerHTML = `<div class="authorization log fixed_center">
+        this.root.innerHTML = `<div class="authorization log center">
         <div class="authorization__wrapper center">
             <h1>Вход на сайт
             </h1>
@@ -16,6 +16,12 @@ export class LoginView {
                     <input type="email" class="form-control authorization__input log__input id="logMail"
                         placeholder="" pattern="^.+@[a-zA-Z]{1,}[\\.][a-zA-Z]{1,}"
                         required>
+                        <div class="valid-feedback">
+                        Cпасибо!
+                      </div>
+                      <div class="invalid-feedback">
+                      Пожалуйста, проверьте почту.
+                    </div>
                 </div>
                 <div class="mb-3 authorization__pas">
                     <label for="logPass" class="form-label authorization__label">Пароль: </label>

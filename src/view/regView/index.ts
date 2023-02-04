@@ -1,11 +1,11 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-
+import { checkValidation } from '../../controller/check-validation';
 export class RegView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
     render() {
-        this.root.innerHTML = `<div class="reg authorization fixed_center">
+        this.root.innerHTML = `<div class="reg authorization center">
         <div class="authorization__wrapper center">
             <h1>Регистрация</h1>
             <div class="authorization__switch">Уже зарегистрированы? <span> Войти на сайт</ы></div>
@@ -14,17 +14,35 @@ export class RegView {
             <label for="regName" class="form-label authorization__label">Имя: </label>
             <input type="text" class="form-control authorization__input reg__input" id="regName"
                 placeholder="" pattern="{1,}" required>
+                <div class="valid-feedback">
+                Cпасибо!
+              </div>
+              <div class="invalid-feedback">
+              Пожалуйста, введите имя.
+            </div>
         </div>
                 <div class="mb-3">
                     <label for="regTel" class="form-label authorization__label">Телефон: </label>
                     <input type="tel" class="form-control authorization__input reg__input" id="regTel"
                         placeholder="" pattern="\\+[0-9]{9,}" required>
+                        <div class="valid-feedback">
+                        Cпасибо!
+                      </div>
+                      <div class="invalid-feedback">
+                      Пожалуйста, введите номер телефона (Должен быть "+" и минимум 9 цифр).
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="regMail" class="form-label authorization__label">Почта: </label>
                     <input type="email" class="form-control authorization__input reg__input" id="regMail"
                         placeholder="" pattern="^.+@[a-zA-Z]{1,}[\\.][a-zA-Z]{1,}"
                         required>
+                        <div class="valid-feedback">
+                        Cпасибо!
+                      </div>
+                        <div class="invalid-feedback">
+                        Пожалуйста, введите почту.
+                      </div>
                 </div>
                 <div class="mb-3 authorization__pas">
                     <label for="regPass" class="form-label authorization__label">Пароль: </label>
@@ -39,13 +57,20 @@ export class RegView {
                         <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
                         <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
                       </svg></span>
-                </div>
-                <div class="authorization__errors text-center mt-4 visually-hidden">
-                    В форме допущены ошибки
+                      <div class="valid-feedback">
+                      Cпасибо!
+                    </div>
+                      <div class="invalid-feedback">
+                      Пожалуйста, введите пароль.(Минимум 5 символов).
+                    </div>
                 </div>
                 <button type="submit" class="btn main__button active authorization__btn center mt-4">Зарегестрироваться</button>
             </form>
         </div>
     </div>`;
+    }
+    addListeners() {
+        const FORM = document.getElementsByClassName('reg__form')[0] as HTMLFormElement;
+        checkValidation(FORM);
     }
 }

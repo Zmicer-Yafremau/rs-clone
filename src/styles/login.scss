@@ -3,15 +3,18 @@
 .authorization {
     padding: 10px;
     width: 100%;
-    height: auto;
+    height: calc(100vh - 65px - 148px);
     margin: 0 auto;
+    margin-top: 65px;
 }
 
 .authorization__wrapper {
     max-width: 500px;
+    max-height: 50vh;
     width: 100%;
     margin: 0 auto;
     flex-direction: column;
+    height: auto;
 }
 .authorization__switch {
     width: 100%;
@@ -36,8 +39,8 @@
 }
 .authorization__icon {
     position: absolute;
-    top: 50%;
-    right: 10px;
+    top: 40px;
+    right: 40px;
     z-index: 90;
 }
 .authorization__pas {
@@ -51,15 +54,10 @@
 .authorization__to-reg span:hover {
     cursor: pointer;
 }
-@media (max-height: 800px) {
+@media (max-height: 920px) {
+
     .authorization {
-        position: unset;
-        margin: 0 auto;
-        margin-top: 60px;
-        transform: unset;
-    }
-    .footer {
-        position: unset;
+        height: 120vh;
     }
 
 }

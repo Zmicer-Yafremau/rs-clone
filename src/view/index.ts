@@ -46,6 +46,7 @@ export class View {
                 break;
             case Routing.REGISTER:
                 this.regView.render();
+                this.regView.addListeners();
                 break;
             case Routing.LOGIN:
                 this.loginView.render();
