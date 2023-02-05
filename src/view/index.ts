@@ -7,7 +7,8 @@ import { ErrorView } from './errorView';
 import { DonateView } from './donateView';
 import { create } from '../utils/utils';
 import { getSelector } from '../utils/utils';
-
+import { LoginView } from './loginView';
+import { RegView } from './regView';
 
 export class View {
     root: Element;
@@ -15,14 +16,18 @@ export class View {
     mainView: MainView;
     errorView: ErrorView;
     donateView: DonateView;
+    loginView: LoginView;
+    regView: RegView;
 
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
         this.renderContent();
-        const main = document.querySelector('.main__wrapper') as Element;
-
+        const main = document.querySelector('.main') as Element;
+        this.regView = new RegView(this.controller, this.model, main);
+        this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
+
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.donateView = new DonateView(this.controller, this.model, main)
@@ -60,18 +65,23 @@ export class View {
             case Routing.MAIN:
                 this.mainView.render();
                 break;
-
             case Routing.ACCOUNT:
                 if (route.path.length===2||route.path.length===3&&(path2==='boxes'||path2==='')) {
                     this.accountView.render(path2); 
                 }
                 else{this.errorView.render();}
                 break;
-            
             case Routing.DONATE:
                 this.donateView.render();
                 break;
-
+            case Routing.REGISTER:
+                this.regView.render();
+                this.regView.addListeners();
+                break;
+            case Routing.LOGIN:
+                this.loginView.render();
+                this.loginView.addListeners();
+                break;
             default:
                 this.errorView.render();
         }
@@ -79,8 +89,6 @@ export class View {
 
     renderContent() {
         const main = create<HTMLElement>('main', 'main');
-        const mainWrapper = create<HTMLElement>('main__wrapper wrapper', 'div');
-        main.append(mainWrapper);
         this.root.append(main);
     }
 }
