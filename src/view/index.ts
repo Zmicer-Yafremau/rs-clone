@@ -27,11 +27,26 @@ export class View {
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.donateView = new DonateView(this.controller, this.model, main)
         this.renderRoute();
+        this.addHandlers();
     }
+
+    addHandlers() {
+        for (const link of getSelector(".nav__link") as NodeListOf<Element>) {
+            link.addEventListener("click", (e: Event) => {
+                const href = this.model.route.origin + link.getAttribute('href')!;
+            this.controller.route(href, e);
+            console.log(href)
+        });
+        }
+    } 
 
     addListeners() {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
+        });
+
+        this.model.on("route", () => {
+            this.renderRoute();
         });
     }
 
@@ -59,14 +74,6 @@ export class View {
 
             default:
                 this.errorView.render();
-        }
-    }
-
-    addHandlers() {
-        for (const link of getSelector(".nav__link") as NodeListOf<Element>) {
-        link.addEventListener("click", (e: Event) => {
-            this.controller.route(link.getAttribute('href')!, e);
-        });
         }
     }
 

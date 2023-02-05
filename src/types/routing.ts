@@ -5,6 +5,9 @@ export enum Routing {
     REGISTER = 'register',
     DONATE = 'donate',
     FAQ = 'faq',
+    RANDOMIZER = 'randomizer',
+    RESEND = 'resend',
+    FEEDBACK = 'feedback',
     //BOXES = 'account/boxes',+
     //NEW_BOX = 'box/new',
     //BOX = 'box/name',
