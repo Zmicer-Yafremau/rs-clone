@@ -46,12 +46,12 @@
 .authorization__pas {
     position: relative;
 }
-.authorization__switch span {
+.authorization__switch a {
     color: $reg-color;
     text-decoration: underline;
     margin-left: 5px;
 }
-.authorization__to-reg span:hover {
+.authorization__to-reg a:hover {
     cursor: pointer;
 }
 @media (max-height: 920px) {
