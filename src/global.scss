@@ -89,6 +89,12 @@ h1 {
     font-size: 1rem;
 }
 
+.navigation__reg .nav__link{
+    color: #ff6960;
+    font-family: Gilroy, sans-serif;
+    font-size: 1rem;
+}
+
 .footer {
     width: 100%;
     height: auto;
@@ -107,6 +113,14 @@ h1 {
 }
 
 .footer__buttons {
+    color: white;
+    width: 40%;
+    height: auto;
+    flex-wrap: wrap;
+    height: fit-content;
+}
+
+.footer__buttons .nav__link {
     color: white;
     width: 40%;
     height: auto;
