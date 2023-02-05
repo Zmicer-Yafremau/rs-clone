@@ -8,7 +8,9 @@ export class RouterController {
         if (event) {
             event.preventDefault();
         }
+
         window.history.pushState({}, '', this.makeRoute(route));
+        console.log(route)
         this.updateRoute(route);
     }
 
