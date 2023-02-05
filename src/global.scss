@@ -44,6 +44,14 @@ h1 {
     justify-content: center;
     align-items: center;
 }
+
+.center-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .fixed_center {
     position: fixed;
     top: 45%;
