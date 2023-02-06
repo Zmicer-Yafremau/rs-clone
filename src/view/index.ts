@@ -30,27 +30,27 @@ export class View {
 
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
-        this.donateView = new DonateView(this.controller, this.model, main)
+        this.donateView = new DonateView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
 
     addHandlers() {
-        for (const link of getSelector(".nav__link") as NodeListOf<Element>) {
-            link.addEventListener("click", (e: Event) => {
+        for (const link of getSelector('.nav__link') as NodeListOf<Element>) {
+            link.addEventListener('click', (e: Event) => {
                 const href = this.model.route.origin + link.getAttribute('href')!;
-            this.controller.route(href, e);
-            console.log(href)
-        });
+                this.controller.route(href, e);
+                console.log(href);
+            });
         }
-    } 
+    }
 
     addListeners() {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
         });
 
-        this.model.on("route", () => {
+        this.model.on('route', () => {
             this.renderRoute();
         });
     }
@@ -66,10 +66,11 @@ export class View {
                 this.mainView.render();
                 break;
             case Routing.ACCOUNT:
-                if (route.path.length===2||route.path.length===3&&(path2==='boxes'||path2==='')) {
-                    this.accountView.render(path2); 
+                if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
+                    this.accountView.render(path2);
+                } else {
+                    this.errorView.render();
                 }
-                else{this.errorView.render();}
                 break;
             case Routing.DONATE:
                 this.donateView.render();

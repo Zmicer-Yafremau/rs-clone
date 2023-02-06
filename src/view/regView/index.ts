@@ -67,6 +67,9 @@ export class RegView {
                       Пожалуйста, введите пароль.(Минимум 5 символов).
                     </div>
                 </div>
+                <div class="reg__exist authorization__errors visually-hidden" >
+                    Такой пользователь уже существует. Попробуйте другую почту.
+                </div>
                 <button type="submit" class="btn main__button active authorization__btn center mt-4">Зарегестрироваться</button>
             </form>
         </div>

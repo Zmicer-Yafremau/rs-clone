@@ -1,6 +1,7 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-
+import { switchHeader } from './switch-header';
+import { Authorization } from '../../model/authorization';
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
@@ -1989,5 +1990,13 @@ export class MainView {
                 </div>
             </section>
         </div>`;
+        setTimeout(async () => {
+            const USR = await new Authorization();
+            if (localStorage.token) {
+                const USR_OBJ = await USR.get(localStorage.token);
+                console.log(USR_OBJ);
+                if (USR_OBJ.msg !== 'authorization denied') switchHeader(USR_OBJ[0].name);
+            }
+        }, 0);
     }
 }
