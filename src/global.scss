@@ -91,6 +91,10 @@ h1 {
     color: red;
 }
 
+.logo .nav__link {
+    color:  var(--bs-body-color); ;
+}
+
 .navigation__reg {
     color: $reg-color;
     font-family: Gilroy, sans-serif;
@@ -98,7 +102,7 @@ h1 {
 }
 
 .navigation__reg .nav__link{
-    color: #ff6960;
+    color: $reg-color;
     font-family: Gilroy, sans-serif;
     font-size: 1rem;
 }

@@ -10,7 +10,7 @@ export class RouterController {
         }
 
         window.history.pushState({}, '', this.makeRoute(route));
-        console.log(route)
+        console.log(route);
         this.updateRoute(route);
     }
 
