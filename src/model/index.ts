@@ -10,7 +10,7 @@ export class Model extends Observer {
 
     setRoute(route: string, noEmit = false) {
         this.routerModel.setRoute(route);
-        if (!noEmit) this.emit("route");
+        if (!noEmit) this.emit('route');
     }
 
     get route() {

@@ -1,6 +1,5 @@
 // Import all of Bootstrap's CSS
-@import '~bootstrap/scss/bootstrap';
-@import './styles/variables/var.scss';
+@import './variables/var.scss';
 
 @font-face {
     font-family: Gilroy;
@@ -102,7 +101,9 @@ h1 {
     font-family: Gilroy, sans-serif;
     font-size: 1rem;
 }
-
+.nav {
+    width: fit-content;
+}
 .footer {
     width: 100%;
     height: auto;
