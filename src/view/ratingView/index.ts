@@ -1,8 +1,9 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
+import { getSelector } from '../../utils/utils';
 
 export class RatingView {
-    constructor(private controller: Controller, private model: Model, private root: Element) {}
+    constructor(private controller: Controller, private model: Model, private root: Element) { }
 
     render() {
         this.root.innerHTML = `<div class="rating log center">
@@ -67,19 +68,84 @@ export class RatingView {
         <br><br>
         Ваши оценки и отзывы позволяют сайту развиваться, спасибо!
         </span>
+        <div class="rating-new center">
         <div class="rating-star">
-        <span class="star star1"></span>
-        <span class="star star2"></span>
-        <span class="star star3"></span>
-        <span class="star star4"></span>
-        <span class="star star5"></span>
+        <span class="star rating-item active" data-rate="1"></span>
+        <span class="star rating-item" data-rate="2"></span>
+        <span class="star rating-item" data-rate="3"></span>
+        <span class="star rating-item" data-rate="4"></span>
+        <span class="star rating-item" data-rate="5"></span>
         </div>
         <div class="form-group rating-feedback">
         <label for="exampleFormControlTextarea1">Оставьте свой отзыв тут:</label>
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
         </div>
         <button type="submit" class="btn main__button active authorization__btn center mt-4">Отправить</button>
+        </div>
         </span>
         </div>`;
+
+        const rating = document.querySelector('.rating-star') as Element;
+        const items = getSelector('.rating-item') as NodeListOf<HTMLSpanElement>;
+        let ratingStars: string;
+
+        rating.addEventListener('mouseover', (e: Event) => {
+            const target = e.target as Element;
+            if(target.classList.contains('rating-item')){
+            const hoverItem = target as Element;
+            [].forEach.call(items, function itemsHover(elem:Element, i){
+            if(i < Number(hoverItem.getAttribute('data-rate')||0)){
+                elem.classList.add('active');
+            }else if(i >= Number(hoverItem.getAttribute('data-rate')||0)){
+                elem.classList.remove('active');
+            }
+            elem.classList.remove('item-current');
+            });
+            }
+            ratingStars = target.getAttribute('data-rate')!;
+        })
+        
+        rating.addEventListener('mouseout', (e: Event) => {
+            let currentNumber: number = 0;
+            [].forEach.call(items, function(elem: Element, i){
+            if(elem.classList.contains('item-current')){
+                currentNumber = i;
+            }
+            });
+            if(currentNumber !== undefined){
+            clearWithoutCurrent(currentNumber);
+            return;
+            }else{
+            clear();
+            }
+        })
+
+        rating.addEventListener("click", (e: Event) => {
+            const target = e.target as Element;
+            target.classList.add('item-current');
+            const siblings = target.parentNode!.querySelectorAll('.rating-item') as NodeListOf<Element>;
+            [].forEach.call(siblings, function (el: Element) {
+                if (el !== target) {
+                    el.classList.remove('item-current');
+                }
+            });
+        })
+
+        function clear(){
+            [].forEach.call(items, function(elem: Element){
+            if(elem.getAttribute('data-rate') !== "1"){
+                elem.classList.remove('active');
+                }
+            });
+        }
+
+        function clearWithoutCurrent(currentNumber:number){
+            [].forEach.call(items, function(elem: Element, i){
+            if(i < currentNumber){
+                elem.classList.add('active');
+                }
+            });
+        }
+
     }
 }

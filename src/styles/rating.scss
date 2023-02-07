@@ -10,7 +10,7 @@
 
 .rating__wrapper {
     max-width: 50rem;
-    width: 100%;
+    width: 100%; 
     margin: 0 auto;
     flex-direction: column;
     height: auto;
@@ -52,7 +52,12 @@
   position: absolute;
   z-index: 5;
   display: inline-block;
+  cursor: pointer;
+  &.active{
+    background-image: url(../assets/icons/star-active.svg);
+  }
 }
+
 .current{
   outline: 1px solid;
   background-image: url(../assets/icons/star-active.svg);
@@ -63,31 +68,25 @@
 }
 .star:nth-child(2):hover{
   width: 100px;
-
 }
 .star:nth-child(3){
   left: 100px;
 }
 .star:nth-child(3):hover{
-/*   width: 55%; */
   position: absolute;
-
   width: 150px;
-  
 }
 .star:nth-child(4){
   left: 150px;
 }
 .star:nth-child(4):hover{
   width: 200px;
-
 }
 .star:nth-child(5){
   left: 200px;
 }
 .star:nth-child(5):hover{
   width: 250px;
-
 }
 .star:hover{
   z-index: 2;
@@ -95,26 +94,15 @@
   background-image: url(../assets/icons/star-active.svg);
 }
 
+.rating-new {
+  width: 100%;
+  flex-direction: column;
+}
+
 .rating-feedback {
   width: 100%;
 }
 
-
-
-// .authorization__form {
-//     width: 100%;
-//     flex-direction: column;
-// }
-// .authorization__input {
-//     height: 50px;
-// }
-// .authorization__btn {
-//     margin: 0 auto;
-// }
-
-// .authorization__to-reg a:hover {
-//     cursor: pointer;
-// }
 @media (max-height: 920px) {
 
     .rating {
