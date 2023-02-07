@@ -6,7 +6,16 @@ export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
     render() {
-        this.root.innerHTML = `
+        setTimeout(async () => {
+            const USR = await new Authorization();
+            if (localStorage.token) {
+                const USR_OBJ = await USR.get(localStorage.token);
+                console.log(USR_OBJ);
+                if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
+                    switchHeader(USR_OBJ[0].name);
+            }
+        }, 0);
+        /*this.root.innerHTML = `
         <div class="main__banner center-col">
             <svg class="main__animals" width="1321" height="344" viewBox="0 0 1321 344" fill="none"
                 style="background: none; width: 65rem; height: 16.9266rem">
@@ -1989,14 +1998,6 @@ export class MainView {
                     <button type="button" class="btn main__button bg-light">Частые вопросы</button>
                 </div>
             </section>
-        </div>`;
-        setTimeout(async () => {
-            const USR = await new Authorization();
-            if (localStorage.token) {
-                const USR_OBJ = await USR.get(localStorage.token);
-                console.log(USR_OBJ);
-                if (USR_OBJ.msg !== 'authorization denied') switchHeader(USR_OBJ[0].name);
-            }
-        }, 0);
+        </div>`; */
     }
 }

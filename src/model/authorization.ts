@@ -46,6 +46,7 @@ export class Authorization {
         });
         const result = await response.json();
         if (result === 'Invalid Credential') return false;
+        else localStorage.token = result.jwtToken;
         return true;
     }
     async remove(id: number) {

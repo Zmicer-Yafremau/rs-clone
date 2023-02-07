@@ -1,0 +1,19 @@
+.account {
+    width: 100%;
+    margin-top: 100px;
+    padding-bottom: 100px;
+}
+.account__header,
+.account__wrapper {
+    width: 100%;
+    max-width: 1520px;
+}
+.account .row {
+    padding: 25px 0;
+} 
+.account__section {
+min-width: 400px;
+}
+.account input {
+    min-width: 300px;
+}
