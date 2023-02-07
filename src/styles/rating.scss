@@ -6,6 +6,7 @@
     height: calc(100vh - 65px - 148px);
     margin: 0 auto;
     margin-top: 65px;
+    flex-direction: column;
 }
 
 .rating__wrapper {
@@ -14,6 +15,7 @@
     margin: 0 auto;
     flex-direction: column;
     height: auto;
+    margin-bottom: 30px;
 }
 
 .rating-title {
@@ -102,6 +104,46 @@
 .rating-feedback {
   width: 100%;
 }
+
+.user_message {
+  margin-bottom: 30px;
+}
+
+.author_rating {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.author {
+  font-size: 1.2rem;
+}
+
+.feedback {
+  margin: 10px -4px;
+  display: flex;
+  justify-content: center;
+  color: #FFEC5C;
+  font-size: 21px;
+}
+
+.feedback-star:before {
+  content: "\f005";
+}
+
+.feedback-text {
+  text-align: left;
+  display: inline-block;
+  clear: both;
+  color: $faq-text;
+  font-size: 18px;
+  padding: 30px;
+  border-radius: 3px;
+  background-color: $faq-bg;
+  box-shadow: 0px 20px 40px -20px rgb(0 0 0 / 20%);
+}
+
 
 @media (max-height: 920px) {
 

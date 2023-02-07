@@ -1,9 +1,13 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { getSelector } from '../../utils/utils';
+import { FeedbackView } from './feedbackView';
 
 export class RatingView {
-    constructor(private controller: Controller, private model: Model, private root: Element) { }
+    feedbackView: FeedbackView;
+    constructor(private controller: Controller, private model: Model, private root: Element) {
+        this.feedbackView = new FeedbackView();
+    }
 
     render() {
         this.root.innerHTML = `<div class="rating log center">
@@ -83,7 +87,13 @@ export class RatingView {
         <button type="submit" class="btn main__button active authorization__btn center mt-4">Отправить</button>
         </div>
         </span>
-        </div>`;
+        </div>
+        <div class="feedback__wrapper">
+        </div>
+        `;
+
+        const feedbackWrapper = document.querySelector('.feedback__wrapper') as HTMLDivElement;
+        this.feedbackView.render(feedbackWrapper);
 
         const rating = document.querySelector('.rating-star') as Element;
         const items = getSelector('.rating-item') as NodeListOf<HTMLSpanElement>;
