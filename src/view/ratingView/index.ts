@@ -97,65 +97,63 @@ export class RatingView {
 
         const rating = document.querySelector('.rating-star') as Element;
         const items = getSelector('.rating-item') as NodeListOf<HTMLSpanElement>;
-        let ratingStars: string;
 
         rating.addEventListener('mouseover', (e: Event) => {
             const target = e.target as Element;
-            if(target.classList.contains('rating-item')){
-            const hoverItem = target as Element;
-            [].forEach.call(items, function itemsHover(elem:Element, i){
-            if(i < Number(hoverItem.getAttribute('data-rate')||0)){
-                elem.classList.add('active');
-            }else if(i >= Number(hoverItem.getAttribute('data-rate')||0)){
-                elem.classList.remove('active');
+            if (target.classList.contains('rating-item')) {
+                const hoverItem = target as Element;
+                [].forEach.call(items, function itemsHover(elem: Element, i) {
+                    if (i < Number(hoverItem.getAttribute('data-rate') || 0)) {
+                        elem.classList.add('active');
+                    } else if (i >= Number(hoverItem.getAttribute('data-rate') || 0)) {
+                        elem.classList.remove('active');
+                    }
+                    elem.classList.remove('item-current');
+                });
             }
-            elem.classList.remove('item-current');
-            });
-            }
-            ratingStars = target.getAttribute('data-rate')!;
-        })
-        
-        rating.addEventListener('mouseout', (e: Event) => {
-            let currentNumber: number = 0;
-            [].forEach.call(items, function(elem: Element, i){
-            if(elem.classList.contains('item-current')){
-                currentNumber = i;
-            }
-            });
-            if(currentNumber !== undefined){
-            clearWithoutCurrent(currentNumber);
-            return;
-            }else{
-            clear();
-            }
-        })
+        });
 
-        rating.addEventListener("click", (e: Event) => {
+        rating.addEventListener('mouseout', () => {
+            let currentNumber = 0;
+            [].forEach.call(items, function (elem: Element, i) {
+                if (elem.classList.contains('item-current')) {
+                    currentNumber = i;
+                }
+            });
+            if (currentNumber !== undefined) {
+                clearWithoutCurrent(currentNumber);
+                return;
+            } else {
+                clear();
+            }
+        });
+
+        rating.addEventListener('click', (e: Event) => {
             const target = e.target as Element;
             target.classList.add('item-current');
-            const siblings = target.parentNode!.querySelectorAll('.rating-item') as NodeListOf<Element>;
+            const targetNode = target.parentNode as Element;
+            const siblings = targetNode.querySelectorAll('.rating-item') as NodeListOf<Element>;
             [].forEach.call(siblings, function (el: Element) {
                 if (el !== target) {
                     el.classList.remove('item-current');
                 }
             });
-        })
+        });
 
-        function clear(){
-            [].forEach.call(items, function(elem: Element){
-            if(elem.getAttribute('data-rate') !== "1"){
-                elem.classList.remove('active');
+        function clear() {
+            [].forEach.call(items, function (elem: Element) {
+                if (elem.getAttribute('data-rate') !== '1') {
+                    elem.classList.remove('active');
                 }
             });
         }
 
-        function clearWithoutCurrent(currentNumber:number){
-            [].forEach.call(items, function(elem: Element, i){
-            if(i < currentNumber){
-                elem.classList.add('active');
+        function clearWithoutCurrent(currentNumber: number) {
+            [].forEach.call(items, function (elem: Element, i) {
+                if (i < currentNumber) {
+                    elem.classList.add('active');
                 }
             });
         }
-
     }
 }

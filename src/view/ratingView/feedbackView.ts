@@ -1,19 +1,15 @@
-import { create } from "../../utils/utils";
+import { create } from '../../utils/utils';
 
 export class FeedbackView {
+    render(root: HTMLElement) {
+        root.innerHTML = '';
+        const feedbackList = create<HTMLElement>('block-feedbacks', 'div');
+        this.fill(feedbackList);
+        root.append(feedbackList);
+    }
 
-  render(root: HTMLElement) {
-    root.innerHTML = "";
-    const feedbackList = create<HTMLElement>(
-      "block-feedbacks",
-      "div"
-    );
-    this.fill(feedbackList);
-    root.append(feedbackList);
-  }
-
-  fill(root: HTMLElement) {
-    root.innerHTML = `
+    fill(root: HTMLElement) {
+        root.innerHTML = `
     <div class="user_message">
               <div class="author_rating">
               <div class="author">Админ, Владелец магазина</div>
@@ -28,6 +24,6 @@ export class FeedbackView {
               <div class="feedback-text">Сотрудничаем с компанией уже 6 лет и впечатления исключительно положительные. <br>
               Отличное качество продукции: можно без колебаний заказывать любую позицию и быть уверенным, что использовано лучшее сырье.
               </div>
-    </div>`
-  }
+    </div>`;
+    }
 }

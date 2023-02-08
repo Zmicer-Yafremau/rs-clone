@@ -1,7 +1,5 @@
-import './global.scss';
-import './styles/main.scss';
-import './styles/authorization.scss';
-import '../node_modules/normalize.css/normalize.css';
-import './styles/style.scss';
+import './styles.scss';
 import 'bootstrap';
 import './app';
+import 'tippy.js/dist/tippy.css';
+import './styles/rating.scss';

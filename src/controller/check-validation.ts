@@ -14,11 +14,23 @@ export function checkValidation(form: HTMLFormElement) {
                 const INPUTS = (document.getElementsByClassName(
                     `${FORM_TYPE}__input`
                 ) as unknown) as NodeListOf<HTMLInputElement>;
-                const NAME = INPUTS[0].value;
-                const PHONE = INPUTS[1].value;
-                const MAIL = INPUTS[2].value;
-                const PASS = INPUTS[3].value;
-                await USR.create(NAME, PHONE, MAIL, PASS);
+                if (FORM_TYPE === 'reg') {
+                    const USER_EXIST = document.getElementsByClassName('reg__exist')[0] as HTMLDivElement;
+                    const NAME = INPUTS[0].value;
+                    const PHONE = INPUTS[1].value;
+                    const MAIL = INPUTS[2].value;
+                    const PASS = INPUTS[3].value;
+                    const res = await USR.create(NAME, PHONE, MAIL, PASS);
+                    if (res) location.replace(location.origin);
+                    else USER_EXIST.classList.remove('visually-hidden');
+                } else {
+                    const USER_EXIST = document.getElementsByClassName('log__exist')[0] as HTMLDivElement;
+                    const MAIL = INPUTS[0].value;
+                    const PASS = INPUTS[1].value;
+                    const res = await USR.login(MAIL, PASS);
+                    if (res) location.replace(location.origin);
+                    else USER_EXIST.classList.remove('visually-hidden');
+                }
             }
             form.classList.add('was-validated');
         },
