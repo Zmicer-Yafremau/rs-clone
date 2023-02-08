@@ -1,6 +1,10 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { exit } from '../../controller/exit';
+import { checkValidation } from '../../controller/check-validation';
+import { deleteUser } from '../../controller/delete-user';
+import { hideSymbols } from '../../components/hide-symbols';
+import { changePrivate } from '../../controller/change-private';
 export class AccountView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
@@ -29,19 +33,28 @@ export class AccountView {
                         <form class="row private__name-form" novalidate>
                             <div class="col-8 d-flex flex-column justify-content-center align-items-start">
                                 <label for="inputNameChange" class="">Ваше имя:</label>
-                                <input type="text" class="form-control" id="inputNameChange" placeholder="">
+                                <input type="text" class="form-control" id="inputNameChange" placeholder="" minlength="1" required>
                             </div>
                             <div class="col-auto d-flex justify-content-start align-items-end">
                                 <button type="submit" class="btn text-secondary bg-none">Сохранить</button>
+                            </div>
+                            <div class="invalid-feedback">
+                                Пожалуйста, введите новое имя.
                             </div>
                         </form>
                         <form class="row private__mail-form" novalidate>
                             <div class="col-8">
                                 <label for="inputEmailChange" class="">Ваша почта:</label>
-                                <input type="email" class="form-control" id="inputEmailChange" placeholder="">
+                                <input type="email" class="form-control" id="inputEmailChange" placeholder="" pattern="^.+@[a-zA-Z]{1,}[\\.][a-zA-Z]{1,}" required>
                             </div>
                             <div class="col-auto d-flex justify-content-start align-items-end">
                                 <button type="submit" class="btn text-secondary bg-none">Сохранить</button>
+                            </div>
+                            <div class="invalid-feedback">
+                                Пожалуйста, введите новую почту.
+                            </div>
+                            <div class="private__exist authorization__errors visually-hidden" >
+                                Такой пользователь уже существует. Попробуйте другую почту.
                             </div>
                         </form>
                     </div>
@@ -126,10 +139,10 @@ export class AccountView {
                     <form class="col-auto delete__form" novalidate>
                         <div class="d-flex flex-column justify-content-center align-items-start">
                             <label for="inputDel" class="text-secondary">Для подтверждения введите: <b> Удалить профиль</b></label>
-                            <input type="text" class="form-control" id="inputDel" placeholder="">
+                            <input type="text" class="form-control" id="inputDel">
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn text-secondary bg-none visually-hidden">Сохранить</button>
+                        <div class="d-flex justify-content-end visually-hidden">
+                            <button type="submit" class="btn text-secondary bg-none">Удалить</button>
                         </div>
                     </form>
                 </div>
@@ -138,10 +151,28 @@ export class AccountView {
     }
     addListeners() {
         const EXIT = document.getElementsByClassName('account__link')[0] as HTMLAnchorElement;
+        const DELETE__INPUT = document.getElementById('inputDel') as HTMLInputElement;
+        const DELETE__FORM = document.getElementsByClassName('delete__form')[0] as HTMLFormElement;
+        const DELETE__DIV = DELETE__FORM.children[1] as HTMLDivElement;
+        const DELETE__BUTTON = DELETE__DIV.children[0] as HTMLButtonElement;
         EXIT.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
             exit();
         });
+        DELETE__BUTTON.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            await deleteUser();
+        });
+        DELETE__INPUT.addEventListener('input', () => {
+            if (DELETE__INPUT.value === 'Удалить профиль') {
+                DELETE__DIV.classList.remove('visually-hidden');
+            }
+        });
+        const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
+        const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
+        changePrivate(P_NAME_FORM);
+        changePrivate(P_MAIL_FORM);
     }
 }

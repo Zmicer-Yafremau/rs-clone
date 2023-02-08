@@ -1,4 +1,5 @@
 import { Authorization } from '../model/authorization';
+import { deleteUser } from './delete-user';
 export function checkValidation(form: HTMLFormElement) {
     form.addEventListener(
         'submit',
@@ -20,10 +21,10 @@ export function checkValidation(form: HTMLFormElement) {
                     const PHONE = INPUTS[1].value;
                     const MAIL = INPUTS[2].value;
                     const PASS = INPUTS[3].value;
-                    const res = await USR.create(NAME, PHONE, MAIL, PASS);
+                    const res = await USR.create(NAME, MAIL, PHONE, PASS);
                     if (res) location.replace(location.origin);
                     else USER_EXIST.classList.remove('visually-hidden');
-                } else {
+                } else if (FORM_TYPE === 'log') {
                     const USER_EXIST = document.getElementsByClassName('log__exist')[0] as HTMLDivElement;
                     const MAIL = INPUTS[0].value;
                     const PASS = INPUTS[1].value;

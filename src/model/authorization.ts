@@ -11,7 +11,7 @@ export class Authorization {
         });
         return await response.json();
     }
-    async update(name: string, phonenumber: string, email: string, password: string, id: number) {
+    async update(id: number, name: string, email: string, phonenumber: string, password: string) {
         const response = await fetch(`${this.url}`, {
             method: 'PUT',
             body: JSON.stringify({ id, name, email, phonenumber, password }),
@@ -19,9 +19,13 @@ export class Authorization {
                 'Content-Type': 'application/json',
             },
         });
-        return await response.json();
+        const result = await response.json();
+        console.log(result);
+        if (result === 'User already exist!') return false;
+        else localStorage.token = result.jwtToken;
+        return result;
     }
-    async create(name: string, phonenumber: string, email: string, password: string) {
+    async create(name: string, email: string, phonenumber: string, password: string) {
         const response = await fetch(`${this.url}/register`, {
             method: 'POST',
             body: JSON.stringify({ name, email, phonenumber, password }),
@@ -31,6 +35,7 @@ export class Authorization {
             },
         });
         const result = await response.json();
+        console.log('res', result);
         if (result === 'User already exist!') return false;
         else localStorage.token = result.jwtToken;
         return true;
@@ -45,6 +50,8 @@ export class Authorization {
             },
         });
         const result = await response.json();
+        console.log(JSON.stringify({ email, password }));
+        console.log(result);
         if (result === 'Invalid Credential') return false;
         else localStorage.token = result.jwtToken;
         return true;
