@@ -1,9 +1,8 @@
 import { Authorization } from '../model/authorization';
+import { USR_STATE } from '../db/usr-state';
 export async function deleteUser() {
     const USR = new Authorization();
-    const USR_OBJ = await USR.get(localStorage.token);
-    console.log(USR_OBJ);
-    await USR.remove(USR_OBJ[0].id);
+    await USR.remove(localStorage.id);
     localStorage.token = '';
     location.replace(location.origin);
 }

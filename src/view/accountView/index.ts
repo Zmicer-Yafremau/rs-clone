@@ -4,7 +4,7 @@ import { exit } from '../../controller/exit';
 import { checkValidation } from '../../controller/check-validation';
 import { deleteUser } from '../../controller/delete-user';
 import { hideSymbols } from '../../components/hide-symbols';
-import { changePrivate } from '../../controller/change-private';
+import { change } from '../../controller/change';
 export class AccountView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
@@ -15,7 +15,7 @@ export class AccountView {
             this.root.innerHTML = `
         <div class="account">
             <div class="account__wrapper container">
-                <div class="row border-bottom flex-wrap" account__header container">
+                <div class="row flex-wrap" account__header container">
                     <div class="col">
                         <h4 class="">Настройки профиля</h4>
                     </div>
@@ -25,12 +25,12 @@ export class AccountView {
                         </div>
                     </div>
                 </div>
-                <div class="row border-bottom private">
+                <div class="row border-top private position-relative overflow-hidden">
                     <div class="col-4 account__section">
                         <h5 class="">Личные данные</h5>
                     </div>
                     <div class="col-auto">
-                        <form class="row private__name-form" novalidate>
+                        <form class="row private__name-form mt-3" novalidate>
                             <div class="col-8 d-flex flex-column justify-content-center align-items-start">
                                 <label for="inputNameChange" class="">Ваше имя:</label>
                                 <input type="text" class="form-control" id="inputNameChange" placeholder="" minlength="1" required>
@@ -53,24 +53,27 @@ export class AccountView {
                             <div class="invalid-feedback">
                                 Пожалуйста, введите новую почту.
                             </div>
-                            <div class="private__exist authorization__errors visually-hidden" >
+                            <div class="private__exist authorization__errors visually-hidden mt-3 col-8" >
                                 Такой пользователь уже существует. Попробуйте другую почту.
                             </div>
                         </form>
+                        <div class="private__saved mt-3 col-8 bg-accept position-absolute bg-success text-center bg-opacity-10" >
+                                   Сохранено
+                        </div>
                     </div>
                 </div>
-                <div class="row border-bottom pass">
+                <div class="row border-top pass position-relative overflow-hidden">
                     <div class="col-4 account__section">
                         <h5 class="">Пароль</h5>
                     </div>
                     <div class="col-auto">
-                        <form class="row pass__form" novalidate>
+                        <form class="row pass__form mt-3" novalidate>
                             <div class="col authorization__pas">
                                 <label for="passChange" class="form-label authorization__label">Пароль:
                                 </label>
                                 <input type="password" class="form-control authorization__input pass__input"
                                     id="passChange" placeholder="" minlength="5" required>
-                                <span class="authorization__icon pass__icon">
+                                <span class="authorization__icon pass__change-icon">
                                     <span class="show"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                             <path
@@ -99,7 +102,7 @@ export class AccountView {
                         <div class="pass__exist authorization__errors visually-hidden">
                             Такой пользователь уже существует. Попробуйте другую почту.
                         </div>
-                        <div class="mb-3 authorization__pas">
+                        <div class="mb-3 authorization__pas mt-3">
                             <label for="passRepeat" class="form-label authorization__label">Пароль: </label>
                             <input type="password" class="form-control authorization__input pass__repeat"
                                 id="passRepeat" placeholder="" minlength="5" required>
@@ -122,8 +125,11 @@ export class AccountView {
                                     </svg></span>
                             </span>
                         </div>
-                        <div class="reg_equal authorization__errors visually-hidden">
+                        <div class="pass_equal authorization__errors visually-hidden">
                             Пароли не совпадают.
+                        </div>
+                        <div class="pass__saved mt-3 col-8 bg-accept position-absolute bg-success text-center bg-opacity-10" >
+                            Сохранено
                         </div>
                         <div class="col d-flex justify-content-end align-items-end">
                             <button type="submit" class="btn text-secondary bg-none">Сохранить</button>
@@ -132,7 +138,7 @@ export class AccountView {
                     </div>
 
                 </div>
-                <div class="row border-bottom delete">
+                <div class="row border-top delete">
                     <div class="col-4 account__section">
                         <h5 class="">Удаление профиля</h5>
                     </div>
@@ -155,6 +161,10 @@ export class AccountView {
         const DELETE__FORM = document.getElementsByClassName('delete__form')[0] as HTMLFormElement;
         const DELETE__DIV = DELETE__FORM.children[1] as HTMLDivElement;
         const DELETE__BUTTON = DELETE__DIV.children[0] as HTMLButtonElement;
+        const PASS_CHANGE = document.getElementById('passChange') as HTMLInputElement;
+        const PASS_REPEAT = document.getElementById('passRepeat') as HTMLInputElement;
+        const CHANGE_ICONS = document.getElementsByClassName(`pass__change-icon`)[0] as HTMLSpanElement;
+        const REPEAT_ICONS = document.getElementsByClassName(`pass__repeat-icon`)[0] as HTMLSpanElement;
         EXIT.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -172,7 +182,11 @@ export class AccountView {
         });
         const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
         const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
-        changePrivate(P_NAME_FORM);
-        changePrivate(P_MAIL_FORM);
+        const PASS_FORM = document.getElementsByClassName('pass__form')[0] as HTMLFormElement;
+        change(P_NAME_FORM);
+        change(P_MAIL_FORM);
+        change(PASS_FORM);
+        hideSymbols(PASS_CHANGE, CHANGE_ICONS);
+        hideSymbols(PASS_REPEAT, REPEAT_ICONS);
     }
 }

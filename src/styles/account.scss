@@ -17,3 +17,16 @@ min-width: 400px;
 .account input {
     min-width: 300px;
 }
+.pass__saved,
+.private__saved {
+    transition: all 1s;
+    top: -100px;
+    border-radius: 5px;
+    width: fit-content;
+    transform: translateY(-80px);
+}
+.pass__saved.active,
+.private__saved.active {
+    transition: all 1s;
+    transform: translateY(80px);
+}
