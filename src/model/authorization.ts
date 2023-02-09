@@ -21,6 +21,7 @@ export class Authorization {
             },
         });
         const result = await response.json();
+        localStorage.name = name;
         return result;
     }
     async changeEmail(id: number, email: string) {
