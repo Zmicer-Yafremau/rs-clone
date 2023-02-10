@@ -1,0 +1,116 @@
+.boxes {
+    padding: 10px 20px;
+    width: 100%;
+    margin: 65px auto;
+    display: flex;
+    flex-direction: column;
+    font-family: Gilroy, sans-serif;
+    max-width: 1500px;
+}
+.boxes__section {
+    max-width: 1500px;
+    align-self: flex-start;
+    width: 100%;
+
+    .boxes__year h4 {
+        color: #8d96a8;
+        font-size: 13px;
+        position: relative;
+        margin: 15px 0;
+        &::after {
+            display: block;
+            content: '';
+            height: 0.5px;
+            top: -7.5px;
+            left: 34px;
+            background-color: #ebf1f6;
+            position: relative;
+            width: calc(100% - 34px);
+        }
+    }
+}
+.boxes__view {
+    border-radius: 30px;
+    padding: 5px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    background-color: #f3f6f9;
+    p {
+        box-shadow: 0 4px 8px 0 rgb(150 142 166 / 8%);
+        background-color: #fff;
+        border-radius: 30px;
+        padding: 10px 40px;
+        margin: 0;
+    }
+}
+.menu__wrapper {
+    display: flex;
+    align-content: center;
+    margin: 32px auto auto;
+}
+.plus {
+    align-items: center;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgb(150 142 166 / 8%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.toggle__wrapper {
+    background: #f3f6f9;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 12px;
+    padding: 5px;
+    width: auto;
+}
+
+.boxes__list {
+    list-style: none;
+    font-size: 16px;
+    display: flex;
+    .box__wrapper {
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        padding: 16px 32px;
+        text-align: center;
+        border: 1px solid #ebf1f6;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px 0 rgb(150 142 166 / 8%);
+        cursor: pointer;
+        margin-right: 60px;
+    }
+    .box-img {
+        margin: 12px 0;
+    }
+    .box__bottom {
+        display: flex;
+
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        span {
+            display: block;
+            min-width: fit-content;
+        }
+    }
+    .txt {
+        font-size: 13px;
+        color: #8d96a8;
+    }
+    .dot {
+        background: #dce4ea;
+        border-radius: 50%;
+        height: 3.2px;
+        margin-left: 6.4px;
+        margin-right: 6.4px;
+        width: 3.2px;
+    }
+}
