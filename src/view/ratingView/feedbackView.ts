@@ -1,11 +1,8 @@
 import { create } from '../../utils/utils';
-import { IFeedback } from '../../types/requestTypes';
+import { Controller } from '../../controller';
 
 export class FeedbackView {
-
-    constructor(private feedbackAll: IFeedback[]) {
-    }
-
+    constructor(private controller: Controller) {}
 
     render(root: HTMLElement) {
         root.innerHTML = '';
@@ -14,23 +11,23 @@ export class FeedbackView {
         root.append(feedbackList);
     }
 
-    fill(root: HTMLElement) {
-        const data = this.feedbackAll;
+    async fill(root: HTMLElement) {
+        const data = await this.controller.getAll();
         root.innerHTML = `
         ${data.reduce((sum, currentFeedback) => {
             let html = '';
             const rating = currentFeedback.rating;
             const starSolid = `<i class="feedback-star fa-solid fa-star"></i>`;
-            const starRegular = `<i class="feedback-star fa-regular fa-star"></i>` 
-            let stars = starSolid.repeat(rating) + starRegular.repeat(5 - rating);
-        html = `<div class="user_message">
+            const starRegular = `<i class="feedback-star fa-regular fa-star"></i>`;
+            const stars = starSolid.repeat(rating) + starRegular.repeat(5 - rating);
+            html = `<div class="user_message">
             <div class="author_rating">
             <div class="author">${currentFeedback.userName}</div>
             <div class="feedback">
             ${stars}
             </div>
             </div>
-            <div class="feedback-text">${currentFeedback.userName}</div>
+            <div class="feedback-text">${currentFeedback.text}</div>
             </div>`;
             return sum + html;
         }, '')}`;

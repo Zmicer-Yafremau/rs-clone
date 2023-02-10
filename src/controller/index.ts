@@ -24,7 +24,6 @@ export class Controller {
     }
 
     async getAll() {
-        await this.ratingController.getAll();
+        return await this.ratingController.getAll();
     }
-
 }

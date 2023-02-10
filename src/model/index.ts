@@ -20,12 +20,11 @@ export class Model extends Observer {
         return this.routerModel.route;
     }
 
-    async createFeedback(rating: number, text: string, userName: string, userId: number) { 
+    async createFeedback(rating: number, text: string, userName: string, userId: number) {
         await this.feedback.create(rating, text, userName, userId);
     }
 
     async getAll() {
-        await this.feedback.getAll();
+        return await this.feedback.getAll();
     }
-
 }

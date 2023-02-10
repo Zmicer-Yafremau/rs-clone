@@ -6,11 +6,10 @@ import { FeedbackView } from './feedbackView';
 export class RatingView {
     feedbackView: FeedbackView;
     constructor(private controller: Controller, private model: Model, private root: Element) {
-        this.feedbackView = new FeedbackView(this.feedbackAll());
-        //this.addListeners(); 
+        this.feedbackView = new FeedbackView(controller);
     }
 
-    render() {
+    async render() {
         this.root.innerHTML = `<div class="rating log center">
         <div class="rating__wrapper center">
         <span class="rating-title">Сайт разрабатывается и улучшается с любовью для вас!</span>
@@ -162,12 +161,12 @@ export class RatingView {
 
         const ratingButton = document.querySelector('.rating__btn') as HTMLButtonElement;
         const text = (document.querySelector('.form-control') as HTMLElement).innerText;
-        const userName = JSON.parse(localStorage.getItem("userName") || "[]") || 'Гость';
+        const userName = JSON.parse(localStorage.getItem('userName') || '[]') || 'Гость';
         //const userId = Number(JSON.parse(localStorage.getItem("userId") || "[]"))||null;
         const userId = 6;
-        console.log(currentNumber, text, userName, userId)
+        console.log(currentNumber, text, userName, userId);
 
-        ratingButton.addEventListener("submit", async (e: SubmitEvent) => {
+        ratingButton.addEventListener('submit', async (e: SubmitEvent) => {
             if (!ratingButton.checkValidity()) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -179,7 +178,8 @@ export class RatingView {
         });
     }
 
-    async feedbackAll() {
-        await this.controller.getAll();
+    async getAll() {
+        const feedbackAll = await this.controller.getAll();
+        return feedbackAll;
     }
 }
