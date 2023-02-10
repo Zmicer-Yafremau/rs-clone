@@ -9,7 +9,8 @@ import { create } from '../utils/utils';
 import { getSelector } from '../utils/utils';
 import { LoginView } from './loginView';
 import { RegView } from './regView';
-
+import { switchHeader } from './mainView/switch-header';
+import { Authorization } from '../model/authorization';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -58,7 +59,16 @@ export class View {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
         console.log(route);
-
+        setTimeout(async () => {
+            const USR = await new Authorization();
+            console.log('123', localStorage.token);
+            if (localStorage.token) {
+                const USR_OBJ = await USR.get(localStorage.token);
+                console.log(USR_OBJ);
+                if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
+                    switchHeader(USR_OBJ[0].name);
+            }
+        }, 0);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -67,6 +77,7 @@ export class View {
             case Routing.ACCOUNT:
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
                     this.accountView.render(path2);
+                    this.accountView.addListeners();
                 } else {
                     this.errorView.render();
                 }

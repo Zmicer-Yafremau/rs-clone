@@ -40,8 +40,13 @@
 .main__lights {
     position: absolute;
     top: 240px;
+    z-index: 10;
 }
 
+.main__animals {
+    position: relative; 
+    z-index:10;
+}
 
 .subheader {
     max-width: 540px;
@@ -268,11 +273,13 @@
     color: $faq-text;
     flex-wrap: wrap;
 }
+
 @media (max-width: 700px) {
 
     .screenshot {
         width: 90%;
     }
+
     .extra-faq {
         justify-content: center !important;
     }

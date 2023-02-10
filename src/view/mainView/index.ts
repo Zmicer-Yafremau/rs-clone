@@ -1,13 +1,11 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-import { switchHeader } from './switch-header';
-import { Authorization } from '../../model/authorization';
+import Snowflakes from 'magic-snowflakes';
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
-
     render() {
         this.root.innerHTML = `
-        <div class="main__banner center-col">
+        <div class="main__banner center-col overflow-hidden" id="snowflakes-container">
             <svg class="main__animals" width="1321" height="344" viewBox="0 0 1321 344" fill="none"
                 style="background: none; width: 65rem; height: 16.9266rem">
                 <path
@@ -1990,13 +1988,9 @@ export class MainView {
                 </div>
             </section>
         </div>`;
-        setTimeout(async () => {
-            const USR = await new Authorization();
-            if (localStorage.token) {
-                const USR_OBJ = await USR.get(localStorage.token);
-                console.log(USR_OBJ);
-                if (USR_OBJ.msg !== 'authorization denied') switchHeader(USR_OBJ[0].name);
-            }
-        }, 0);
+        const snowflakes = new Snowflakes({
+            container: document.getElementById('snowflakes-container') as HTMLDivElement,
+            zIndex: 0,
+        });
     }
 }

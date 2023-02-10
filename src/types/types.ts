@@ -8,3 +8,11 @@ export interface IView {
     render(): void;
     addListeners(): void;
 }
+
+export type USR_STATE_TYPE = {
+    id: number;
+    name: string;
+    email: string;
+    phonenumber: string;
+    password: string;
+};
