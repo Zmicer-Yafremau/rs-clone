@@ -1,11 +1,11 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
+import Snowflakes from 'magic-snowflakes';
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
-
     render() {
         this.root.innerHTML = `
-        <div class="main__banner center-col">
+        <div class="main__banner center-col overflow-hidden" id="snowflakes-container">
             <svg class="main__animals" width="1321" height="344" viewBox="0 0 1321 344" fill="none"
                 style="background: none; width: 65rem; height: 16.9266rem">
                 <path
@@ -1988,5 +1988,9 @@ export class MainView {
                 </div>
             </section>
         </div>`;
+        const snowflakes = new Snowflakes({
+            container: document.getElementById('snowflakes-container') as HTMLDivElement,
+            zIndex: 0,
+        });
     }
 }
