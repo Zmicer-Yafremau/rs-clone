@@ -6,7 +6,8 @@ import { FeedbackView } from './feedbackView';
 export class RatingView {
     feedbackView: FeedbackView;
     constructor(private controller: Controller, private model: Model, private root: Element) {
-        this.feedbackView = new FeedbackView();
+        this.feedbackView = new FeedbackView(this.feedbackAll());
+        //this.addListeners(); 
     }
 
     render() {
@@ -80,11 +81,13 @@ export class RatingView {
         <span class="star rating-item" data-rate="4"></span>
         <span class="star rating-item" data-rate="5"></span>
         </div>
-        <div class="form-group rating-feedback">
+        <form class="form-group rating-feedback">
         <label for="exampleFormControlTextarea1">Оставьте свой отзыв тут:</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" required rows="4"></textarea>
+        <div class="center"> 
+        <button type="submit" class="btn main__button active rating__btn center mt-4">Отправить</button>
         </div>
-        <button type="submit" class="btn main__button active authorization__btn center mt-4">Отправить</button>
+        </form>
         </div>
         </span>
         </div>
@@ -97,6 +100,7 @@ export class RatingView {
 
         const rating = document.querySelector('.rating-star') as Element;
         const items = getSelector('.rating-item') as NodeListOf<HTMLSpanElement>;
+        let currentNumber = 1;
 
         rating.addEventListener('mouseover', (e: Event) => {
             const target = e.target as Element;
@@ -114,7 +118,7 @@ export class RatingView {
         });
 
         rating.addEventListener('mouseout', () => {
-            let currentNumber = 0;
+            //let currentNumber = 0;
             [].forEach.call(items, function (elem: Element, i) {
                 if (elem.classList.contains('item-current')) {
                     currentNumber = i;
@@ -155,5 +159,27 @@ export class RatingView {
                 }
             });
         }
+
+        const ratingButton = document.querySelector('.rating__btn') as HTMLButtonElement;
+        const text = (document.querySelector('.form-control') as HTMLElement).innerText;
+        const userName = JSON.parse(localStorage.getItem("userName") || "[]") || 'Гость';
+        //const userId = Number(JSON.parse(localStorage.getItem("userId") || "[]"))||null;
+        const userId = 6;
+        console.log(currentNumber, text, userName, userId)
+
+        ratingButton.addEventListener("submit", async (e: SubmitEvent) => {
+            if (!ratingButton.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                e.preventDefault();
+                e.stopPropagation();
+                await this.controller.createFeedback(currentNumber, text, userName, userId);
+            }
+        });
+    }
+
+    async feedbackAll() {
+        await this.controller.getAll();
     }
 }

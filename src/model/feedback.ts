@@ -30,7 +30,7 @@ export class Feedback {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
-        });
+        }); 
         const result = await response.json();
         return result;
     }
