@@ -1,15 +1,18 @@
-import { IBox } from '../types/requestTypes';
+import { IBoxReq } from '../types/requestTypes';
 
 export class Box {
     url: string;
     constructor() {
         this.url = `https://santa-secret-clone.up.railway.app/box`;
     }
-    async getByInvitedKey(key: string): Promise<IBox> {
+    async getByInvitedKey(key: string): Promise<IBoxReq> {
         return (await fetch(`${this.url}/${key}`)).json();
     }
-    async getByUserId(id: number): Promise<IBox[]> {
+    async getByBoxId(id: number): Promise<IBoxReq[]> {
         return (await fetch(`${this.url}?id=${id}`)).json();
+    }
+    async getByAdminId(id: number): Promise<IBoxReq[]> {
+        return (await fetch(`${this.url}?admin=${id}`)).json();
     }
     async update(
         id: number,
@@ -20,7 +23,7 @@ export class Box {
         cardsId: number[],
         adminId: number,
         isDraw: true
-    ): Promise<IBox> {
+    ): Promise<IBoxReq> {
         return (
             await fetch(`${this.url}`, {
                 method: 'PUT',
@@ -39,7 +42,7 @@ export class Box {
         cardsId: number[],
         adminId: number,
         isDraw: true
-    ): Promise<IBox> {
+    ): Promise<IBoxReq> {
         const response = await fetch(`${this.url}`, {
             method: 'POST',
             body: JSON.stringify({ boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw }),
