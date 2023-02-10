@@ -22,7 +22,7 @@ export class Feedback {
             })
         ).json();
     }
-    async create(rating: number, text: string, userName: string, userId: number): Promise<IFeedback> {
+    async create(rating: number, text: string, userName: string, userId: number | null): Promise<IFeedback> {
         const response = await fetch(`${this.url}`, {
             method: 'POST',
             body: JSON.stringify({ rating, text, userName, userId }),
