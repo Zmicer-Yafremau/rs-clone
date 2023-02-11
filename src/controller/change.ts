@@ -18,6 +18,7 @@ export async function change(form: HTMLFormElement) {
                 if (FORM_TYPE === 'name-form') {
                     const NAME_INPUT = document.getElementById('inputNameChange') as HTMLInputElement;
                     const NAME = NAME_INPUT.value;
+                    await USR.changeName(ID, NAME);
                     switchHeader(NAME);
                     SAVED.classList.add('active');
                     setTimeout(() => {
