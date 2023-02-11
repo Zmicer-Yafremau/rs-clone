@@ -80,9 +80,9 @@ export class RatingView {
         <span class="star rating-item" data-rate="4"></span>
         <span class="star rating-item" data-rate="5"></span>
         </div>
-        <form class="form-group rating-feedback">
-        <label for="exampleFormControlTextarea1">Оставьте свой отзыв тут:</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" required rows="4"></textarea>
+        <form class="form-group form-rating rating-feedback">
+        <label for="formFeedbackTextarea">Оставьте свой отзыв тут:</label>
+        <textarea name="form-control" class="form-control" id="formFeedbackTextarea" required rows="4"></textarea>
         <div class="center"> 
         <button type="submit" class="btn main__button active rating__btn center mt-4">Отправить</button>
         </div>
@@ -117,10 +117,9 @@ export class RatingView {
         });
 
         rating.addEventListener('mouseout', () => {
-            //let currentNumber = 0;
             [].forEach.call(items, function (elem: Element, i) {
                 if (elem.classList.contains('item-current')) {
-                    currentNumber = i;
+                    currentNumber = i+1;
                 }
             });
             if (currentNumber !== undefined) {
@@ -159,11 +158,15 @@ export class RatingView {
             });
         }
 
-        const ratingButton = document.querySelector('.rating__btn') as HTMLButtonElement;
-        const text = (document.querySelector('.form-control') as HTMLElement).innerText;
-        const userName: string = localStorage.getItem('userName') || 'Гость';
-        const userId = Number(localStorage.getItem('userId')) || null;
-        console.log(currentNumber, text, userName, userId);
+        const ratingButton = document.querySelector('.form-rating') as HTMLFormElement;
+        const textFeedback = (document.querySelector('.form-control') as HTMLTextAreaElement);
+        const userName: string = localStorage.getItem('name') || 'Гость';
+        const userId = Number(localStorage.getItem('id')) || null;
+        let text: string;
+        textFeedback.addEventListener('input', function handleChange(event) {
+            const target = event.target as HTMLTextAreaElement;
+            text = target.value;
+        });
 
         ratingButton.addEventListener('submit', async (e: SubmitEvent) => {
             if (!ratingButton.checkValidity()) {
@@ -173,9 +176,13 @@ export class RatingView {
                 e.preventDefault();
                 e.stopPropagation();
                 await this.controller.createFeedback(currentNumber, text, userName, userId);
+                currentNumber = 1;
+                clear();
+                textFeedback.value = '';
+                this.feedbackView.render(feedbackWrapper);
             }
         });
-    }
+    } 
 
     async getAll() {
         const feedbackAll = await this.controller.getAll();

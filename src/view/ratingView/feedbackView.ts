@@ -13,7 +13,6 @@ export class FeedbackView {
 
     async fill(root: HTMLElement) {
         const data = await this.controller.getAll();
-        console.log(data);
         root.innerHTML = `
         ${data.reduce((sum, currentFeedback) => {
             let html = '';

@@ -33,6 +33,10 @@ h1 {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
 
+textarea {
+    resize: none;
+}
+
 .center {
     display: flex;
     justify-content: center;
