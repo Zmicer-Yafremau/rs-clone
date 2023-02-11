@@ -1,7 +1,6 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { exit } from '../../controller/exit';
-import { checkValidation } from '../../controller/check-validation';
 import { deleteUser } from '../../controller/delete-user';
 import { hideSymbols } from '../../components/hide-symbols';
 import { change } from '../../controller/change';
@@ -13,7 +12,7 @@ export class AccountView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
     async render(path2: string) {
-        const userBoxes = await BoxesController.getBoxes();
+        const userBoxes = await this.controller.boxesController.getBoxes();
         const years: string[] = [];
         const userId: string | null = localStorage.getItem('id');
         if (userBoxes && userBoxes.length > 0) {
@@ -236,37 +235,42 @@ export class AccountView {
     </div>`;
     }
     addListeners() {
-        const EXIT = document.getElementsByClassName('account__link')[0] as HTMLAnchorElement;
-        const DELETE__INPUT = document.getElementById('inputDel') as HTMLInputElement;
-        const DELETE__FORM = document.getElementsByClassName('delete__form')[0] as HTMLFormElement;
-        const DELETE__DIV = DELETE__FORM.children[1] as HTMLDivElement;
-        const DELETE__BUTTON = DELETE__DIV.children[0] as HTMLButtonElement;
-        const PASS_CHANGE = document.getElementById('passChange') as HTMLInputElement;
-        const PASS_REPEAT = document.getElementById('passRepeat') as HTMLInputElement;
-        const CHANGE_ICONS = document.getElementsByClassName(`pass__change-icon`)[0] as HTMLSpanElement;
-        const REPEAT_ICONS = document.getElementsByClassName(`pass__repeat-icon`)[0] as HTMLSpanElement;
-        EXIT.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            exit();
-        });
-        DELETE__BUTTON.addEventListener('click', async (event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            await deleteUser();
-        });
-        DELETE__INPUT.addEventListener('input', () => {
-            if (DELETE__INPUT.value === 'Удалить профиль') {
-                DELETE__DIV.classList.remove('visually-hidden');
+        if (location.pathname !== '/account/boxes') {
+            const EXIT = document.getElementsByClassName('account__link')[0] as HTMLAnchorElement;
+            const DELETE__INPUT = document.getElementById('inputDel') as HTMLInputElement;
+            const DELETE__FORM = document.getElementsByClassName('delete__form')[0] as HTMLFormElement;
+            if (DELETE__FORM) {
+                const DELETE__DIV = DELETE__FORM.children[1] as HTMLDivElement;
+                const DELETE__BUTTON = DELETE__DIV.children[0] as HTMLButtonElement;
+                const PASS_CHANGE = document.getElementById('passChange') as HTMLInputElement;
+                const PASS_REPEAT = document.getElementById('passRepeat') as HTMLInputElement;
+                const CHANGE_ICONS = document.getElementsByClassName(`pass__change-icon`)[0] as HTMLSpanElement;
+                const REPEAT_ICONS = document.getElementsByClassName(`pass__repeat-icon`)[0] as HTMLSpanElement;
+
+                EXIT.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    exit();
+                });
+                DELETE__BUTTON.addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    await deleteUser();
+                });
+                DELETE__INPUT.addEventListener('input', () => {
+                    if (DELETE__INPUT.value === 'Удалить профиль') {
+                        DELETE__DIV.classList.remove('visually-hidden');
+                    }
+                });
+                const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
+                const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
+                const PASS_FORM = document.getElementsByClassName('pass__form')[0] as HTMLFormElement;
+                change(P_NAME_FORM);
+                change(P_MAIL_FORM);
+                change(PASS_FORM);
+                hideSymbols(PASS_CHANGE, CHANGE_ICONS);
+                hideSymbols(PASS_REPEAT, REPEAT_ICONS);
             }
-        });
-        const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
-        const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
-        const PASS_FORM = document.getElementsByClassName('pass__form')[0] as HTMLFormElement;
-        change(P_NAME_FORM);
-        change(P_MAIL_FORM);
-        change(PASS_FORM);
-        hideSymbols(PASS_CHANGE, CHANGE_ICONS);
-        hideSymbols(PASS_REPEAT, REPEAT_ICONS);
+        }
     }
 }
