@@ -1,7 +1,6 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { exit } from '../../controller/exit';
-import { checkValidation } from '../../controller/check-validation';
 import { deleteUser } from '../../controller/delete-user';
 import { hideSymbols } from '../../components/hide-symbols';
 import { change } from '../../controller/change';

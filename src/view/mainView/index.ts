@@ -1746,7 +1746,7 @@ export class MainView {
             </section>
             <section class="quastions container-fluid">
                 <h3>Вопросы и ответы про сервис</h3>
-                <div class="accordion" id="accordionExample">
+                <div class="accordion mt-5" id="accordionExample">
                     <div class="accordion-item">
                         <div class="accordion-header center" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -1984,7 +1984,7 @@ export class MainView {
                     <p class="extra-faq__text">Поищите ответ на странице «Частые вопросы»</p>
                 </div>
                 <div>
-                    <button type="button" class="btn main__button bg-light">Частые вопросы</button>
+                <a href="/faq" class="navigation__link"><button type="button" class="btn main__button bg-light">Частые вопросы</button></a>
                 </div>
             </section>
         </div>`;
