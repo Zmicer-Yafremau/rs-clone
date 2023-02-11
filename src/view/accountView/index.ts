@@ -1,7 +1,6 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { exit } from '../../controller/exit';
-import { checkValidation } from '../../controller/check-validation';
 import { deleteUser } from '../../controller/delete-user';
 import { hideSymbols } from '../../components/hide-symbols';
 import { change } from '../../controller/change';
@@ -110,9 +109,9 @@ export class AccountView {
                 <div class="col-4 account__section">
                     <h5 class="">Личные данные</h5>
                 </div>
-                <div class="col-auto">
+                <div class="col-5 account__container">
                     <form class="row private__name-form mt-3" novalidate>
-                        <div class="col-8 d-flex flex-column justify-content-center align-items-start">
+                        <div class="col d-flex flex-column justify-content-center align-items-start">
                             <label for="inputNameChange" class="">Ваше имя:</label>
                             <input type="text" class="form-control" id="inputNameChange" placeholder="" minlength="1" required>
                         </div>
@@ -124,7 +123,7 @@ export class AccountView {
                         </div>
                     </form>
                     <form class="row private__mail-form" novalidate>
-                        <div class="col-8">
+                        <div class="col d-flex flex-column justify-content-center align-items-start">
                             <label for="inputEmailChange" class="">Ваша почта:</label>
                             <input type="email" class="form-control" id="inputEmailChange" placeholder="" pattern="^.+@[a-zA-Z]{1,}[\\.][a-zA-Z]{1,}" required>
                         </div>
@@ -147,10 +146,10 @@ export class AccountView {
                 <div class="col-4 account__section">
                     <h5 class="">Пароль</h5>
                 </div>
-                <div class="col-auto">
+                <div class="col-5 account__container">
                     <form class="row pass__form mt-3" novalidate>
                         <div class="col authorization__pas">
-                            <label for="passChange" class="form-label authorization__label">Пароль:
+                            <label for="passChange" class="form-label authorization__label">Введите пароль:
                             </label>
                             <input type="password" class="form-control authorization__input pass__input"
                                 id="passChange" placeholder="" minlength="5" required>
@@ -184,7 +183,7 @@ export class AccountView {
                         Такой пользователь уже существует. Попробуйте другую почту.
                     </div>
                     <div class="mb-3 authorization__pas mt-3">
-                        <label for="passRepeat" class="form-label authorization__label">Пароль: </label>
+                        <label for="passRepeat" class="form-label authorization__label">Повторите пароль: </label>
                         <input type="password" class="form-control authorization__input pass__repeat"
                             id="passRepeat" placeholder="" minlength="5" required>
                         <span class="authorization__icon pass__repeat-icon">
@@ -222,7 +221,7 @@ export class AccountView {
                 <div class="col-4 account__section">
                     <h5 class="">Удаление профиля</h5>
                 </div>
-                <form class="col-auto delete__form" novalidate>
+                <form class="col-auto delete__form mt-3" novalidate>
                     <div class="d-flex flex-column justify-content-center align-items-start">
                         <label for="inputDel" class="text-secondary">Для подтверждения введите: <b> Удалить профиль</b></label>
                         <input type="text" class="form-control" id="inputDel">

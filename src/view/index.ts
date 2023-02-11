@@ -11,6 +11,7 @@ import { LoginView } from './loginView';
 import { RegView } from './regView';
 import { switchHeader } from './mainView/switch-header';
 import { Authorization } from '../model/authorization';
+import { FaqView } from './faqView';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -19,7 +20,7 @@ export class View {
     ratingView: RatingView;
     loginView: LoginView;
     regView: RegView;
-
+    faqView: FaqView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -28,6 +29,8 @@ export class View {
         this.regView = new RegView(this.controller, this.model, main);
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
+
+        this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
@@ -77,7 +80,9 @@ export class View {
             case Routing.ACCOUNT:
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
                     this.accountView.render(path2);
-                    this.accountView.addListeners();
+                    setTimeout(() => {
+                        this.accountView.addListeners();
+                    }, 300);
                 } else {
                     this.errorView.render();
                 }
@@ -92,6 +97,10 @@ export class View {
             case Routing.LOGIN:
                 this.loginView.render();
                 this.loginView.addListeners();
+                break;
+            case Routing.FAQ:
+                this.faqView.render();
+                this.faqView.addListeners();
                 break;
             default:
                 this.errorView.render();
