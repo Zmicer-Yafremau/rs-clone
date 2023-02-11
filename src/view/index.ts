@@ -97,7 +97,7 @@ export class View {
                 break;
             case Routing.FAQ:
                 this.faqView.render();
-                //this.faqView.addListeners();
+                this.faqView.addListeners();
                 break;
             default:
                 this.errorView.render();
