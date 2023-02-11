@@ -79,7 +79,9 @@ export class View {
             case Routing.ACCOUNT:
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
                     this.accountView.render(path2);
-                    this.accountView.addListeners();
+                    setTimeout(() => {
+                        this.accountView.addListeners();
+                    }, 300);
                 } else {
                     this.errorView.render();
                 }
