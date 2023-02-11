@@ -20,8 +20,8 @@ export class Model extends Observer {
         return this.routerModel.route;
     }
 
-    async createFeedback(rating: number, text: string, userName: string, userId: number) {
-        await this.feedback.create(rating, text, userName, userId);
+    async createFeedback(rating: number, text: string, userName: string, userId: number | null) {
+        return await this.feedback.create(rating, text, userName, userId);
     }
 
     async getAll() {

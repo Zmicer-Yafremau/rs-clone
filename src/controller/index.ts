@@ -19,8 +19,8 @@ export class Controller {
         this.routerController.updateRoute(route);
     }
 
-    async createFeedback(rating: number, text: string, userName: string, userId: number) {
-        await this.ratingController.createFeedback(rating, text, userName, userId);
+    async createFeedback(rating: number, text: string, userName: string, userId: number | null) {
+        return await this.ratingController.createFeedback(rating, text, userName, userId);
     }
 
     async getAll() {

@@ -49,7 +49,7 @@ export interface IUserBoxesReq {
 export interface IFeedback {
     rating: number;
     text: string;
-    userName: string;
+    user_name: string;
     userId: number | null;
 }
 export interface IFeedbackReq {

@@ -13,6 +13,7 @@ export class FeedbackView {
 
     async fill(root: HTMLElement) {
         const data = await this.controller.getAll();
+        console.log(data);
         root.innerHTML = `
         ${data.reduce((sum, currentFeedback) => {
             let html = '';
@@ -22,7 +23,7 @@ export class FeedbackView {
             const stars = starSolid.repeat(rating) + starRegular.repeat(5 - rating);
             html = `<div class="user_message">
             <div class="author_rating">
-            <div class="author">${currentFeedback.userName}</div>
+            <div class="author">${currentFeedback.user_name}</div>
             <div class="feedback">
             ${stars}
             </div>
