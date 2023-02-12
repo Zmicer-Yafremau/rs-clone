@@ -8,7 +8,7 @@ export class Box {
     async getByInvitedKey(key: string): Promise<IBoxReq> {
         return (await fetch(`${this.url}/${key}`)).json();
     }
-    async getByBoxId(id: number): Promise<IBoxReq[]> {
+    async getByBoxId(id: number): Promise<IBoxReq> {
         return (await fetch(`${this.url}?id=${id}`)).json();
     }
     async getByAdminId(id: number): Promise<IBoxReq[]> {

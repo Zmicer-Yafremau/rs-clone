@@ -27,7 +27,7 @@ export interface IBox {
     isDraw: true;
 }
 export interface IBoxReq {
-    id: number;
+    box_id: number;
     box_name: string;
     box_img: string;
     year: string;

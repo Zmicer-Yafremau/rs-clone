@@ -10,7 +10,7 @@ export enum Routing {
     FEEDBACK = 'feedback',
     //BOXES = 'account/boxes',+
     //NEW_BOX = 'box/new',
-    //BOX = 'box/name',
+    BOX = 'box',
     //CARD = 'box/name/card',
     //WARD = 'box/name/ward',
     //DRAW = 'box/name/draw',

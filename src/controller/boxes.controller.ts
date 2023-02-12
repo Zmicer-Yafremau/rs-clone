@@ -1,11 +1,11 @@
-import { Box } from '../model/box';
-import { UserBoxes } from '../model/userBoxes';
+import { Model } from '../model';
 import { IBoxReq } from '../types/requestTypes';
 
 export class BoxesController {
-    static async getBoxes(): Promise<IBoxReq[][] | undefined> {
-        const Boxes = new UserBoxes();
-        const OneBox = new Box();
+    constructor(private model: Model) {}
+    async getBoxes(): Promise<IBoxReq[] | undefined> {
+        const Boxes = this.model.userBoxesModel;
+        const OneBox = this.model.boxModel;
         const userId = localStorage.getItem('id');
         const result = await Boxes.getByUserId(Number(userId));
         if (result.length === 1) {
