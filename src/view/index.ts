@@ -66,13 +66,13 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
+
             const USR = await new Authorization();
             if (localStorage.token) {
                 const USR_OBJ = await USR.get(localStorage.token);
                 if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
                     switchHeader(USR_OBJ[0].name);
             }
-        console.log('p=', path);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -80,13 +80,8 @@ export class View {
                 break;
             case Routing.ACCOUNT:
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
-                    await this.accountView.render(path2);
-                    this.accountView.addListeners();
-                    this.accountView.render(path2);
-                    setTimeout(() => {
+                   await this.accountView.render(path2);
                         this.accountView.addListeners();
-                    }, 300);
-
                 } else {
                     this.errorView.render();
                 }
@@ -117,9 +112,11 @@ export class View {
                 this.faqView.render();
                 this.faqView.addListeners();
                 break;
+       
             default:
                 this.errorView.render();
         }
+        this.addHandlers();
     }
 
     renderContent() {
