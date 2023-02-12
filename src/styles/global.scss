@@ -33,6 +33,10 @@ h1 {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
 
+textarea {
+    resize: none;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -87,6 +91,10 @@ h1 {
     color: red;
 }
 
+.logo .nav__link {
+    color:  var(--bs-body-color); ;
+}
+
 .navigation__reg {
     color: $reg-color;
     font-family: Gilroy, sans-serif;
@@ -94,7 +102,7 @@ h1 {
 }
 
 .navigation__reg .nav__link{
-    color: #ff6960;
+    color: $reg-color;
     font-family: Gilroy, sans-serif;
     font-size: 1rem;
 }
@@ -114,7 +122,6 @@ h1 {
     height: auto;
     background-color: $footer-bg;
     margin-top: 20px;
- 
 }
 .footer__wrapper {
     max-width: 1500px;

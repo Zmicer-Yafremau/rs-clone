@@ -4,7 +4,7 @@ import { AccountView } from './accountView';
 import { MainView } from './mainView/index';
 import { Routing } from '../types/routing';
 import { ErrorView } from './errorView';
-import { DonateView } from './donateView';
+import { RatingView } from './ratingView';
 import { create } from '../utils/utils';
 import { getSelector } from '../utils/utils';
 import { LoginView } from './loginView';
@@ -17,7 +17,7 @@ export class View {
     accountView: AccountView;
     mainView: MainView;
     errorView: ErrorView;
-    donateView: DonateView;
+    ratingView: RatingView;
     loginView: LoginView;
     regView: RegView;
     faqView: FaqView;
@@ -29,10 +29,11 @@ export class View {
         this.regView = new RegView(this.controller, this.model, main);
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
+
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
-        this.donateView = new DonateView(this.controller, this.model, main);
+        this.ratingView = new RatingView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -40,7 +41,7 @@ export class View {
     addHandlers() {
         for (const link of getSelector('.nav__link') as NodeListOf<Element>) {
             link.addEventListener('click', (e: Event) => {
-                const href = this.model.route.origin + link.getAttribute('href')!;
+                const href = this.model.route.origin + link.getAttribute('href');
                 this.controller.route(href, e);
                 console.log(href);
             });
@@ -86,8 +87,8 @@ export class View {
                     this.errorView.render();
                 }
                 break;
-            case Routing.DONATE:
-                this.donateView.render();
+            case Routing.RATING:
+                this.ratingView.render();
                 break;
             case Routing.REGISTER:
                 this.regView.render();

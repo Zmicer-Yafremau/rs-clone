@@ -3,7 +3,7 @@ export enum Routing {
     ACCOUNT = 'account',
     LOGIN = 'login',
     REGISTER = 'register',
-    DONATE = 'donate',
+    RATING = 'rating',
     FAQ = 'faq',
     RANDOMIZER = 'randomizer',
     RESEND = 'resend',
