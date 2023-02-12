@@ -1,6 +1,5 @@
 import { Authorization } from '../model/authorization';
 import { switchHeader } from '../view/mainView/switch-header';
-import { USR_STATE } from '../db/usr-state';
 export async function change(form: HTMLFormElement) {
     form.addEventListener(
         'submit',
@@ -14,17 +13,12 @@ export async function change(form: HTMLFormElement) {
                 const USR = new Authorization();
                 const ID = localStorage.id;
                 const FORM_TYPE = form.classList[1].split('__')[1];
-                console.log(FORM_TYPE);
-                const INPUTS = (document.getElementsByClassName(
-                    `${FORM_TYPE}__input`
-                ) as unknown) as NodeListOf<HTMLInputElement>;
                 const SAVED = document.getElementsByClassName('private__saved')[0] as HTMLDivElement;
                 const PASS_SAVED = document.getElementsByClassName('pass__saved')[0] as HTMLDivElement;
                 if (FORM_TYPE === 'name-form') {
                     const NAME_INPUT = document.getElementById('inputNameChange') as HTMLInputElement;
                     const NAME = NAME_INPUT.value;
-                    console.log('usr', USR_STATE);
-                    const res = await USR.changeName(ID, NAME);
+                    await USR.changeName(ID, NAME);
                     switchHeader(NAME);
                     SAVED.classList.add('active');
                     setTimeout(() => {

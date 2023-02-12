@@ -1,0 +1,150 @@
+@import './variables/var.scss';
+
+.rating {
+    padding: 10px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 65px;
+    flex-direction: column;
+}
+
+.rating__wrapper {
+    max-width: 50rem;
+    width: 100%; 
+    margin: 0 auto;
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.rating-title {
+  font-size: 1.4375rem;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 2rem;
+}
+
+.rating__svg {
+  width: 13rem;
+  margin-top: 0.5rem;
+  height: 13rem;
+  background: none;
+}
+
+.rating-text {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.rating-star{
+  position: relative;
+  font-size: 0;
+  width: 250px;
+  height: 50px;
+  background-image: url(./assets/icons/star.svg);
+}
+
+.star{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  z-index: 5;
+  display: inline-block;
+  cursor: pointer;
+  &.active{
+    background-image: url(./assets/icons/star-active.svg);
+  }
+}
+
+.current{
+  outline: 1px solid;
+  background-image: url(./assets/icons/star-active.svg);
+}
+
+.star:nth-child(2){
+  left: 50px;
+}
+.star:nth-child(2):hover{
+  width: 100px;
+}
+.star:nth-child(3){
+  left: 100px;
+}
+.star:nth-child(3):hover{
+  position: absolute;
+  width: 150px;
+}
+.star:nth-child(4){
+  left: 150px;
+}
+.star:nth-child(4):hover{
+  width: 200px;
+}
+.star:nth-child(5){
+  left: 200px;
+}
+.star:nth-child(5):hover{
+  width: 250px;
+}
+.star:hover{
+  z-index: 2;
+  left: 0;
+  background-image: url(./assets/icons/star-active.svg);
+}
+
+.rating-new {
+  width: 100%;
+  flex-direction: column;
+}
+
+.rating-feedback {
+  width: 100%;
+}
+
+.user_message {
+  margin-bottom: 30px;
+}
+
+.author_rating {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.author {
+  font-size: 1.2rem;
+}
+
+.feedback__wrapper {
+  max-width: 50rem;
+  width: 100%;
+}
+
+.feedback {
+  margin: 10px -4px;
+  display: flex;
+  justify-content: center;
+  color: #FFEC5C;
+  font-size: 21px;
+}
+
+.feedback-star:before {
+  content: "\f005";
+}
+
+.feedback-text {
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  clear: both;
+  color: $faq-text;
+  font-size: 18px;
+  padding: 30px;
+  border-radius: 3px;
+  background-color: $faq-bg;
+  box-shadow: 0px 20px 40px -20px rgb(0 0 0 / 20%);
+}

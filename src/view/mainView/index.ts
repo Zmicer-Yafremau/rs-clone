@@ -1,11 +1,11 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
+import Snowflakes from 'magic-snowflakes';
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
-
     render() {
         this.root.innerHTML = `
-        <div class="main__banner center-col">
+        <div class="main__banner center-col overflow-hidden" id="snowflakes-container">
             <svg class="main__animals" width="1321" height="344" viewBox="0 0 1321 344" fill="none"
                 style="background: none; width: 65rem; height: 16.9266rem">
                 <path
@@ -1746,7 +1746,7 @@ export class MainView {
             </section>
             <section class="quastions container-fluid">
                 <h3>Вопросы и ответы про сервис</h3>
-                <div class="accordion" id="accordionExample">
+                <div class="accordion mt-5" id="accordionExample">
                     <div class="accordion-item">
                         <div class="accordion-header center" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -1984,9 +1984,13 @@ export class MainView {
                     <p class="extra-faq__text">Поищите ответ на странице «Частые вопросы»</p>
                 </div>
                 <div>
-                    <button type="button" class="btn main__button bg-light">Частые вопросы</button>
+                <a href="/faq" class="navigation__link"><button type="button" class="btn main__button bg-light">Частые вопросы</button></a>
                 </div>
             </section>
         </div>`;
+        const snowflakes = new Snowflakes({
+            container: document.getElementById('snowflakes-container') as HTMLDivElement,
+            zIndex: 0,
+        });
     }
 }

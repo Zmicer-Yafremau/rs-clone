@@ -4,7 +4,7 @@ import { AccountView } from './accountView';
 import { MainView } from './mainView/index';
 import { Routing } from '../types/routing';
 import { ErrorView } from './errorView';
-import { DonateView } from './donateView';
+import { RatingView } from './ratingView';
 import { create } from '../utils/utils';
 import { getSelector } from '../utils/utils';
 import { LoginView } from './loginView';
@@ -12,17 +12,18 @@ import { RegView } from './regView';
 import { switchHeader } from './mainView/switch-header';
 import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
+import { FaqView } from './faqView';
 
 export class View {
     root: Element;
     accountView: AccountView;
     mainView: MainView;
     errorView: ErrorView;
-    donateView: DonateView;
+    ratingView: RatingView;
     loginView: LoginView;
     regView: RegView;
     boxView: BoxView;
-
+    faqView: FaqView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -32,9 +33,10 @@ export class View {
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
+        this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
-        this.donateView = new DonateView(this.controller, this.model, main);
+        this.ratingView = new RatingView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -82,10 +84,16 @@ export class View {
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
                     await this.accountView.render(path2);
                     this.accountView.addListeners();
+                    this.accountView.render(path2);
+                    setTimeout(() => {
+                        this.accountView.addListeners();
+                    }, 300);
+
                 } else {
                     this.errorView.render();
                 }
                 break;
+
             case Routing.BOX:
                 if (!path2) {
                     this.mainView.render();
@@ -95,6 +103,8 @@ export class View {
                 break;
             case Routing.DONATE:
                 this.donateView.render();
+            case Routing.RATING:
+                this.ratingView.render();
                 break;
             case Routing.REGISTER:
                 this.regView.render();
@@ -103,6 +113,10 @@ export class View {
             case Routing.LOGIN:
                 this.loginView.render();
                 this.loginView.addListeners();
+                break;
+            case Routing.FAQ:
+                this.faqView.render();
+                this.faqView.addListeners();
                 break;
             default:
                 this.errorView.render();
