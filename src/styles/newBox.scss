@@ -1,0 +1,14 @@
+@import './variables/var.scss';
+.box {
+    margin-top: 100px;
+}
+.box__container {
+    max-width: 640px;
+    border-radius: 30px;
+    min-width: 290px;
+    height: 640px;
+    border-radius: 30px;
+} 
+.box__container.rounded {
+    border-radius: 30px !important;
+}

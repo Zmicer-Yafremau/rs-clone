@@ -1490,13 +1490,6 @@ export class MainView {
                     <h1 class="text-center logo subheader__logo">тайный санта</h1>
                     <p class="center text-center">Организуй тайный обмен подарками между друзьями или коллегами</p>
                 </div>
-                <div class="row">
-                    <div class="col center">
-                    <a href="box/new" class="nav__link"><button type="button" class="btn main__button bg-light active">
-                    Создать коробку
-                </button></a>
-                    </div>
-                </div>
             </section>
             <section class="how container-fluid center">
                 <div class="container-fluid how__content">
@@ -1505,9 +1498,8 @@ export class MainView {
                         <div class="col screenshot__col">
                             <div class="how__numbers center">1</div>
                             <p class="how__text">
-                                Создайте коробку для жеребьевки, указав её название, ограничение на стоимость
-                                подарков и другие опции по желанию. Пригласите своих друзей, отправив им ссылку на
-                                коробку или через ввод их email адресов вручную.
+                                Создайте коробку для жеребьевки, указав её название. Пригласите своих друзей, отправив им ссылку на
+                                коробку.
                             </p>
                         </div>
                         <div class="col screenshot__col">

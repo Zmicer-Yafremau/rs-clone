@@ -67,12 +67,13 @@ export class View {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
 
-            const USR = await new Authorization();
-            if (localStorage.token) {
-                const USR_OBJ = await USR.get(localStorage.token);
-                if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
-                    switchHeader(USR_OBJ[0].name);
-            }
+        const USR = await new Authorization();
+        if (localStorage.token) {
+            const USR_OBJ = await USR.get(localStorage.token);
+            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
+                switchHeader(USR_OBJ[0].name);
+        }
+        console.log('p=', path2);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -80,8 +81,8 @@ export class View {
                 break;
             case Routing.ACCOUNT:
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
-                   await this.accountView.render(path2);
-                        this.accountView.addListeners();
+                    await this.accountView.render(path2);
+                    this.accountView.addListeners();
                 } else {
                     this.errorView.render();
                 }
@@ -90,9 +91,11 @@ export class View {
             case Routing.BOX:
                 if (!path2) {
                     this.mainView.render();
-                } else if (path2==='new') {
+                } else if (path2 === 'new') {
+                    console.log('hhhh');
                     await this.newBoxView.render();
                     this.newBoxView.addListeners();
+                    break;
                 }
                 await this.boxView.render(path2);
                 this.boxView.addListeners();
@@ -112,7 +115,7 @@ export class View {
                 this.faqView.render();
                 this.faqView.addListeners();
                 break;
-       
+
             default:
                 this.errorView.render();
         }
