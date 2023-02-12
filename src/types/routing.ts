@@ -9,8 +9,9 @@ export enum Routing {
     RESEND = 'resend',
     FEEDBACK = 'feedback',
     //BOXES = 'account/boxes',+
-    //NEW_BOX = 'box/new',
     BOX = 'box',
+    NEW_BOX = 'box/new',
+    //BOX = 'box/name',
     //CARD = 'box/name/card',
     //WARD = 'box/name/ward',
     //DRAW = 'box/name/draw',

@@ -1492,12 +1492,9 @@ export class MainView {
                 </div>
                 <div class="row">
                     <div class="col center">
-                        <button type="button" class="btn main__button bg-light active">
-                            Создать коробку
-                        </button>
-                    </div>
-                    <div class="col center">
-                        <button type="button" class="btn main__button bg-light">Быстрая жеребьёвка</button>
+                    <a href="box/new" class="nav__link"><button type="button" class="btn main__button bg-light active">
+                    Создать коробку
+                </button></a>
                     </div>
                 </div>
             </section>

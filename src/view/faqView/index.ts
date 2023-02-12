@@ -23,10 +23,10 @@ export class FaqView {
                 <div>
                     <h4>Остались вопросы или есть предложение?
                     </h4>
-                    <p class="extra-faq__text">Отправьте свой вопрос нам на почту, и мы постараемся ответить как можно скорее.</p>
+                    <p class="extra-faq__text">Отправьте свой вопрос нам.</p>
                 </div>
                 <div>
-                <a href="/feedback" class="navigation__link text-dark"><button type="button" class="btn main__button bg-light">Написать</button></a>
+                <a href="/rating" class="navigation__link text-dark"><button type="button" class="btn main__button bg-light">Написать</button></a>
                 </div>
         </section>
         </div>

@@ -13,7 +13,7 @@ import { switchHeader } from './mainView/switch-header';
 import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
-
+import { NewBoxView } from './newBoxView';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -24,6 +24,7 @@ export class View {
     regView: RegView;
     boxView: BoxView;
     faqView: FaqView;
+    newBoxView: NewBoxView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -33,6 +34,7 @@ export class View {
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
+        this.newBoxView = new NewBoxView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
@@ -64,17 +66,13 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
-        console.log(route);
-        setTimeout(async () => {
             const USR = await new Authorization();
-            console.log('123', localStorage.token);
             if (localStorage.token) {
                 const USR_OBJ = await USR.get(localStorage.token);
-                console.log(USR_OBJ);
                 if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
                     switchHeader(USR_OBJ[0].name);
             }
-        }, 0);
+        console.log('p=', path);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -97,12 +95,13 @@ export class View {
             case Routing.BOX:
                 if (!path2) {
                     this.mainView.render();
+                } else if (path2==='new') {
+                    await this.newBoxView.render();
+                    this.newBoxView.addListeners();
                 }
                 await this.boxView.render(path2);
                 this.boxView.addListeners();
                 break;
-            case Routing.DONATE:
-                this.donateView.render();
             case Routing.RATING:
                 this.ratingView.render();
                 break;
