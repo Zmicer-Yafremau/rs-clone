@@ -3,7 +3,7 @@ import { IBoxReq } from '../types/requestTypes';
 
 export class BoxesController {
     constructor(private model: Model) {}
-    async getBoxes(): Promise<IBoxReq[][] | undefined> {
+    async getBoxes(): Promise<IBoxReq[] | undefined> {
         const Boxes = this.model.userBoxesModel;
         const OneBox = this.model.boxModel;
         const userId = localStorage.getItem('id');

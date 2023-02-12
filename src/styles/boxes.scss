@@ -1,4 +1,5 @@
-.boxes {
+.boxes,
+.box__view {
     padding: 10px 20px;
     width: 100%;
     margin: 65px auto;
@@ -71,6 +72,8 @@
     list-style: none;
     font-size: 16px;
     display: flex;
+    padding: 0;
+    margin: 0;
     .box__wrapper {
         max-width: 350px;
         display: flex;
@@ -112,5 +115,35 @@
         margin-left: 6.4px;
         margin-right: 6.4px;
         width: 3.2px;
+    }
+}
+.box__not {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 25vh;
+    > div {
+        p:first-child {
+            font-weight: 500;
+            color: #333640;
+
+            font-size: 23px;
+            letter-spacing: 0;
+            line-height: 32px;
+            margin: 32px 0 8px 0;
+        }
+        p:last-child {
+            font-size: 13px;
+            color: #8d96a8;
+            font-weight: 600;
+        }
+    }
+    button {
+        min-width: 235px;
+        margin-top: 16px;
+        font-weight: 500;
+        font-size: 18px;
     }
 }

@@ -4,8 +4,7 @@ import { exit } from '../../controller/exit';
 import { deleteUser } from '../../controller/delete-user';
 import { hideSymbols } from '../../components/hide-symbols';
 import { change } from '../../controller/change';
-import { boxImages } from './boxesImg';
-import { BoxesController } from '../../controller/boxes.controller';
+import { boxImages } from '../../db/boxesImg';
 import { getEnding } from '../../utils/utils';
 
 export class AccountView {
@@ -16,13 +15,13 @@ export class AccountView {
         const years: string[] = [];
         const userId: string | null = localStorage.getItem('id');
         if (userBoxes && userBoxes.length > 0) {
-            userBoxes.forEach((boxes) => (!years.includes(boxes[0].year) ? years.push(boxes[0].year) : null));
+            userBoxes.forEach((boxes) => (!years.includes(boxes.year) ? years.push(boxes.year) : null));
         }
         if (path2 === 'boxes') {
             this.root.innerHTML = `<div class="boxes log center">
             <div class="menu__wrapper">
                 <div class="boxes__view"><p>Мои Коробки</p></div>
-                 <a href="/box/new"
+                 <a class="nav__link" href="/box/new"
                     ><div class="toggle__wrapper">
                         <div class="plus">
                             <span class="svg plus" style="width: 44px; height: 44px; background: none"
@@ -43,55 +42,54 @@ export class AccountView {
                         </div></div></a>
             </div>
             <section class="boxes__section">
-            
             ${
-                years.length > 0
+                userBoxes && years.length > 0
                     ? years.map(
-                          (year) => `<div class="boxes__year">
-            <h4>${year}</h4>
+                          (year) => `
+            <div class="boxes__year">
+                <h4>${year}</h4>
             </div>
             <ul class="boxes__list">
-              ${
-                  userBoxes
-                      ? userBoxes
-                            .filter((boxes) => boxes[0].year === year)
-                            .map((box) => box[0])
-                            .map(
-                                (box) => `<li class="box__wrapper">
-                    <div class="box-img">
-                        ${boxImages[box.box_img]}
-                    </div>
+                ${userBoxes
+                    .filter((boxes) => boxes.year === year)
+                    .map(
+                        (box) => `
+                <li class="box__wrapper" id=${box.box_name
+                    .split(' ')
+                    .map((item) => item[0].toUpperCase() + item.slice(1, item.length))
+                    .join('')} data-id=${box.box_id}>
+                    <div class="box-img">${boxImages[box.box_img]}</div>
                     <div class="box__info-wrapper">
                         <div class="box__name">
                             <span class="title">${box.box_name}</span>
                         </div>
                         <div class="box__bottom">
-                            <span class="txt">${box.cards_id.length} ${getEnding(
-                                    box.cards_id.length,
-                                    'участник',
-                                    'участника',
-                                    'участников'
-                                )} </span><div class="dot"></div>
-                            <span class="txt">${
-                                userId && box.cards_id.includes(Number(userId)) ? 'Вы организатор' : 'Вы участник'
-                            }</span><div class="dot"></div>
+                            <span class="txt"
+                                >${box.cards_id.length} ${getEnding(
+                            box.cards_id.length,
+                            'участник',
+                            'участника',
+                            'участников'
+                        )}
+                            </span>
+                            <div class="dot"></div>
+                            <span class="txt"
+                                >${
+                                    userId && box.cards_id.includes(Number(userId)) ? 'Вы организатор' : 'Вы участник'
+                                }</span
+                            >
+                            <div class="dot"></div>
                             <span class="txt">${box.is_draw ? 'Жеребьевка проведена' : 'Жеребьевка не проведена'}</span>
                         </div>
                     </div>
                 </li>`
-                            )
-                      : null
-              }
-            </ul>
-        `
+                    )}
+               </ul>`
                       )
-                    : ''
-            }
-        
-    </section>
-        </div>
-
-        `;
+                    : null
+            }     
+            </section>
+        </div>`;
         } else
             this.root.innerHTML = `<div class="account">
         <div class="account__wrapper container">
@@ -234,7 +232,25 @@ export class AccountView {
         </div>
     </div>`;
     }
+
     addListeners() {
+        if (location.pathname === '/account/boxes') {
+            const boxesList = document.querySelectorAll('.boxes__list');
+            if (boxesList) {
+                boxesList.forEach((list) =>
+                    list.addEventListener('click', (e) => {
+                        const target = e.target as HTMLElement;
+                        if (target && target.closest('LI')) {
+                            const boxName = target.closest('LI')?.id;
+                            if (boxName) {
+                                const box_id = target.closest('LI')?.getAttribute('data-id');
+                                this.controller.route(location.origin + `/box/${boxName}=${box_id}`);
+                            }
+                        }
+                    })
+                );
+            }
+        }
         if (location.pathname !== '/account/boxes') {
             const EXIT = document.getElementsByClassName('account__link')[0] as HTMLAnchorElement;
             const DELETE__INPUT = document.getElementById('inputDel') as HTMLInputElement;
