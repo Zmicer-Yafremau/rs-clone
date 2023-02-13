@@ -21,7 +21,7 @@ export class AccountView {
             this.root.innerHTML = `<div class="boxes log center">
             <div class="menu__wrapper">
                 <div class="boxes__view"><p>Мои Коробки</p></div>
-                 <a class="nav__link" href="/box/new"
+                <a class="nav__link" href="/box/new"
                     ><div class="toggle__wrapper">
                         <div class="plus">
                             <span class="svg plus" style="width: 44px; height: 44px; background: none"

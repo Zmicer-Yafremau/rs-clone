@@ -34,7 +34,7 @@ export class BoxView {
                         </button></div>`
             : `<div class="box__view" >
             <div class="box__menu">Menu</div>
-            <div class="box__cards">Cards</div>
+            <div class="box__cards center"></div>
             </div>`;
     }
     addListeners() {
