@@ -38,7 +38,7 @@ export class View {
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
         this.renderRoute();
-        // this.addHandlers();
+        this.addHandlers();
     }
 
     addHandlers() {
@@ -49,9 +49,6 @@ export class View {
                 console.log(href);
             });
         }
-    }
-    listenRoute() {
-        this.addHandlers();
     }
     addListeners() {
         window.addEventListener('popstate', () => {
@@ -116,7 +113,6 @@ export class View {
             default:
                 this.errorView.render();
         }
-        this.addHandlers();
     }
 
     renderContent() {
