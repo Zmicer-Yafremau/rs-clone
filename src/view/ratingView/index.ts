@@ -119,7 +119,7 @@ export class RatingView {
         rating.addEventListener('mouseout', () => {
             [].forEach.call(items, function (elem: Element, i) {
                 if (elem.classList.contains('item-current')) {
-                    currentNumber = i+1;
+                    currentNumber = i + 1;
                 }
             });
             if (currentNumber !== undefined) {
@@ -159,7 +159,7 @@ export class RatingView {
         }
 
         const ratingButton = document.querySelector('.form-rating') as HTMLFormElement;
-        const textFeedback = (document.querySelector('.form-control') as HTMLTextAreaElement);
+        const textFeedback = document.querySelector('.form-control') as HTMLTextAreaElement;
         const userName: string = localStorage.getItem('name') || 'Гость';
         const userId = Number(localStorage.getItem('id')) || null;
         let text: string;
@@ -182,7 +182,7 @@ export class RatingView {
                 this.feedbackView.render(feedbackWrapper);
             }
         });
-    } 
+    }
 
     async getAll() {
         const feedbackAll = await this.controller.getAll();
