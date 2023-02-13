@@ -2,15 +2,18 @@ import { Model } from '../model/index';
 import { BoxesController } from './boxes.controller';
 import { RouterController } from './router.controller';
 import { RatingController } from './rating.controller';
+import { CardController } from './card.controller';
 
 export class Controller {
     routerController: RouterController;
     ratingController: RatingController;
     boxesController: BoxesController;
+    cardController: CardController;
     constructor(private model: Model) {
         this.routerController = new RouterController(model);
         this.boxesController = new BoxesController(model);
         this.ratingController = new RatingController(model);
+        this.cardController = new CardController(model);
     }
 
     route(route: string, event: Event | false = false) {

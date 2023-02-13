@@ -50,7 +50,6 @@ export class View {
             });
         }
     }
-
     addListeners() {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
@@ -84,11 +83,6 @@ export class View {
                 if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
                     await this.accountView.render(path2);
                     this.accountView.addListeners();
-                    this.accountView.render(path2);
-                    setTimeout(() => {
-                        this.accountView.addListeners();
-                    }, 300);
-
                 } else {
                     this.errorView.render();
                 }
@@ -101,8 +95,6 @@ export class View {
                 await this.boxView.render(path2);
                 this.boxView.addListeners();
                 break;
-            case Routing.DONATE:
-                this.donateView.render();
             case Routing.RATING:
                 this.ratingView.render();
                 break;

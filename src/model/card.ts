@@ -1,11 +1,11 @@
-import { ICard } from '../types/requestTypes';
+import { ICard, ICardReq } from '../types/requestTypes';
 
 export class Card {
     url: string;
     constructor() {
         this.url = `https://santa-secret-clone.up.railway.app/card`;
     }
-    async getCardsOfBox(id: number): Promise<ICard[]> {
+    async getCardsOfBox(id: number): Promise<ICardReq[]> {
         return (await fetch(`${this.url}?id=${id}`)).json();
     }
     async update(
