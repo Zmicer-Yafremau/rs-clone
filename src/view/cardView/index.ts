@@ -7,6 +7,7 @@ export class CardView {
 
     async render(path3: string) {
         const boxCards = document.querySelector('.box__cards') as HTMLDivElement;
+        boxCards.innerHTML = '';
         boxCards.innerHTML = `
 <div class="my-card__wrapper">
 <div class="my-card">

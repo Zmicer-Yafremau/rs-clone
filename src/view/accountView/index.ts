@@ -44,8 +44,9 @@ export class AccountView {
             <section class="boxes__section">
             ${
                 userBoxes && years.length > 0
-                    ? years.map(
-                          (year) => `
+                    ? years
+                          .map(
+                              (year) => `
             <div class="boxes__year">
                 <h4>${year}</h4>
             </div>
@@ -74,18 +75,18 @@ export class AccountView {
                             </span>
                             <div class="dot"></div>
                             <span class="txt"
-                                >${
-                                    userId && box.cards_id.includes(Number(userId)) ? 'Вы организатор' : 'Вы участник'
-                                }</span
+                                >${userId && box.admin_id === Number(userId) ? 'Вы организатор' : 'Вы участник'}</span
                             >
                             <div class="dot"></div>
                             <span class="txt">${box.is_draw ? 'Жеребьевка проведена' : 'Жеребьевка не проведена'}</span>
                         </div>
                     </div>
                 </li>`
-                    )}
+                    )
+                    .join('')}
                </ul>`
-                      )
+                          )
+                          .join('')
                     : null
             }     
             </section>
@@ -240,6 +241,7 @@ export class AccountView {
                 boxesList.forEach((list) =>
                     list.addEventListener('click', (e) => {
                         const target = e.target as HTMLElement;
+                        console.log(target);
                         if (target && target.closest('LI')) {
                             const boxName = target.closest('LI')?.id;
                             if (boxName) {

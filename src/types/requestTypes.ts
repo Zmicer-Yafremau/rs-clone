@@ -6,15 +6,17 @@ export interface ICard {
     randomKey: string;
     wishes: string;
     boxId: number;
+    userId: number;
 }
 export interface ICardReq {
-    id: number;
+    card_id: number;
     user_name: string;
     ward_id: number;
     card_img: string;
     random_key: string;
     wishes: string;
     box_id: number;
+    user_id: number;
 }
 export interface IBox {
     id: number;
@@ -24,7 +26,8 @@ export interface IBox {
     invitedKey: string;
     cardsId: number[];
     adminId: number;
-    isDraw: true;
+    isDraw: boolean;
+    adminName: string;
 }
 export interface IBoxReq {
     box_id: number;
@@ -34,7 +37,8 @@ export interface IBoxReq {
     invited_key: string;
     cards_id: number[];
     admin_id: number;
-    is_draw: true;
+    is_draw: boolean;
+    admin_name: string;
 }
 export interface IUserBoxes {
     id: number;
