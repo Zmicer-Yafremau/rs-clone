@@ -1,15 +1,52 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { BoxView } from '../boxView';
+import { cardsImg } from '../../db/cardsImg';
 
 export class CardView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
 
-    async render(path3: string) {
+    async render(pathBox: string, path: string) {
+        const main = document.querySelector('.main') as Element;
+        const boxView = new BoxView(this.controller, this.model, main);
+        const box = await boxView.getParticipants(pathBox);
+        const userId = localStorage.getItem('id');
+        const cards = box ? await boxView.getBoxCards(box.box_id) : [];
+        const userCardId = cards?.find((card) => card.user_id === Number(userId));
+        const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
         const boxCards = document.querySelector('.box__cards') as HTMLDivElement;
+        let cardId;
+        let editCard;
+
+        if (path.includes("card")) {
+            cardId = userCardId;
+            editCard = `<span class="svg-edit">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="width: 2rem; height: 2rem; background: none;">
+            <path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12z" fill="#50426C"></path>
+            <path d="M14.77 11.06l-1.83-1.83M9.126 16.5H7.5v-1.626c0-.132.053-.26.146-.353l6.667-6.668a.5.5 0 01.707 0l1.126 1.126a.5.5 0 010 .707l-6.667 6.668a.499.499 0 01-.353.146v0z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            </span>`
+        }
+        else {
+            cardId = wardCardId;
+            editCard = '';
+        }
+
+        const svgPicture = cardId !== undefined ? cardsImg[cardId.card_img] : '';
+        const nameUserCard = cardId?.user_name;
+        const wishesCard = cardId?.wishes === '' ? (cardId === userCardId ? `<p>
+        <a class="" href="/box/boxName=id/card=id/edit">
+        <div class="btn-secondary">
+        <span class="txt-buttons txt">Добавить пожелания</span>
+        </div>
+        </a>
+        </p>`: `Ваш подопечный пока что не оставил пожеланий.`) : `<span>${cardId?.wishes}</span>`;
+
+
         boxCards.innerHTML = '';
-        boxCards.innerHTML = `
-<div class="my-card__wrapper">
+        boxCards.innerHTML = path === 'ward=0' ? `Kitty` :
+            `
+<div class="my-card__wrapper center">
 <div class="my-card">
 <span class="my-card__bg">
 <svg width="802" height="769" viewBox="0 0 802 769" fill="none">
@@ -24,31 +61,19 @@ export class CardView {
 <div class="my-card__top">
 <div class="my-card__picture-wrapper">
 <span class="svg-picture">
-{Picture.User}
+${svgPicture}
 </span>
 </div>
-<span class="txt-buttons txt">{Name.User}</span>
+<span class="txt-buttons txt">${nameUserCard}</span>
 <div class="my-card__edit">
-<span class="svg-edit">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="width: 2rem; height: 2rem; background: none;">
-<path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12z" fill="#50426C"></path>
-<path d="M14.77 11.06l-1.83-1.83M9.126 16.5H7.5v-1.626c0-.132.053-.26.146-.353l6.667-6.668a.5.5 0 01.707 0l1.126 1.126a.5.5 0 010 .707l-6.667 6.668a.499.499 0 01-.353.146v0z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</span>
+${editCard}
 </div>
 </div>
 <div class="my-card__main">
 <div class="my-card__wish-wrapper">
 <div class="my-card__wish">
 <span>
-<span></span>
-<p>
-<a class="" href="/box/boxName=id/card=id/edit">
-<div class="btn-secondary">
-<span class="txt-buttons txt">Добавить пожелания</span>
-</div>
-</a>
-</p>
+${wishesCard}
 </span>
 </div>
 </div>
@@ -56,7 +81,7 @@ export class CardView {
 <div class="my-card__info__bottom-wrapper">
 <div class="my-card__info__action">
 <div class="my-card__info__action__icon-wrapper">
-<div class="btn-main how__numbers center">
+<div class="btn-main btn-icon how__numbers center">
 <div class="btn-icon__icon-wrapper">
 <span class="svg-envelope">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="background: none; width: 1.2rem; height: 1.2rem;"><path d="M7.5 9.75l2.925 1.804a3 3 0 003.15 0L16.5 9.75" stroke="#FF6960" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18 5H6a3 3 0 00-3 3v8a3 3 0 003 3h12a3 3 0 003-3V8a3 3 0 00-3-3z" stroke="#FF6960" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -68,7 +93,7 @@ export class CardView {
 </div>
 <div class="my-card__info__action">
 <div class="my-card__info__action__icon-wrapper">
-<div class="btn-main how__numbers center">
+<div class="btn-main btn-icon how__numbers center">
 <div class="btn-icon__icon-wrapper">
 <span class="svg-gift">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="background: none; width: 1.2rem; height: 1.2rem;"><path clip-rule="evenodd" d="M20 8H4a1 1 0 00-1 1v2a1 1 0 001 1h16a1 1 0 001-1V9a1 1 0 00-1-1z" stroke="#FF6960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 21V8M15.696 6.612C14.618 7.734 12.921 8 12.1 8M12.1 8s-.495-3.116.72-4.38M15.696 6.612a2.177 2.177 0 000-2.992 1.978 1.978 0 00-2.875 0M8.304 6.612C9.382 7.734 11.079 8 11.901 8M11.9 8s.495-3.116-.72-4.38M8.304 6.612a2.177 2.177 0 010-2.992 1.978 1.978 0 012.875 0M19 12v8a1 1 0 01-1 1H6a1 1 0 01-1-1v-8" stroke="#FF6960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -83,4 +108,25 @@ export class CardView {
 </div>
     `;
     }
+
+    addListeners() {
+        const buttonIcon = document.querySelectorAll('.btn-icon') as NodeListOf<HTMLDivElement>;
+        console.log(buttonIcon);
+        
+        buttonIcon.forEach((el) => el.addEventListener('click', (e) => {
+                const target = e.target as HTMLDivElement;
+                if (target.closest('SPAN')?.classList.contains('svg-envelope')) {
+                    target.closest('SPAN')?.classList.remove('svg-envelope');
+                    target.closest('SPAN')?.classList.add('svg-star');
+                } else if (target.closest('SPAN')?.classList.contains('svg-star')) {
+                    target.closest('SPAN')?.classList.remove('svg-star');
+                    target.closest('SPAN')?.classList.add('svg-envelope');
+                } else if (target.closest('SPAN')?.classList.contains('svg-gift')) {
+                    console.log(el)
+                    el.style.cursor = 'default';
+                    el.style.opacity = '0.2';
+                    console.log(el.style.cursor)
+                }
+            }));
+    }    
 }

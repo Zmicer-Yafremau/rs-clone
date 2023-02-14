@@ -103,7 +103,7 @@ export class BoxView {
                     }
                 </div></div>
             </div>
-            <div class="box__cards">
+            <div class="box__cards center">
             <ul class="cards__list">
             ${
                 cards && cards.length > 0

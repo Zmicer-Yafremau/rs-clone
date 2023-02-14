@@ -85,6 +85,11 @@
   position: relative;
 }
 
+.my-card__picture-wrapper svg {
+  width: 2rem  !important;
+  height: 2rem !important;
+}
+
 .my-card__wish {
   align-items: center;
   color: #333640;
@@ -197,9 +202,6 @@
 .txt-grey {
   color: #8d96a8;
 }
-
-
-
 
 
 @media (max-width: 750px) {
