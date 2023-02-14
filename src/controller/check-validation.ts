@@ -1,5 +1,6 @@
 import { USR_STATE } from '../db/usr-state';
 import { Authorization } from '../model/authorization';
+import { UserBoxes } from '../model/userBoxes';
 export function checkValidation(form: HTMLFormElement) {
     form.addEventListener(
         'submit',
@@ -23,7 +24,12 @@ export function checkValidation(form: HTMLFormElement) {
                     const PASS = INPUTS[3].value;
                     const res = await USR.create(NAME, MAIL, PHONE, PASS);
                     if (res) {
+                        const USR_BOXES = await new UserBoxes();
+                        console.log(res);
+                        const ID = localStorage.id;
+                        const USR_BOX_CONNECT = USR_BOXES.create([], ID);
                         USR_STATE.password = PASS;
+                        console.log(USR_BOX_CONNECT);
                         location.replace(location.origin);
                     } else USER_EXIST.classList.remove('visually-hidden');
                 } else if (FORM_TYPE === 'log') {
