@@ -26,3 +26,9 @@ export function getEnding(number: number, var1: string, var2: string, var3: stri
     }
     return var3;
 }
+export function mixArr(arr: number[]) {
+    return arr
+        .map((i) => [Math.random(), i])
+        .sort()
+        .map((i) => i[1]);
+}

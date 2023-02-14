@@ -1,5 +1,5 @@
 import { Model } from '../model';
-import { IBoxReq } from '../types/requestTypes';
+import { IBox, IBoxReq } from '../types/requestTypes';
 
 export class BoxesController {
     constructor(private model: Model) {}
@@ -12,5 +12,10 @@ export class BoxesController {
             const boxes = await Promise.all(result[0].user_boxes.map(async (box) => await OneBox.getByBoxId(box)));
             return boxes;
         }
+    }
+    async updateBox(id: number, obj: Partial<IBox>): Promise<IBoxReq> {
+        const Box = this.model.boxModel;
+        const result = await Box.update(id, obj);
+        return result;
     }
 }

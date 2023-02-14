@@ -65,28 +65,40 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
-        const USR = await new Authorization();
+        console.log(route);
+        let isLogin = false;
+        const USR = new Authorization();
+        console.log('123', localStorage.token);
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
+            console.log(USR_OBJ);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
                 switchHeader(USR_OBJ[0].name);
+            isLogin = true;
         }
+
         switch (path) {
             case '':
             case Routing.MAIN:
                 this.mainView.render();
                 break;
             case Routing.ACCOUNT:
-                if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
-                    await this.accountView.render(path2);
-                    this.accountView.addListeners();
+                if (isLogin) {
+                    if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
+                        await this.accountView.render(path2);
+                        this.accountView.addListeners();
+                    } else {
+                        this.errorView.render();
+                    }
                 } else {
-                    this.errorView.render();
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
                 break;
 
             case Routing.BOX:
-                if (!path2) {
+                if (isLogin) {
+                    if (!path2) {
                     this.mainView.render();
                 } else if (path2 === 'new') {
                     console.log('hhhh');
@@ -112,7 +124,6 @@ export class View {
                 this.faqView.render();
                 this.faqView.addListeners();
                 break;
-
             default:
                 this.errorView.render();
         }
@@ -124,3 +135,4 @@ export class View {
         this.root.append(main);
     }
 }
+
