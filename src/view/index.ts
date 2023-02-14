@@ -13,7 +13,7 @@ import { switchHeader } from './mainView/switch-header';
 import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
-
+import { NewBoxView } from './newBoxView';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -24,6 +24,7 @@ export class View {
     regView: RegView;
     boxView: BoxView;
     faqView: FaqView;
+    newBoxView: NewBoxView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -33,6 +34,7 @@ export class View {
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
+        this.newBoxView = new NewBoxView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
@@ -97,14 +99,15 @@ export class View {
             case Routing.BOX:
                 if (isLogin) {
                     if (!path2) {
-                        this.mainView.render();
-                    }
-                    await this.boxView.render(path2);
-                    this.boxView.addListeners();
-                } else {
-                    this.loginView.render();
-                    this.loginView.addListeners();
+                    this.mainView.render();
+                } else if (path2 === 'new') {
+                    console.log('hhhh');
+                    await this.newBoxView.render();
+                    this.newBoxView.addListeners();
+                    break;
                 }
+                await this.boxView.render(path2);
+                this.boxView.addListeners();
                 break;
             case Routing.RATING:
                 this.ratingView.render();
@@ -124,6 +127,7 @@ export class View {
             default:
                 this.errorView.render();
         }
+        this.addHandlers();
     }
 
     renderContent() {
