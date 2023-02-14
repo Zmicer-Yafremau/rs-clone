@@ -33,7 +33,7 @@ export class Box {
         invitedKey: string,
         cardsId: number[],
         adminId: number,
-        isDraw: true,
+        isDraw: boolean,
         adminName: string
     ): Promise<IBoxReq> {
         const response = await fetch(`${this.url}`, {
