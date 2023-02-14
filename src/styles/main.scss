@@ -85,7 +85,7 @@
 .screenshot {
     width: 640px;
     min-width: 290px;
-    height: 640px;
+    height: 750px;
     border-radius: 30px;
     display: flex;
     align-items: center;
@@ -96,7 +96,9 @@
 .screenshot__col {
     margin: 20px 0;
 }
-
+.screenshot__left {
+    min-width: 330px;
+}
 .screenshot__container {
     width: 80%;
     height: 80%;
@@ -257,7 +259,9 @@
     z-index: 3;
     background-color: $gir-bg;
 }
-
+.screenshot__create {
+    cursor: unset !important;
+}
 .questions__icon-img {
     margin-bottom: 10px;
     margin-right: 10px;
@@ -287,10 +291,20 @@
     .screenshot__body {
         padding: 10px;
     }
+    .box__pictures {
+        margin-top: 10px;
+        overflow-y: scroll;
+        height: 300px !important;
+    }
 }
 
 @media (max-width: 410px) {
     .how__text {
         width: 100%;
+    }
+    .box__pictures {
+        margin-top: 10px;
+        overflow-y: scroll;
+        height: 300px !important;
     }
 }

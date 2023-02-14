@@ -92,9 +92,11 @@ textarea {
 }
 
 .logo .nav__link {
-    color:  var(--bs-body-color); ;
+    color:  var(--bs-body-color);
 }
-
+.footer .nav__link {
+    margin-right: 30px;
+}
 .navigation__reg {
     color: $reg-color;
     font-family: Gilroy, sans-serif;
