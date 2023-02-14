@@ -24,7 +24,8 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
                     const adminId = +localStorage.id;
                     const cardsId: number[] = [];
                     const isDraw = false;
-                    const boxImg = VALIDATE_PIC.classList[0];
+                    const boxImg = VALIDATE_PIC.children[0].classList[1].trim();
+                    console.log(boxImg);
                     for (let i = 0; i < 5; i++) {
                         invitedKey += `${Math.floor(Math.random() * 10)}`;
                     }
@@ -38,6 +39,7 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
                         isDraw,
                         adminName
                     );
+                    console.log(BOX_OBJ);
                     location.replace(`${location.origin}/account/boxes`);
                 } else {
                     ERR.classList.remove('visually-hidden');

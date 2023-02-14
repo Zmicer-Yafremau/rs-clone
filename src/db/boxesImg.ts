@@ -1,7 +1,6 @@
 const boxImages: { [key: string]: string } = {
-    cup: `<span class="svg" style="width: 96px; height: 96px; background: none"
+    cup: `<span class="svg cup" style="width: 96px; height: 96px; background: none"
 ><svg
-  class="cup"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -142,9 +141,8 @@ const boxImages: { [key: string]: string } = {
   ></path>
   <path fill="#fff" fill-opacity="0.01" d="M99 99h1v1h-1zM0 0h1v1H0z"></path></svg
 ></span>`,
-    pie: `<span class="svg" style="width: 96px; height: 96px; background: none"
+    pie: `<span class="svg pie" style="width: 96px; height: 96px; background: none"
 ><svg
-  class="pie"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -205,9 +203,9 @@ const boxImages: { [key: string]: string } = {
   ></path>
   <path fill="#fff" fill-opacity="0.01" d="M99 99h1v1h-1zM0 0h1v1H0z"></path></svg
 ></span>`,
-    gift: `<span class="svg" style="width: 96px; height: 96px; background: none"
-><svg width="100"
-  class="gift"
+    gift: `<span class="svg gift" style="width: 96px; height: 96px; background: none"
+><svg 
+  width="100"
   height="100"
   viewBox="0 0 100 100"
   fill="none"
@@ -247,9 +245,8 @@ const boxImages: { [key: string]: string } = {
   ></path>
   <path fill="#fff" fill-opacity="0.01" d="M99 99h1v1h-1zM0 0h1v1H0z"></path></svg
 ></span>`,
-    cake: `<span class="svg" style="width: 96px; height: 96px; background: none"
+    cake: `<span class="svg cake" style="width: 96px; height: 96px; background: none"
 ><svg
-  class="cake" 
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -432,9 +429,8 @@ const boxImages: { [key: string]: string } = {
   ></path>
   <path fill="#fff" fill-opacity="0.01" d="M99 99h1v1h-1zM0 0h1v1H0z"></path></svg
 ></span>`,
-    cup_two: ` <span class="svg" style="width: 96px; height: 96px; background: none"
+    cup_two: ` <span class="svg cup_two" style="width: 96px; height: 96px; background: none"
 ><svg
-  class="cup_two"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -540,9 +536,8 @@ const boxImages: { [key: string]: string } = {
   <path fill="#fff" fill-opacity="0.01" d="M99 99h1v1h-1zM0 0h1v1H0z"></path></svg
 ></span>`,
 
-    cookie_tree: `<span class="svg" style="width: 96px; height: 96px; background: none"
+    cookie_tree: `<span class="svg cookie_tree" style="width: 96px; height: 96px; background: none"
 ><svg
-  class="cookie_tree"
   width="100"
   height="100"
   viewBox="0 0 100 100"
