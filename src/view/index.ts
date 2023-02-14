@@ -66,14 +66,12 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
-
         const USR = await new Authorization();
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
                 switchHeader(USR_OBJ[0].name);
         }
-        console.log('p=', path2);
         switch (path) {
             case '':
             case Routing.MAIN:

@@ -1,6 +1,7 @@
 const boxImages: { [key: string]: string } = {
     cup: `<span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg
+  class="cup"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -143,6 +144,7 @@ const boxImages: { [key: string]: string } = {
 ></span>`,
     pie: `<span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg
+  class="pie"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -205,6 +207,7 @@ const boxImages: { [key: string]: string } = {
 ></span>`,
     gift: `<span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg width="100"
+  class="gift"
   height="100"
   viewBox="0 0 100 100"
   fill="none"
@@ -246,6 +249,7 @@ const boxImages: { [key: string]: string } = {
 ></span>`,
     cake: `<span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg
+  class="cake" 
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -430,6 +434,7 @@ const boxImages: { [key: string]: string } = {
 ></span>`,
     cup_two: ` <span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg
+  class="cup_two"
   width="100"
   height="100"
   viewBox="0 0 100 100"
@@ -537,6 +542,7 @@ const boxImages: { [key: string]: string } = {
 
     cookie_tree: `<span class="svg" style="width: 96px; height: 96px; background: none"
 ><svg
+  class="cookie_tree"
   width="100"
   height="100"
   viewBox="0 0 100 100"

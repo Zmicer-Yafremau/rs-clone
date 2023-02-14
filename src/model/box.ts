@@ -41,11 +41,12 @@ export class Box {
         invitedKey: string,
         cardsId: number[],
         adminId: number,
-        isDraw: true
+        isDraw: boolean,
+        adminName: string
     ): Promise<IBoxReq> {
         const response = await fetch(`${this.url}`, {
             method: 'POST',
-            body: JSON.stringify({ boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw }),
+            body: JSON.stringify({ boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw, adminName }),
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
