@@ -2,15 +2,30 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { boxImages } from '../../db/boxesImg';
 import { cardsImg } from '../../db/cardsImg';
+import { IBoxReq, ICardReq } from '../../types/requestTypes';
+import { mixArr } from '../../utils/utils';
 
 export class BoxView {
-    constructor(private controller: Controller, private model: Model, private root: Element) {}
+    cards: ICardReq[] | undefined;
+    box: IBoxReq | undefined | null;
+    userCard: undefined | ICardReq | null;
+    boxName: string;
+    boxId: string;
+    constructor(private controller: Controller, private model: Model, private root: Element) {
+        this.cards = [];
+        this.box;
+        this.userCard;
+        this.boxName = '';
+        this.boxId = '';
+    }
 
     async getParticipants(path: string) {
         const allBoxesOfUser = await this.controller.boxesController.getBoxes();
 
         const currentBoxName = path.split('=')[0];
         const currentBoxId = path.split('=')[1];
+        this.boxName = currentBoxName;
+        this.boxId = currentBoxId;
         if (allBoxesOfUser && allBoxesOfUser.length > 0) {
             const currentBox = allBoxesOfUser.find(
                 (box) =>
@@ -32,9 +47,12 @@ export class BoxView {
     }
     async render(path: string) {
         const box = await this.getParticipants(path);
+        this.box = box;
         const userId = localStorage.getItem('id');
         const cards = box ? await this.getBoxCards(box.box_id) : [];
-        const userWardId = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
+        this.cards = cards;
+        const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
+        this.userCard = userCard;
         this.root.innerHTML = !box
             ? `<div class="box__not" >${boxImages['boxNotFound']}
             <div><p>Коробка не найдена</p><p>Похоже, вы перешли по неверной ссылке для коробки..</p></div>
@@ -45,7 +63,7 @@ export class BoxView {
             <div class="box__menu-wrapper">
             <div class="box__menu">
                 <div class="box__info">
-                    <div class="box-img">${boxImages[box.box_img]}</div>
+                    <div id="curr-box" class="box-img">${boxImages[box.box_img]}</div>
                     <div class="box-description">
                         <h4>${box.box_name}</h4>
                         <div class="description-bottom">
@@ -104,6 +122,12 @@ export class BoxView {
                 </div></div>
             </div>
             <div class="box__cards">
+            <div class="box__wrapper">
+            ${
+                !box.is_draw && box.cards_id.length >= 3
+                    ? '<button id="draw" class="btn main__button bg-light active ward">Провести жеребьевку</button>'
+                    : ''
+            }
             <ul class="cards__list">
             ${
                 cards && cards.length > 0
@@ -122,7 +146,7 @@ export class BoxView {
                                               : ''
                                       }
                                       ${
-                                          userWardId && userWardId.ward_id === card.card_id
+                                          userCard && userCard.ward_id === card.card_id
                                               ? '<span class="txt">Ваш подопечный</span>'
                                               : ''
                                       }
@@ -140,7 +164,9 @@ export class BoxView {
                     : ''
             }
             
-            </ul></div>
+            </ul>
+          </div>
+         </div>
         </div>
         `;
     }
@@ -169,9 +195,48 @@ export class BoxView {
                     if (menuNumber) {
                         const currentSlider = document.querySelector(`.toggle-menu-item--slider.${menuNumber}`);
                         currentSlider?.classList.add('active');
+                        if (this.box && this.boxId && this.userCard) {
+                            switch (menuNumber.split('-')[1]) {
+                                case '1':
+                                    this.controller.route(location.origin + `/box/${this.boxName}=${this.boxId}`);
+                                    break;
+                                case '2':
+                                    this.controller.route(
+                                        location.origin +
+                                            `/box/${this.boxName}=${this.boxId}/card=${this.userCard.card_id}`
+                                    );
+                                    break;
+                                case '3':
+                                    this.userCard.ward_id
+                                        ? this.controller.route(
+                                              location.origin +
+                                                  `/box/${this.boxName}=${this.boxId}/card=${this.userCard.ward_id}`
+                                          )
+                                        : this.controller.route(
+                                              location.origin + `/box/${this.boxName}=${this.boxId}/ward=0`
+                                          );
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                 }
             });
+            const buttonDraw = document.getElementById('draw');
+            if (buttonDraw) {
+                buttonDraw.addEventListener('click', () => {
+                    this.drawRandomCards();
+                    console.log('s');
+                });
+            }
+            const currentBox = document.getElementById('curr-box');
+            if (currentBox) {
+                currentBox.addEventListener('click', () =>
+                    this.controller.route(location.origin + `/box/${this.boxName}=${this.boxId}`)
+                );
+            }
         }
         const cardList = document.querySelector('.cards__list');
         if (cardList) {
@@ -180,7 +245,7 @@ export class BoxView {
                 if (target && target.closest('LI')?.classList.contains('card__wrapper')) {
                     const cardId = target.closest('LI')?.id;
                     if (cardId) {
-                        this.controller.route(location.href + `/card=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.boxName}=${this.boxId}/card=${cardId}`);
                     }
                 }
             });
@@ -188,5 +253,28 @@ export class BoxView {
     }
     toggleClassInList(list: NodeListOf<Element>, className: string) {
         list.forEach((el) => el.classList.remove(className));
+    }
+
+    async drawRandomCards() {
+        const cardsId = this.cards?.map((card) => card.card_id);
+        if (cardsId && cardsId.length >= 3 && this.box) {
+            let mixedArr = mixArr(cardsId);
+            let result = cardsId.some((id, i) => id === mixedArr[i]);
+            while (result) {
+                mixedArr = mixArr(cardsId);
+                result = cardsId.some((id, i) => id === mixedArr[i]);
+            }
+
+            const cardWards = cardsId.map((item, i) => [item, mixedArr[i]]);
+            const updateCards = await Promise.all(
+                cardWards.map(
+                    async (cards) => await this.controller.cardController.updateCard(cards[0], { wardId: cards[1] })
+                )
+            );
+            this.cards = updateCards;
+            const updateBox = await this.controller.boxesController.updateBox(this.box.box_id, { isDraw: true });
+            this.box = updateBox;
+            this.controller.route(location.origin + `/box/${this.boxName}=${this.boxId}`);
+        }
     }
 }

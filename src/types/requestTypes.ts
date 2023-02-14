@@ -1,5 +1,4 @@
 export interface ICard {
-    id: number;
     userName: string;
     wardId: number;
     cardImg: string;
@@ -19,7 +18,6 @@ export interface ICardReq {
     user_id: number;
 }
 export interface IBox {
-    id: number;
     boxName: string;
     boxImg: string;
     year: string;
