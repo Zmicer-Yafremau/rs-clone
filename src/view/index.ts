@@ -15,6 +15,8 @@ import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { NewBoxView } from './newBoxView';
 import { InviteView } from './inviteView';
+import { EditBoxView } from './editBox';
+
 export class View {
     root: Element;
     accountView: AccountView;
@@ -27,6 +29,7 @@ export class View {
     faqView: FaqView;
     newBoxView: NewBoxView;
     inviteView: InviteView;
+    editBoxView: EditBoxView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -42,6 +45,7 @@ export class View {
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
+        this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -68,40 +72,58 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
-        const USR = await new Authorization();
+        console.log(route);
+        let isLogin = false;
+        const USR = new Authorization();
+        console.log('123', localStorage.token);
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
+                isLogin = true;
             } else localStorage.token = '';
         }
+        console.log(path, path2);
         switch (path) {
             case '':
             case Routing.MAIN:
                 this.mainView.render();
                 break;
             case Routing.ACCOUNT:
-                if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
-                    await this.accountView.render(path2);
-                    this.accountView.addListeners();
+                if (isLogin) {
+                    if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
+                        await this.accountView.render(path2);
+                        this.accountView.addListeners();
+                    } else {
+                        this.errorView.render();
+                    }
                 } else {
-                    this.errorView.render();
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
                 break;
 
             case Routing.BOX:
-                if (!path2) {
-                    this.mainView.render();
-                } else if (path2 === 'new') {
-                    console.log('hhhh');
-                    await this.newBoxView.render();
-                    this.newBoxView.addListeners();
-                    break;
+                if (isLogin) {
+                    if (!path2) {
+                        this.mainView.render();
+                    } else if (path2 === 'new') {
+                        await this.newBoxView.render();
+                        this.newBoxView.addListeners();
+                        break;
+                    } else if (path2 === 'edit' && path3) {
+                        await this.editBoxView.render(path3);
+                        this.editBoxView.addListeners();
+                        break;
+                    }
+                    await this.boxView.render(path2);
+                    this.boxView.addListeners();
+                } else {
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
-                await this.boxView.render(path2);
-                this.boxView.addListeners();
                 break;
             case Routing.INVITE:
                 if (path2) {
@@ -123,7 +145,6 @@ export class View {
                 this.faqView.render();
                 this.faqView.addListeners();
                 break;
-
             default:
                 this.errorView.render();
         }

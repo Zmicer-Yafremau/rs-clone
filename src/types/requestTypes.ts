@@ -1,7 +1,6 @@
 export interface ICard {
-    id: number;
     userName: string;
-    wardId: number;
+    wardId: number | null;
     cardImg: string;
     randomKey: string;
     wishes: string;
@@ -11,7 +10,7 @@ export interface ICard {
 export interface ICardReq {
     card_id: number;
     user_name: string;
-    ward_id: number;
+    ward_id: number | null;
     card_img: string;
     random_key: string;
     wishes: string;
@@ -19,7 +18,6 @@ export interface ICardReq {
     user_id: number;
 }
 export interface IBox {
-    id: number;
     boxName: string;
     boxImg: string;
     year: string;

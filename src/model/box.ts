@@ -1,4 +1,4 @@
-import { IBoxReq } from '../types/requestTypes';
+import { IBox, IBoxReq } from '../types/requestTypes';
 
 export class Box {
     url: string;
@@ -14,20 +14,12 @@ export class Box {
     async getByAdminId(id: number): Promise<IBoxReq[]> {
         return (await fetch(`${this.url}?admin=${id}`)).json();
     }
-    async update(
-        id: number,
-        boxName: string,
-        boxImg: string,
-        year: string,
-        invitedKey: string,
-        cardsId: number[],
-        adminId: number,
-        isDraw: true
-    ): Promise<IBoxReq> {
+    async update(id: number, obj: Partial<IBox>): Promise<IBoxReq> {
+        const { boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw, adminName } = obj;
         return (
             await fetch(`${this.url}`, {
-                method: 'PUT',
-                body: JSON.stringify({ id, boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw }),
+                method: 'PATCH',
+                body: JSON.stringify({ id, boxName, boxImg, year, invitedKey, cardsId, adminId, isDraw, adminName }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
