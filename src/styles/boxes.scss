@@ -1,5 +1,6 @@
 .boxes,
-.box__view {
+.box__view,
+.box__edit {
     padding: 10px 0px;
     width: 100%;
     margin: 65px auto;
@@ -7,6 +8,99 @@
     align-items: center;
     flex-direction: column;
     font-family: Gilroy, sans-serif;
+}
+.edit__wrapper {
+    min-width: 100%;
+    padding: 0 30px;
+}
+
+.box__edit,
+.cards__not {
+    max-width: 1500px;
+
+    .section {
+        border-bottom: 1px solid #ebf1f6;
+        padding: 30px 0;
+        display: flex;
+        justify-content: start;
+        margin-bottom: 20px;
+
+        & h4,
+        & h5 {
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        & h5 {
+            font-size: 18px;
+        }
+        button {
+            align-self: end;
+        }
+        #redraw,
+        #draw {
+            align-self: center;
+        }
+    }
+    & .edit__wrapper > .section:first-child {
+        padding: 0;
+        margin-bottom: 0;
+    }
+    .check-section {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+
+        &.input {
+            flex-direction: row;
+            align-items: center;
+            align-content: center;
+        }
+        .input-box {
+            width: 100%;
+        }
+        label {
+            font-size: 13px;
+            color: #8d96a8;
+        }
+        input {
+            width: 100%;
+        }
+        p {
+            display: block;
+        }
+
+        &.link,
+        .text,
+        .warn {
+            padding: 20px 24px;
+            background-color: #e7f5ff;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #2da8dd;
+            p.link-copy {
+                margin-bottom: 0;
+            }
+
+            input {
+                border: none;
+                outline: none;
+                background-color: #e7f5ff;
+                cursor: pointer;
+                font-weight: 600;
+                width: 100%;
+                color: #2da8dd;
+                &:hover {
+                    color: #076c98;
+                }
+            }
+        }
+        .warn {
+            background-color: #ffeff3;
+            color: #ed406a;
+            padding: 10px 15px;
+        }
+    }
 }
 .boxes {
     max-width: 1500px;
@@ -95,7 +189,7 @@
         border-radius: 30px;
         box-shadow: 0 4px 8px 0 rgb(150 142 166 / 8%);
         cursor: pointer;
-        margin-right: 60px;
+        margin: 20px;
     }
     .box-img {
         margin: 12px 0;
@@ -127,7 +221,8 @@
     margin-right: 6.4px;
     width: 3.2px;
 }
-.box__not {
+.box__not,
+.box__null {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -136,9 +231,8 @@
     margin-top: 25vh;
     > div {
         p:first-child {
-            font-weight: 500;
+            font-weight: 600;
             color: #333640;
-
             font-size: 23px;
             letter-spacing: 0;
             line-height: 32px;
@@ -156,6 +250,10 @@
         font-weight: 500;
         font-size: 18px;
     }
+}
+
+.box__null {
+    margin-top: 5vh;
 }
 .box__menu,
 .box__info,
@@ -299,6 +397,10 @@
     margin-left: 4.8px;
     padding: 4.8px;
     display: flex;
+    align-items: center;
+    width: 57px;
+    height: 57px;
+    align-self: end;
 }
 .toggle-menu-button--inner {
     padding: 11.2px;
@@ -344,4 +446,67 @@
 .card-info p {
     font-family: Gilroy, sans-serif;
     font-weight: 600;
+}
+#submit-delete {
+    display: none;
+    &.show {
+        display: flex;
+        margin-top: 10px;
+
+        align-self: end;
+        &:hover {
+            color: red;
+        }
+    }
+}
+@media (max-width: 1100px) {
+    .box__menu {
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+    }
+    .toggle-menu {
+        margin-top: 15px;
+        max-width: 70vh;
+    }
+}
+
+@media (max-width: 900px) {
+    .boxes__list,
+    .cards__list {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 615px) {
+    .toggle-menu {
+        .toggle-menu-item {
+            padding: 5px;
+            min-width: 100px;
+        }
+    }
+}
+@media (max-width: 450px) {
+    .main .boxes {
+        .box__wrapper,
+        .card__wrapper {
+            min-width: 200px;
+            max-width: 200px;
+            margin: 10px;
+            padding: 10px;
+        }
+    }
+    .box__toggle {
+        flex-direction: column;
+    }
+    .toggle-menu-button {
+        align-self: center;
+        margin-top: 5px;
+    }
+    .toggle-menu .toggle-menu-item {
+        padding: 3px;
+        min-width: 85px;
+    }
 }
