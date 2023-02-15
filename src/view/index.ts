@@ -14,6 +14,7 @@ import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { NewBoxView } from './newBoxView';
+import { EditBoxView } from './editBox';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -25,6 +26,7 @@ export class View {
     boxView: BoxView;
     faqView: FaqView;
     newBoxView: NewBoxView;
+    editBoxView: EditBoxView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -39,6 +41,7 @@ export class View {
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
+        this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -72,11 +75,12 @@ export class View {
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             console.log(USR_OBJ);
-            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
+            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
                 switchHeader(USR_OBJ[0].name);
-            isLogin = true;
+                isLogin = true;
+            }
         }
-
+        console.log(path, path2);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -99,15 +103,22 @@ export class View {
             case Routing.BOX:
                 if (isLogin) {
                     if (!path2) {
-                    this.mainView.render();
-                } else if (path2 === 'new') {
-                    console.log('hhhh');
-                    await this.newBoxView.render();
-                    this.newBoxView.addListeners();
-                    break;
+                        this.mainView.render();
+                    } else if (path2 === 'new') {
+                        await this.newBoxView.render();
+                        this.newBoxView.addListeners();
+                        break;
+                    } else if (path2 === 'edit' && path3) {
+                        await this.editBoxView.render(path3);
+                        this.editBoxView.addListeners();
+                        break;
+                    }
+                    await this.boxView.render(path2);
+                    this.boxView.addListeners();
+                } else {
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
-                await this.boxView.render(path2);
-                this.boxView.addListeners();
                 break;
             case Routing.RATING:
                 this.ratingView.render();
@@ -135,4 +146,3 @@ export class View {
         this.root.append(main);
     }
 }
-

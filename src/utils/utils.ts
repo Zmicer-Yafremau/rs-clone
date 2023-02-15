@@ -1,3 +1,5 @@
+import tippy from 'tippy.js';
+
 export function create<T extends HTMLElement>(classNM = '', type = 'div'): T {
     const item = document.createElement(type);
     item.className = classNM;
@@ -31,4 +33,24 @@ export function mixArr(arr: number[]) {
         .map((i) => [Math.random(), i])
         .sort()
         .map((i) => i[1]);
+}
+export function copy(el: HTMLInputElement) {
+    const text = el.value;
+    el.addEventListener('focus', () => el.select());
+    el.addEventListener('click', () => {
+        el.select();
+        navigator.clipboard.writeText(text);
+        tippy(`#copy-link`, {
+            trigger: 'click',
+        });
+    });
+}
+
+export function toggleLoader() {
+    const loader = document.querySelector('.loader');
+    const body = document.querySelector('#root');
+    if (loader && body) {
+        loader.classList.toggle('hidden');
+        body.classList.toggle('shadow');
+    }
 }
