@@ -17,15 +17,23 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                 });
                 if (VALIDATE_PIC) {
                     const CARD = new Card();
+                    const U_BOX = new UserBoxes();
                     const INPUT = document.getElementById('ucardInput') as HTMLInputElement;
                     const WISHES_INPUT = document.getElementById('wishesInput') as HTMLInputElement;
                     const userName = INPUT.value;
                     const wishes = WISHES_INPUT.value;
                     const wardId = null;
-                    const id = +localStorage.id;
+                    const ID = +localStorage.id;
                     const boxId = +localStorage.boxId;
                     const cardImg = VALIDATE_PIC.children[0].classList[0].trim();
-                    const res = await CARD.create(userName, wardId, cardImg, wishes, boxId);
+                    const U_BOX_OBJ = await U_BOX.getByUserId(ID);
+                    console.log('1', U_BOX_OBJ);
+                    if (!U_BOX_OBJ[0].user_boxes.includes(boxId)) {
+                        const NEW_BOX_ARR = await U_BOX_OBJ[0]['user_boxes'];
+                        NEW_BOX_ARR.push(localStorage.boxId);
+                        await U_BOX.update(U_BOX_OBJ[0].id, NEW_BOX_ARR, U_BOX_OBJ[0].account_id);
+                    }
+                    await CARD.create(ID, userName, wardId, cardImg, wishes, boxId);
                     location.replace(location.origin + '/account/boxes');
                 } else {
                     ERR.classList.remove('visually-hidden');

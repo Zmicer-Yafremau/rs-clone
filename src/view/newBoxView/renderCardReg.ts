@@ -1,8 +1,12 @@
 import { addUsrPics } from './add-usr-pics';
 import { checkNewCard } from '../../controller/check-card-validation';
 export function renderCardReg() {
-    const BOX = document.getElementsByClassName('box__container')[0] as HTMLDivElement;
-    BOX.innerHTML = ` <form class="ucard ucard__form" novalidate>    
+    const BOX = document.getElementById('root') as HTMLDivElement;
+    BOX.innerHTML = ` 
+    <div class="box ucard">
+        <div class="box__wrapper">
+        <div class="box__container container screenshot__container shadow-lg bg-body-tertiary rounded">
+    <form class="ucard__form" novalidate>    
 <div class="screenshot__header">
         <h4 class="center">Создать карточку</h4>
     </div>
@@ -36,7 +40,10 @@ export function renderCardReg() {
 
     </div>
 </div>
-</form>`;
+</form>
+</div>
+</div>
+</div>`;
     addUsrPics();
     const FORM = document.getElementsByClassName('ucard__form')[0] as HTMLFormElement;
     const BOX_PICTURES = document.getElementsByClassName('box__pictures')[0] as HTMLDivElement;

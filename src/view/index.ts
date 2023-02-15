@@ -14,6 +14,7 @@ import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { NewBoxView } from './newBoxView';
+import { InviteView } from './inviteView';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -25,6 +26,7 @@ export class View {
     boxView: BoxView;
     faqView: FaqView;
     newBoxView: NewBoxView;
+    inviteView: InviteView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -35,6 +37,7 @@ export class View {
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
         this.newBoxView = new NewBoxView(this.controller, this.model, main);
+        this.inviteView = new InviteView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
@@ -68,8 +71,11 @@ export class View {
         const USR = await new Authorization();
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
-            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
+            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
+                localStorage.name = USR_OBJ[0].name;
+                localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
+            } else localStorage.token = '';
         }
         switch (path) {
             case '':
@@ -96,6 +102,11 @@ export class View {
                 }
                 await this.boxView.render(path2);
                 this.boxView.addListeners();
+                break;
+            case Routing.INVITE:
+                if (path2) {
+                    await this.inviteView.redirect(path2);
+                }
                 break;
             case Routing.RATING:
                 this.ratingView.render();

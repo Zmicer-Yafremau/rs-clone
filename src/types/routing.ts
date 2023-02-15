@@ -1,5 +1,6 @@
 export enum Routing {
     MAIN = '/',
+    INVITE = 'invite',
     ACCOUNT = 'account',
     LOGIN = 'login',
     REGISTER = 'register',

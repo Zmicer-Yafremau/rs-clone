@@ -1949,7 +1949,7 @@ export class MainView {
                 </div>
             </section>
         </div>`;
-        const snowflakes = new Snowflakes({
+        new Snowflakes({
             container: document.getElementById('snowflakes-container') as HTMLDivElement,
             zIndex: 0,
         });
