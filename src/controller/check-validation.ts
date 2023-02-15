@@ -27,7 +27,7 @@ export function checkValidation(form: HTMLFormElement) {
                         const USR_BOXES = await new UserBoxes();
                         console.log(res);
                         const ID = localStorage.id;
-                        const USR_BOX_CONNECT = USR_BOXES.create([], ID);
+                        const USR_BOX_CONNECT = await USR_BOXES.create([], ID);
                         USR_STATE.password = PASS;
                         console.log(USR_BOX_CONNECT);
                         location.replace(location.origin);

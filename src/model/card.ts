@@ -29,15 +29,14 @@ export class Card {
     }
     async create(
         userName: string,
-        wardId: number,
+        wardId: number | null,
         cardImg: string,
-        randomKey: string,
         wishes: string,
         boxId: number
     ): Promise<ICard> {
         const response = await fetch(`${this.url}`, {
             method: 'POST',
-            body: JSON.stringify({ userName, wardId, cardImg, randomKey, wishes, boxId }),
+            body: JSON.stringify({ userName, wardId, cardImg, wishes, boxId }),
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
