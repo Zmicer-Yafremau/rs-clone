@@ -18,4 +18,14 @@ export class BoxesController {
         const result = await Box.update(id, obj);
         return result;
     }
+    async getBox(id: number): Promise<IBoxReq> {
+        const Box = this.model.boxModel;
+        const result = await Box.getByBoxId(id);
+        return result;
+    }
+    async deleteBox(id: number): Promise<IBoxReq> {
+        const Box = this.model.boxModel;
+        const result = await Box.delete(id);
+        return result;
+    }
 }

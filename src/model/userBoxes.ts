@@ -1,4 +1,4 @@
-import { IBoxReq, IUserBoxesReq } from '../types/requestTypes';
+import { IUserBoxesReq } from '../types/requestTypes';
 
 export class UserBoxes {
     url: string;
@@ -9,7 +9,7 @@ export class UserBoxes {
         return (await fetch(`${this.url}/${id}`)).json();
     }
 
-    async update(id: number, userBoxes: number[], accountId: number): Promise<IBoxReq> {
+    async update(id: number, userBoxes: number[], accountId: number): Promise<IUserBoxesReq> {
         return (
             await fetch(`${this.url}`, {
                 method: 'PUT',
