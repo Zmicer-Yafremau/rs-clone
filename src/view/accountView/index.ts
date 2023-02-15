@@ -6,10 +6,10 @@ import { hideSymbols } from '../../components/hide-symbols';
 import { change } from '../../controller/change';
 import { boxImages } from '../../db/boxesImg';
 import { getEnding } from '../../utils/utils';
+import { errorCats } from '../../db/errorCats';
 
 export class AccountView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
-
     async render(path2: string) {
         const userBoxes = await this.controller.boxesController.getBoxes();
         const years: string[] = [];
@@ -87,7 +87,13 @@ export class AccountView {
                </ul>`
                           )
                           .join('')
-                    : null
+                    : `<div class="box__null">
+                    ${errorCats.noWard}
+                   <div> <p>Пока что коробок нет</p>
+                    <p>Создайте свою первую коробку</p></div>
+                    <button id="create" type="button" class="btn main__button bg-light active">
+                     Создать коробку</button>
+                     </div>`
             }     
             </section>
         </div>`;
@@ -241,21 +247,22 @@ export class AccountView {
                 boxesList.forEach((list) =>
                     list.addEventListener('click', (e) => {
                         const target = e.target as HTMLElement;
-                        console.log(target);
                         if (target && target.closest('LI')) {
-                            const boxName = target.closest('LI')?.id;
-                            if (boxName) {
-                                const box_id = target.closest('LI')?.getAttribute('data-id');
-                                this.controller.route(location.origin + `/box/${boxName}=${box_id}`);
-                            }
+                            const box_id = target.closest('LI')?.getAttribute('data-id');
+                            this.controller.route(location.origin + `/box/${box_id}`);
                         }
                     })
                 );
+            }
+            const CREATE__BUTTON = document.getElementById('create');
+            if (CREATE__BUTTON) {
+                CREATE__BUTTON.addEventListener('click', () => this.controller.route(location.origin + `/box/new`));
             }
         }
         if (location.pathname !== '/account/boxes') {
             const EXIT = document.getElementsByClassName('account__link')[0] as HTMLAnchorElement;
             const DELETE__INPUT = document.getElementById('inputDel') as HTMLInputElement;
+
             const DELETE__FORM = document.getElementsByClassName('delete__form')[0] as HTMLFormElement;
             if (DELETE__FORM) {
                 const DELETE__DIV = DELETE__FORM.children[1] as HTMLDivElement;

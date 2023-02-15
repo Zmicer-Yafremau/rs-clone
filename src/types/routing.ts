@@ -6,6 +6,7 @@ export enum Routing {
     RATING = 'rating',
     FAQ = 'faq',
     BOX = 'box',
+    NEW_BOX = 'box/new',
 }
 
 interface IState {

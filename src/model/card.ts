@@ -8,38 +8,24 @@ export class Card {
     async getCardsOfBox(id: number): Promise<ICardReq[]> {
         return (await fetch(`${this.url}?id=${id}`)).json();
     }
-    async update(
-        id: number,
-        userName: string,
-        wardId: number,
-        cardImg: string,
-        randomKey: string,
-        wishes: string,
-        boxId: number,
-        phone:string
-    ): Promise<ICard> {
+    async update(id: number, obj: Partial<ICard>): Promise<ICardReq> {
+        const { userName, wardId, cardImg, randomKey, wishes, boxId, userId, phone } = obj;
         return (
             await fetch(`${this.url}`, {
-                method: 'PUT',
-                body: JSON.stringify({ id, userName, wardId, cardImg, randomKey, wishes, boxId, phone }),
+                method: 'PATCH',
+                body: JSON.stringify({ id, userName, wardId, cardImg, randomKey, wishes, boxId, userId, phone }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             })
         ).json();
     }
-    async create(
-        userName: string,
-        wardId: number,
-        cardImg: string,
-        randomKey: string,
-        wishes: string,
-        boxId: number,
-        phone: string
-    ): Promise<ICard> {
+
+    async create(obj: ICard): Promise<ICardReq> {
+        const { userName, wardId, cardImg, randomKey, wishes, boxId, userId, phone } = obj;
         const response = await fetch(`${this.url}`, {
             method: 'POST',
-            body: JSON.stringify({ userName, wardId, cardImg, randomKey, wishes, boxId }),
+            body: JSON.stringify({ userName, wardId, cardImg, randomKey, wishes, boxId, userId, phone }),
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

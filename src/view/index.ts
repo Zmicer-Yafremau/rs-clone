@@ -14,6 +14,8 @@ import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { CardView } from './cardView';
+import { NewBoxView } from './newBoxView';
+import { EditBoxView } from './editBox';
 
 export class View {
     root: Element;
@@ -26,6 +28,8 @@ export class View {
     boxView: BoxView;
     faqView: FaqView;
     cardView: CardView;
+    newBoxView: NewBoxView;
+    editBoxView: EditBoxView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -35,11 +39,13 @@ export class View {
         this.loginView = new LoginView(this.controller, this.model, main);
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
+        this.newBoxView = new NewBoxView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
         this.cardView = new CardView(this.controller, this.model, main);
+        this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -65,40 +71,59 @@ export class View {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
         console.log(route);
-        setTimeout(async () => {
-            const USR = await new Authorization();
-            console.log('123', localStorage.token);
-            if (localStorage.token) {
-                const USR_OBJ = await USR.get(localStorage.token);
-                console.log(USR_OBJ);
-                if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid'))
-                    switchHeader(USR_OBJ[0].name);
+        let isLogin = false;
+        const USR = new Authorization();
+        console.log('123', localStorage.token);
+        if (localStorage.token) {
+            const USR_OBJ = await USR.get(localStorage.token);
+            console.log(USR_OBJ);
+            if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
+                switchHeader(USR_OBJ[0].name);
+                isLogin = true;
             }
-        }, 0);
+        }
+        console.log(path, path2);
         switch (path) {
             case '':
             case Routing.MAIN:
                 await this.mainView.render();
                 break;
             case Routing.ACCOUNT:
-                if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
-                    await this.accountView.render(path2);
-                    this.accountView.addListeners();
+                if (isLogin) {
+                    if (route.path.length === 2 || (route.path.length === 3 && (path2 === 'boxes' || path2 === ''))) {
+                        await this.accountView.render(path2);
+                        this.accountView.addListeners();
+                    } else {
+                        this.errorView.render();
+                    }
                 } else {
-                    this.errorView.render();
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
                 break;
             case Routing.BOX:
-                if (!path2) {
-                    this.mainView.render();
-                } else if (path2 && path3 && (path3.includes('card')||path3.includes('ward'))) {
+                if (isLogin) {
+                    if (!path2) {
+                        this.mainView.render();
+                    } else if (path2 && path3 && (path3.includes('card')||path3.includes('ward'))) {
                     await this.boxView.render(path2);
                     await this.cardView.render(path2, path3);
-                    this.cardView.addListeners();
-                } else {
+                    this.cardView.addListeners();    
+                    } else if (path2 === 'new') {
+                        await this.newBoxView.render();
+                        this.newBoxView.addListeners();
+                        break;
+                    } else if (path2 === 'edit' && path3) {
+                        await this.editBoxView.render(path3);
+                        this.editBoxView.addListeners();
+                        break;
+                    }
                     await this.boxView.render(path2);
+                    this.boxView.addListeners();
+                } else {
+                    this.loginView.render();
+                    this.loginView.addListeners();
                 }
-                this.boxView.addListeners();
                 break;
             case Routing.RATING:
                 await this.ratingView.render();
