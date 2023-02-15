@@ -17,35 +17,54 @@ export class CardView {
         const boxCards = document.querySelector('.box__cards') as HTMLDivElement;
         let cardId;
         let editCard;
+        let textGift;
+        let svgGift;
 
-        if (path.includes("card")) {
+        if (path.includes('card')) {
             cardId = userCardId;
             editCard = `<span class="svg-edit">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="width: 2rem; height: 2rem; background: none;">
             <path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12z" fill="#50426C"></path>
             <path d="M14.77 11.06l-1.83-1.83M9.126 16.5H7.5v-1.626c0-.132.053-.26.146-.353l6.667-6.668a.5.5 0 01.707 0l1.126 1.126a.5.5 0 010 .707l-6.667 6.668a.499.499 0 01-.353.146v0z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-            </span>`
-        }
-        else {
+            </span>`;
+            let isCardGift = JSON.parse(localStorage.cardGift).includes(String(cardId?.card_id));
+            textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
+            svgGift = isCardGift ? 'gift-active' : '';
+        } else {
             cardId = wardCardId;
             editCard = '';
+            let isWardGift = JSON.parse(localStorage.wardGift).includes(String(cardId?.card_id));
+            textGift = isWardGift ? 'Вы отправили подарок' : 'Я отправил подарок';
+            svgGift = isWardGift ? 'gift-active' : '';
         }
 
         const svgPicture = cardId !== undefined ? cardsImg[cardId.card_img] : '';
         const nameUserCard = cardId?.user_name;
-        const wishesCard = cardId?.wishes === '' ? (cardId === userCardId ? `<p>
+        const wishesCard =
+            cardId?.wishes === null
+                ? cardId === userCardId
+                    ? `<p>
         <a class="" href="/box/boxName=id/card=id/edit">
-        <div class="btn-secondary">
+        <div class="btn-secondary to-edit">
         <span class="txt-buttons txt">Добавить пожелания</span>
         </div>
         </a>
-        </p>`: `Ваш подопечный пока что не оставил пожеланий.`) : `<span>${cardId?.wishes}</span>`;
-
-
+        </p>`
+                    : `Ваш подопечный пока что не оставил пожеланий.`
+                : `<span>${cardId?.wishes}</span>`;
+        const contactsCard =
+            cardId?.phone === null
+                ? cardId === userCardId
+                    ? `Вы пока что не оставили никаких контактных данных. `
+                    : `Ваш подопечный пока что не оставил контактных данных.`
+                : `<span>Телефон: ${cardId?.phone}</span>`;
+        
         boxCards.innerHTML = '';
-        boxCards.innerHTML = path === 'ward=0' ? `Kitty` :
-            `
+        boxCards.innerHTML =
+            path === 'ward=0'
+                ? `Kitty`
+                : `
 <div class="my-card__wrapper center">
 <div class="my-card">
 <span class="my-card__bg">
@@ -65,14 +84,17 @@ ${svgPicture}
 </span>
 </div>
 <span class="txt-buttons txt">${nameUserCard}</span>
-<div class="my-card__edit">
+<div class="my-card__edit to-edit">
 ${editCard}
 </div>
 </div>
 <div class="my-card__main">
 <div class="my-card__wish-wrapper">
 <div class="my-card__wish">
-<span>
+<span class="show-contact hidden">
+${contactsCard}
+</span>
+<span class="show-wish">
 ${wishesCard}
 </span>
 </div>
@@ -81,19 +103,19 @@ ${wishesCard}
 <div class="my-card__info__bottom-wrapper">
 <div class="my-card__info__action">
 <div class="my-card__info__action__icon-wrapper">
-<div class="btn-main btn-icon how__numbers center">
+<div class="btn-main btn-icon how__numbers center svg-envelope">
 <div class="btn-icon__icon-wrapper">
-<span class="svg-envelope">
+<span class="svg-wish">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="background: none; width: 1.2rem; height: 1.2rem;"><path d="M7.5 9.75l2.925 1.804a3 3 0 003.15 0L16.5 9.75" stroke="#FF6960" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18 5H6a3 3 0 00-3 3v8a3 3 0 003 3h12a3 3 0 003-3V8a3 3 0 00-3-3z" stroke="#FF6960" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
 </span>
 </div>
 </div>
 </div>
-<span class="txt-secondary txt-grey">Показать контакты</span>
+<span class="txt-secondary txt-grey txt-wish">Показать контакты</span>
 </div>
 <div class="my-card__info__action">
 <div class="my-card__info__action__icon-wrapper">
-<div class="btn-main btn-icon how__numbers center">
+<div class="btn-main btn-icon how__numbers center svg-gift ${svgGift}">
 <div class="btn-icon__icon-wrapper">
 <span class="svg-gift">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="background: none; width: 1.2rem; height: 1.2rem;"><path clip-rule="evenodd" d="M20 8H4a1 1 0 00-1 1v2a1 1 0 001 1h16a1 1 0 001-1V9a1 1 0 00-1-1z" stroke="#FF6960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 21V8M15.696 6.612C14.618 7.734 12.921 8 12.1 8M12.1 8s-.495-3.116.72-4.38M15.696 6.612a2.177 2.177 0 000-2.992 1.978 1.978 0 00-2.875 0M8.304 6.612C9.382 7.734 11.079 8 11.901 8M11.9 8s.495-3.116-.72-4.38M8.304 6.612a2.177 2.177 0 010-2.992 1.978 1.978 0 012.875 0M19 12v8a1 1 0 01-1 1H6a1 1 0 01-1-1v-8" stroke="#FF6960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -101,7 +123,7 @@ ${wishesCard}
 </div>
 </div>
 </div>
-<span class="txt-secondary txt-grey">Я получил подарок</span>
+<span class="txt-secondary txt-grey txt-gift">${textGift}</span>
 </div>
 </div>
 </div>
@@ -111,22 +133,53 @@ ${wishesCard}
 
     addListeners() {
         const buttonIcon = document.querySelectorAll('.btn-icon') as NodeListOf<HTMLDivElement>;
-        console.log(buttonIcon);
-        
-        buttonIcon.forEach((el) => el.addEventListener('click', (e) => {
+        const textGift = document.querySelector('.txt-gift') as HTMLSpanElement;
+        const textWish = document.querySelector('.txt-wish') as HTMLSpanElement;
+        const svgWish = document.querySelector('.svg-wish') as HTMLSpanElement;
+        const showContact = document.querySelector('.show-contact') as HTMLSpanElement;
+        const showWish = document.querySelector('.show-wish') as HTMLSpanElement;
+
+        buttonIcon.forEach((el) =>
+            el.addEventListener('click', (e) => {
                 const target = e.target as HTMLDivElement;
-                if (target.closest('SPAN')?.classList.contains('svg-envelope')) {
-                    target.closest('SPAN')?.classList.remove('svg-envelope');
-                    target.closest('SPAN')?.classList.add('svg-star');
-                } else if (target.closest('SPAN')?.classList.contains('svg-star')) {
-                    target.closest('SPAN')?.classList.remove('svg-star');
-                    target.closest('SPAN')?.classList.add('svg-envelope');
-                } else if (target.closest('SPAN')?.classList.contains('svg-gift')) {
-                    console.log(el)
-                    el.style.cursor = 'default';
-                    el.style.opacity = '0.2';
-                    console.log(el.style.cursor)
+                if (target.closest('DIV')?.classList.contains('svg-envelope')) {
+                    target.closest('DIV')?.classList.remove('svg-envelope');
+                    target.closest('DIV')?.classList.add('svg-star');
+                    textWish.innerText = 'Показать пожелания';
+                    svgWish.innerHTML =
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="background: none; width: 1.2rem; height: 1.2rem;"><path d="M12 17.235L6.179 20l1.209-6.12L3 9.392l6.179-.771L12 3l2.821 5.621L21 9.392l-4.388 4.488L17.821 20 12 17.235z" stroke="#FF6960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+                    showContact.classList.toggle('hidden');
+                    showWish.classList.toggle('hidden');
+                } else if (target.closest('DIV')?.classList.contains('svg-star')) {
+                    target.closest('DIV')?.classList.remove('svg-star');
+                    target.closest('DIV')?.classList.add('svg-envelope');
+                    textWish.innerText = 'Показать контакты';
+                    svgWish.innerHTML =
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style = "background: none; width: 1.2rem; height: 1.2rem;" ><path d="M7.5 9.75l2.925 1.804a3 3 0 003.15 0L16.5 9.75" stroke = "#FF6960" stroke - width="1.5" stroke - linecap="round" stroke - linejoin="round" > </path><path d="M18 5H6a3 3 0 00-3 3v8a3 3 0 003 3h12a3 3 0 003-3V8a3 3 0 00-3-3z" stroke="#FF6960" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path > </svg>';
+                    showContact.classList.toggle('hidden');
+                    showWish.classList.toggle('hidden');
+                } else if (
+                    target.closest('DIV')?.classList.contains('svg-gift') &&
+                    !target.closest('DIV')?.classList.contains('gift-active')
+                ) {
+                    target.closest('DIV')?.classList.add('gift-active');
+                    const cardIdCurrent = window.location.pathname.split('/').pop()?.split('=').pop();
+                    let cardId: string[] = [];
+                    cardId.push(`${cardIdCurrent}`);
+                    if (textGift.innerText === 'Я получил подарок') {
+                        localStorage.cardGift = JSON.stringify(cardId);
+                        textGift.innerText = 'Вы получили подарок';
+                    } else if (textGift.innerText === 'Я отправил подарок') {
+                        localStorage.cardGift = JSON.stringify(cardId);
+                        textGift.innerText = 'Вы отправили подарок';
+                    }
                 }
-            }));
-    }    
+            })
+        );
+
+        const editCard = document.querySelector('.to-edit');
+            editCard?.addEventListener('click', (e) => {
+                this.controller.route(location.href + `/edit`);
+            });
+    }
 }

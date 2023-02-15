@@ -15,12 +15,13 @@ export class Card {
         cardImg: string,
         randomKey: string,
         wishes: string,
-        boxId: number
+        boxId: number,
+        phone:string
     ): Promise<ICard> {
         return (
             await fetch(`${this.url}`, {
                 method: 'PUT',
-                body: JSON.stringify({ id, userName, wardId, cardImg, randomKey, wishes, boxId }),
+                body: JSON.stringify({ id, userName, wardId, cardImg, randomKey, wishes, boxId, phone }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -33,7 +34,8 @@ export class Card {
         cardImg: string,
         randomKey: string,
         wishes: string,
-        boxId: number
+        boxId: number,
+        phone: string
     ): Promise<ICard> {
         const response = await fetch(`${this.url}`, {
             method: 'POST',

@@ -49,7 +49,6 @@ export class View {
             link.addEventListener('click', (e: Event) => {
                 const href = this.model.route.origin + link.getAttribute('href');
                 this.controller.route(href, e);
-                console.log(href);
             });
         }
     }

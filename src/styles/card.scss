@@ -203,6 +203,14 @@
   color: #8d96a8;
 }
 
+.gift-active {
+  cursor: default;
+  opacity: 0.2;
+}
+
+.hidden {
+  display: none;
+}
 
 @media (max-width: 750px) {
 
