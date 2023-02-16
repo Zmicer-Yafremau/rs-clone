@@ -1,5 +1,6 @@
 import { Box } from '../model/box';
 import { UserBoxes } from '../model/userBoxes';
+import { renderCardReg } from '../view/newBoxView/renderCardReg';
 export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
@@ -44,8 +45,9 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
                     const BOX_GET = await USR_BOX.getByUserId(adminId);
                     const NEW_BOX_ARR = await BOX_GET[0]['user_boxes'];
                     NEW_BOX_ARR.push(BOX_OBJ.box_id);
-                    const RES = await USR_BOX.update(BOX_GET[0].id, NEW_BOX_ARR, BOX_GET[0].account_id);
-                    location.replace(`${location.origin}/account/boxes`);
+                    await USR_BOX.update(BOX_GET[0].id, NEW_BOX_ARR, BOX_GET[0].account_id);
+                    localStorage.boxId = BOX_OBJ.box_id;
+                    renderCardReg();
                 } else {
                     ERR.classList.remove('visually-hidden');
                 }
