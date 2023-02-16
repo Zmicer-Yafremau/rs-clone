@@ -13,8 +13,10 @@ import { switchHeader } from './mainView/switch-header';
 import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
+import { CardView } from './cardView';
 import { NewBoxView } from './newBoxView';
 import { EditBoxView } from './editBox';
+
 export class View {
     root: Element;
     accountView: AccountView;
@@ -25,6 +27,7 @@ export class View {
     regView: RegView;
     boxView: BoxView;
     faqView: FaqView;
+    cardView: CardView;
     newBoxView: NewBoxView;
     editBoxView: EditBoxView;
     constructor(private controller: Controller, private model: Model) {
@@ -41,6 +44,7 @@ export class View {
         this.mainView = new MainView(this.controller, this.model, main);
         this.errorView = new ErrorView(this.controller, this.model, main);
         this.ratingView = new RatingView(this.controller, this.model, main);
+        this.cardView = new CardView(this.controller, this.model, main);
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
@@ -51,7 +55,6 @@ export class View {
             link.addEventListener('click', (e: Event) => {
                 const href = this.model.route.origin + link.getAttribute('href');
                 this.controller.route(href, e);
-                console.log(href);
             });
         }
     }
@@ -59,7 +62,6 @@ export class View {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
         });
-
         this.model.on('route', () => {
             this.renderRoute();
         });
@@ -84,7 +86,7 @@ export class View {
         switch (path) {
             case '':
             case Routing.MAIN:
-                this.mainView.render();
+                await this.mainView.render();
                 break;
             case Routing.ACCOUNT:
                 if (isLogin) {
@@ -99,11 +101,14 @@ export class View {
                     this.loginView.addListeners();
                 }
                 break;
-
             case Routing.BOX:
                 if (isLogin) {
                     if (!path2) {
                         this.mainView.render();
+                    } else if (path2 && path3 && (path3.includes('card')||path3.includes('ward'))) {
+                    await this.boxView.render(path2);
+                    await this.cardView.render(path2, path3);
+                    this.cardView.addListeners();    
                     } else if (path2 === 'new') {
                         await this.newBoxView.render();
                         this.newBoxView.addListeners();
@@ -121,22 +126,22 @@ export class View {
                 }
                 break;
             case Routing.RATING:
-                this.ratingView.render();
+                await this.ratingView.render();
                 break;
             case Routing.REGISTER:
-                this.regView.render();
+                await this.regView.render();
                 this.regView.addListeners();
                 break;
             case Routing.LOGIN:
-                this.loginView.render();
+                await this.loginView.render();
                 this.loginView.addListeners();
                 break;
             case Routing.FAQ:
-                this.faqView.render();
+                await this.faqView.render();
                 this.faqView.addListeners();
                 break;
             default:
-                this.errorView.render();
+                await this.mainView.render();
         }
         this.addHandlers();
     }

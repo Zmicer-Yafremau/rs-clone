@@ -6,6 +6,7 @@ export interface ICard {
     wishes: string;
     boxId: number;
     userId: number;
+    phone: string;
 }
 export interface ICardReq {
     card_id: number;
@@ -16,6 +17,7 @@ export interface ICardReq {
     wishes: string;
     box_id: number;
     user_id: number;
+    phone: string;
 }
 export interface IBox {
     boxName: string;
