@@ -2,6 +2,16 @@ import { boxImages } from '../../db/boxesImg';
 import { IBoxReq } from '../../types/requestTypes';
 
 export function drawBoxTitle(box: IBoxReq, userId: string) {
+    const active1 = window.location.pathname.split('/').length === 3 ? 'active' : '';
+    const active2 =
+        window.location.pathname.split('/').length > 3 && window.location.pathname.split('/')[3].includes('card')
+            ? 'active'
+            : '';
+    const active3 =
+        window.location.pathname.split('/').length > 3 && window.location.pathname.split('/')[3].includes('ward')
+            ? 'active'
+            : '';
+    console.log(window.location.pathname.split('/').length);
     return `<div class="box__menu-wrapper">
 <div class="box__menu">
 <div class="box__info">
@@ -20,15 +30,15 @@ export function drawBoxTitle(box: IBoxReq, userId: string) {
 <div class="box__toggle">
   <div class="toggle-menu">
       <div class="toggle-menu-panel">
-          <div class="toggle-menu-item--slider num-1 active"></div>
-          <div class="toggle-menu-item--slider num-2"></div>
-          <div class="toggle-menu-item--slider num-3"></div>
+          <div class="toggle-menu-item--slider num-1 ${active1}"></div>
+          <div class="toggle-menu-item--slider num-2 ${active2}"></div>
+          <div class="toggle-menu-item--slider num-3 ${active3}"></div>
       </div>
-      <div id="num-1" class="toggle-menu-item active">
+      <div id="num-1" class="toggle-menu-item ${active1}">
           <span class="txt">Участники</span>
       </div>
-      <div id="num-2" class="toggle-menu-item"><span class="txt">Моя карточка</span></div>
-      <div id="num-3" class="toggle-menu-item"><span class="txt">Подопечный</span></div>
+      <div id="num-2" class="toggle-menu-item ${active2}"><span class="txt">Моя карточка</span></div>
+      <div id="num-3" class="toggle-menu-item ${active3}"><span class="txt">Подопечный</span></div>
   </div>
   ${
       userId && box.admin_id === Number(userId)

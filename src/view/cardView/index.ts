@@ -3,6 +3,7 @@ import { Controller } from '../../controller';
 import { BoxView } from '../boxView';
 import { cardsImg } from '../../db/cardsImg';
 import { ICardReq } from '../../types/requestTypes';
+import { drawBoxTitle } from '../boxView/boxTitle';
 
 export class CardView {
     cardId: ICardReq | undefined;
@@ -18,19 +19,11 @@ export class CardView {
         const cards = box ? await boxView.getBoxCards(box.box_id) : [];
         const userCardId = cards?.find((card) => card.user_id === Number(userId));
         const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
-        const boxCards = document.querySelector('.box__cards') as HTMLDivElement;
-        boxCards.innerHTML = '';
-        const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
-        const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');
-        allMenuItem[0].classList.remove('active');
-        allMenuSlider[0].classList.remove('active');
         let editCardSvg;
         let textGift;
         let svgGift;
 
         if (path.includes('card')) {
-            allMenuItem[1].classList.add('active');
-            allMenuSlider[1].classList.add('active');
             this.cardId = userCardId;
             editCardSvg = `<span class="svg-edit">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="width: 2rem; height: 2rem; background: none;">
@@ -48,8 +41,6 @@ export class CardView {
             textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
             svgGift = isCardGift ? 'gift-active' : '';
         } else {
-            allMenuItem[2].classList.add('active');
-            allMenuSlider[2].classList.add('active');
             this.cardId = wardCardId;
             editCardSvg = '';
             const isWardGift = JSON.parse(localStorage.wardGift).includes(String(this.cardId?.card_id));
@@ -77,10 +68,14 @@ export class CardView {
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
                 : `<span>Телефон: ${this.cardId?.phone}</span>`;
-        boxCards.innerHTML =
+
+        this.root.innerHTML =
             path === 'ward=0'
                 ? `Kitty`
                 : `
+            <div class="box__view">
+            ${box && userId ? drawBoxTitle(box, userId) : ''}
+            <div class="box__cards center">
 <div class="my-card__wrapper center">
 <div class="my-card">
 <span class="my-card__bg">
@@ -140,6 +135,8 @@ ${wishesCard}
 </div>
 </div>
 <span class="txt-secondary txt-grey txt-gift">${textGift}</span>
+</div>
+</div>
 </div>
 </div>
 </div>

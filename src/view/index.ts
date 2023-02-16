@@ -106,7 +106,6 @@ export class View {
                     if (!path2) {
                         this.mainView.render();
                     } else if (path2 && path3 && (path3.includes('card') || path3.includes('ward'))) {
-                        await this.boxView.render(path2);
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
                         this.boxView.addListeners();
