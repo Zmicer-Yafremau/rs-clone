@@ -1,5 +1,6 @@
 import { Card } from '../model/card';
 import { UserBoxes } from '../model/userBoxes';
+import { Box } from '../model/box';
 export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
@@ -33,7 +34,14 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                         NEW_BOX_ARR.push(localStorage.boxId);
                         await U_BOX.update(U_BOX_OBJ[0].id, NEW_BOX_ARR, U_BOX_OBJ[0].account_id);
                     }
-                    await CARD.create({ userName, wardId, cardImg, randomKey, wishes, boxId, userId });
+                    const NEW_CARD = await CARD.create({ userName, wardId, cardImg, randomKey, wishes, boxId, userId });
+                    const BOX = new Box();
+                    const BOX_OBJ = await BOX.getByBoxId(localStorage.boxId);
+                    const CARD_ARR = BOX_OBJ.cards_id;
+                    CARD_ARR.push(NEW_CARD.card_id);
+                    const id = localStorage.boxId;
+                    const cardsId = CARD_ARR;
+                    await BOX.update(id, { cardsId });
                     location.replace(location.origin + '/account/boxes');
                 } else {
                     ERR.classList.remove('visually-hidden');
