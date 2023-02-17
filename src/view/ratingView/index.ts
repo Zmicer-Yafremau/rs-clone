@@ -91,15 +91,15 @@ export class RatingView {
         </span>
         </div>
         <div class="rating-star__all">
-        <div>${Math.round(await this.getAllRating()*10)/10}  - Рейтинг приложения сегодня </div>
+        <div>${Math.round((await this.getAllRating()) * 10) / 10}  - Рейтинг приложения сегодня </div>
         <style>
         .rating-star__all:before {
             content: '⭐⭐⭐⭐⭐';
             font-size: 30px;
             letter-spacing: 3px;
-            background: linear-gradient(90deg, #FFEC5C ${
-              (await this.getAllRating() / 5) * 100
-            }%, #FFFBDE ${(await this.getAllRating() / 5) * 100}%);
+            background: linear-gradient(90deg, #FFEC5C ${((await this.getAllRating()) / 5) * 100}%, #FFFBDE ${
+            ((await this.getAllRating()) / 5) * 100
+        }%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;}
         </style>
@@ -207,10 +207,11 @@ export class RatingView {
     async getAllRating() {
         const allRating = await this.getAll();
         const count = allRating.length;
-        return allRating.reduce((sum, currentRating) => {
-            const rating = currentRating.rating;
-            return sum + rating;
-        }, 0) / count;
+        return (
+            allRating.reduce((sum, currentRating) => {
+                const rating = currentRating.rating;
+                return sum + rating;
+            }, 0) / count
+        );
     }
-        
 }

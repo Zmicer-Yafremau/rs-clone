@@ -1,9 +1,9 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-import { BoxView } from '../boxView';
 import { cardsImg } from '../../db/cardsImg';
 import { ICardReq } from '../../types/requestTypes';
 import { drawBoxTitle } from '../boxView/boxTitle';
+import { getCards, getCurrentBox } from './getCards';
 
 export class CardView {
     cardId: ICardReq | undefined;
@@ -12,11 +12,9 @@ export class CardView {
     }
 
     async render(pathBox: string, path: string) {
-        const main = document.querySelector('.main') as Element;
-        const boxView = new BoxView(this.controller, this.model, main);
-        const box = await boxView.getParticipants(pathBox);
+        const box = await getCurrentBox(pathBox);
         const userId = localStorage.getItem('id');
-        const cards = box ? await boxView.getBoxCards(box.box_id) : [];
+        const cards = await getCards(pathBox);
         const userCardId = cards?.find((card) => card.user_id === Number(userId));
         const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
         let editCardSvg;
@@ -34,15 +32,15 @@ export class CardView {
             if (!localStorage.cardGift) {
                 localStorage.cardGift = `[]`;
             }
-            if (!localStorage.wardGift) {
-                localStorage.wardGift = `[]`;
-            }
             const isCardGift = JSON.parse(localStorage.cardGift).includes(String(this.cardId?.card_id));
             textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
             svgGift = isCardGift ? 'gift-active' : '';
         } else {
             this.cardId = wardCardId;
             editCardSvg = '';
+            if (!localStorage.wardGift) {
+                localStorage.wardGift = `[]`;
+            }
             const isWardGift = JSON.parse(localStorage.wardGift).includes(String(this.cardId?.card_id));
             textGift = isWardGift ? 'Вы отправили подарок' : 'Я отправил подарок';
             svgGift = isWardGift ? 'gift-active' : '';

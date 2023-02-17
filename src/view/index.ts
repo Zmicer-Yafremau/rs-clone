@@ -17,6 +17,7 @@ import { CardView } from './cardView';
 import { NewBoxView } from './newBoxView';
 import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
+import { EditCardView } from './editCard';
 
 export class View {
     root: Element;
@@ -32,6 +33,7 @@ export class View {
     newBoxView: NewBoxView;
     inviteView: InviteView;
     editBoxView: EditBoxView;
+    editCardView: EditCardView;
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -49,6 +51,7 @@ export class View {
         this.ratingView = new RatingView(this.controller, this.model, main);
         this.cardView = new CardView(this.controller, this.model, main);
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
+        this.editCardView = new EditCardView(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -72,7 +75,7 @@ export class View {
 
     async renderRoute() {
         const route = this.model.route;
-        const [, path, path2, path3] = route.path;
+        const [, path, path2, path3, path4] = route.path;
         console.log(route);
         let isLogin = false;
         const USR = new Authorization();
@@ -109,6 +112,11 @@ export class View {
                 if (isLogin) {
                     if (!path2) {
                         this.mainView.render();
+                    } else if (path2 && path3 && path3.includes('card') && path4 === 'edit') {
+                        await this.editCardView.render(path2);
+                        //this.editCard.addListeners();
+                        this.boxView.addListeners();
+                        break;
                     } else if (path2 && path3 && (path3.includes('card') || path3.includes('ward'))) {
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
