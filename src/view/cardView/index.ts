@@ -3,7 +3,6 @@ import { Controller } from '../../controller';
 import { cardsImg } from '../../db/cardsImg';
 import { ICardReq } from '../../types/requestTypes';
 import { drawBoxTitle } from '../boxView/boxTitle';
-import { getCards, getCurrentBox } from './getCards';
 
 export class CardView {
     cardId: ICardReq | undefined;
@@ -12,9 +11,11 @@ export class CardView {
     }
 
     async render(pathBox: string, path: string) {
-        const box = await getCurrentBox(pathBox);
+        const boxId = Number(pathBox);
+        const box = await this.controller.boxesController.getBox(boxId);
         const userId = localStorage.getItem('id');
-        const cards = await getCards(pathBox);
+        userId ? userId : null;
+        const cards = await this.controller.cardController.getCard(box.box_id);
         const userCardId = cards?.find((card) => card.user_id === Number(userId));
         const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
         let editCardSvg;
@@ -52,11 +53,9 @@ export class CardView {
             this.cardId?.wishes === null
                 ? this.cardId === userCardId
                     ? `<p>
-        <a class="" href="/box/boxName=id/card=id/edit">
         <div class="btn-secondary to-edit">
         <span class="txt-buttons txt">Добавить пожелания</span>
         </div>
-        </a>
         </p>`
                     : `Ваш подопечный пока что не оставил пожеланий.`
                 : `<span>${this.cardId?.wishes}</span>`;
@@ -196,8 +195,8 @@ ${wishesCard}
             })
         );
 
-        const editCardSvg = document.querySelector('.to-edit');
-        editCardSvg?.addEventListener('click', () => {
+        const editCardSvg = document.querySelector('.to-edit') as Element;
+        editCardSvg.addEventListener('click', () => {
             this.controller.route(location.href + `/edit`);
         });
     }

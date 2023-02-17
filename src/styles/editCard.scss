@@ -1,0 +1,83 @@
+.edit-card__wrapper {
+  min-width: 95%;
+  padding: 0 30px;
+}
+
+.wrapper__name-phone {
+  width: 100%;
+}
+
+.form-wish {
+  position: relative;
+}
+
+.tip {
+  background: #f1ecfe;
+  border-radius: 1rem;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  margin: 0.5rem 0 1.5rem;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.tip-icon {
+  align-items: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.tip section {
+  align-items: center;
+  display: flex;
+}
+
+.txt-secondary {
+  color: #333640;
+  font-family: Gilroy,sans-serif;
+  font-size: .8125rem;
+  letter-spacing: 0;
+  line-height: 1.125rem;
+}
+
+.hint {
+  background-color: #f3f6f9;
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+  opacity: 1;
+  padding: 0.7rem 0.9rem;
+  transition: opacity .4s;
+  width: 100%;
+}
+
+.card-column {
+  flex-direction: column;
+}
+
+.card-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-page__footer {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.form-page__buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 65%;
+}
+
+@media (max-width: 779px) {
+  .form-page__buttons {
+    flex-direction: column;
+  }
+}
