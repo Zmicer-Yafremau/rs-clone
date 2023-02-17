@@ -4,6 +4,7 @@ import { BoxView } from '../boxView';
 import { cardsImg } from '../../db/cardsImg';
 import { ICardReq } from '../../types/requestTypes';
 import { drawBoxTitle } from '../boxView/boxTitle';
+import { errorCats } from '../../db/errorCats';
 
 export class CardView {
     cardId: ICardReq | undefined;
@@ -71,7 +72,13 @@ export class CardView {
 
         this.root.innerHTML =
             path === 'ward=0'
-                ? `Kitty`
+                ? `  <div class="box__view">
+                ${box && userId ? drawBoxTitle(box, userId) : ''}
+                <div class="no-ward">
+                <div>${errorCats.noWard}</div>
+                <span class="txt-main">У вас пока нет подопечного</span>
+                <span class="txt-add">Он появится сразу после жеребьевки</span>
+                <div></div`
                 : `
             <div class="box__view">
             ${box && userId ? drawBoxTitle(box, userId) : ''}
