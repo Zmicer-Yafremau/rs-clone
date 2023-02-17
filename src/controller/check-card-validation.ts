@@ -1,6 +1,7 @@
 import { Card } from '../model/card';
 import { UserBoxes } from '../model/userBoxes';
 import { Box } from '../model/box';
+import { Authorization } from '../model/authorization';
 export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
@@ -34,7 +35,19 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                         NEW_BOX_ARR.push(localStorage.boxId);
                         await U_BOX.update(U_BOX_OBJ[0].id, NEW_BOX_ARR, U_BOX_OBJ[0].account_id);
                     }
-                    const NEW_CARD = await CARD.create({ userName, wardId, cardImg, randomKey, wishes, boxId, userId });
+                    const USR = new Authorization();
+                    const USR_OBJ = await USR.get(localStorage.token);
+                    const phone = USR_OBJ.phonenumber;
+                    const NEW_CARD = await CARD.create({
+                        userName,
+                        wardId,
+                        cardImg,
+                        randomKey,
+                        wishes,
+                        boxId,
+                        userId,
+                        phone,
+                    });
                     const BOX = new Box();
                     const BOX_OBJ = await BOX.getByBoxId(localStorage.boxId);
                     const CARD_ARR = BOX_OBJ.cards_id;
