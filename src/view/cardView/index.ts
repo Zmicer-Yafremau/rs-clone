@@ -2,9 +2,14 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { BoxView } from '../boxView';
 import { cardsImg } from '../../db/cardsImg';
+import { ICardReq } from '../../types/requestTypes';
+import { drawBoxTitle } from '../boxView/boxTitle';
 
 export class CardView {
-    constructor(private controller: Controller, private model: Model, private root: Element) {}
+    cardId: ICardReq | undefined;
+    constructor(private controller: Controller, private model: Model, private root: Element) {
+        this.cardId;
+    }
 
     async render(pathBox: string, path: string) {
         const main = document.querySelector('.main') as Element;
@@ -14,36 +19,40 @@ export class CardView {
         const cards = box ? await boxView.getBoxCards(box.box_id) : [];
         const userCardId = cards?.find((card) => card.user_id === Number(userId));
         const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
-        const boxCards = document.querySelector('.box__cards') as HTMLDivElement;
-        let cardId;
-        let editCard;
+        let editCardSvg;
         let textGift;
         let svgGift;
 
         if (path.includes('card')) {
-            cardId = userCardId;
-            editCard = `<span class="svg-edit">
+            this.cardId = userCardId;
+            editCardSvg = `<span class="svg-edit">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="width: 2rem; height: 2rem; background: none;">
             <path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12z" fill="#50426C"></path>
             <path d="M14.77 11.06l-1.83-1.83M9.126 16.5H7.5v-1.626c0-.132.053-.26.146-.353l6.667-6.668a.5.5 0 01.707 0l1.126 1.126a.5.5 0 010 .707l-6.667 6.668a.499.499 0 01-.353.146v0z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
             </span>`;
-            let isCardGift = JSON.parse(localStorage.cardGift).includes(String(cardId?.card_id));
+            if (!localStorage.cardGift) {
+                localStorage.cardGift = `[]`;
+            }
+            if (!localStorage.wardGift) {
+                localStorage.wardGift = `[]`;
+            }
+            const isCardGift = JSON.parse(localStorage.cardGift).includes(String(this.cardId?.card_id));
             textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
             svgGift = isCardGift ? 'gift-active' : '';
         } else {
-            cardId = wardCardId;
-            editCard = '';
-            let isWardGift = JSON.parse(localStorage.wardGift).includes(String(cardId?.card_id));
+            this.cardId = wardCardId;
+            editCardSvg = '';
+            const isWardGift = JSON.parse(localStorage.wardGift).includes(String(this.cardId?.card_id));
             textGift = isWardGift ? 'Вы отправили подарок' : 'Я отправил подарок';
             svgGift = isWardGift ? 'gift-active' : '';
         }
 
-        const svgPicture = cardId !== undefined ? cardsImg[cardId.card_img] : '';
-        const nameUserCard = cardId?.user_name;
+        const svgPicture = this.cardId !== undefined ? cardsImg[this.cardId.card_img] : '';
+        const nameUserCard = this.cardId?.user_name;
         const wishesCard =
-            cardId?.wishes === null
-                ? cardId === userCardId
+            this.cardId?.wishes === null
+                ? this.cardId === userCardId
                     ? `<p>
         <a class="" href="/box/boxName=id/card=id/edit">
         <div class="btn-secondary to-edit">
@@ -52,19 +61,21 @@ export class CardView {
         </a>
         </p>`
                     : `Ваш подопечный пока что не оставил пожеланий.`
-                : `<span>${cardId?.wishes}</span>`;
+                : `<span>${this.cardId?.wishes}</span>`;
         const contactsCard =
-            cardId?.phone === null
-                ? cardId === userCardId
+            this.cardId?.phone === null
+                ? this.cardId === userCardId
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
-                : `<span>Телефон: ${cardId?.phone}</span>`;
-        
-        boxCards.innerHTML = '';
-        boxCards.innerHTML =
+                : `<span>Телефон: ${this.cardId?.phone}</span>`;
+
+        this.root.innerHTML =
             path === 'ward=0'
                 ? `Kitty`
                 : `
+            <div class="box__view">
+            ${box && userId ? drawBoxTitle(box, userId) : ''}
+            <div class="box__cards center">
 <div class="my-card__wrapper center">
 <div class="my-card">
 <span class="my-card__bg">
@@ -85,7 +96,7 @@ ${svgPicture}
 </div>
 <span class="txt-buttons txt">${nameUserCard}</span>
 <div class="my-card__edit to-edit">
-${editCard}
+${editCardSvg}
 </div>
 </div>
 <div class="my-card__main">
@@ -128,6 +139,8 @@ ${wishesCard}
 </div>
 </div>
 </div>
+</div>
+</div>
     `;
     }
 
@@ -163,23 +176,31 @@ ${wishesCard}
                     !target.closest('DIV')?.classList.contains('gift-active')
                 ) {
                     target.closest('DIV')?.classList.add('gift-active');
-                    const cardIdCurrent = window.location.pathname.split('/').pop()?.split('=').pop();
-                    let cardId: string[] = [];
-                    cardId.push(`${cardIdCurrent}`);
+                    let cardIdArray: string[];
                     if (textGift.innerText === 'Я получил подарок') {
-                        localStorage.cardGift = JSON.stringify(cardId);
+                        if (!localStorage.cardGift) {
+                            localStorage.cardGift = `[]`;
+                        }
+                        cardIdArray = JSON.parse(localStorage.cardGift);
+                        cardIdArray.push(`${this.cardId?.card_id}`);
+                        localStorage.cardGift = JSON.stringify(cardIdArray);
                         textGift.innerText = 'Вы получили подарок';
                     } else if (textGift.innerText === 'Я отправил подарок') {
-                        localStorage.cardGift = JSON.stringify(cardId);
+                        if (!localStorage.wardGift) {
+                            localStorage.wardGift = `[]`;
+                        }
+                        cardIdArray = JSON.parse(localStorage.wardGift);
+                        cardIdArray.push(`${this.cardId?.card_id}`);
+                        localStorage.wardGift = JSON.stringify(cardIdArray);
                         textGift.innerText = 'Вы отправили подарок';
                     }
                 }
             })
         );
 
-        const editCard = document.querySelector('.to-edit');
-            editCard?.addEventListener('click', (e) => {
-                this.controller.route(location.href + `/edit`);
-            });
+        const editCardSvg = document.querySelector('.to-edit');
+        editCardSvg?.addEventListener('click', () => {
+            this.controller.route(location.href + `/edit`);
+        });
     }
 }

@@ -161,7 +161,7 @@ export class BoxView {
                                 case '3':
                                     this.userCard.ward_id
                                         ? this.controller.route(
-                                              location.origin + `/box/${this.boxId}/card=${this.userCard.ward_id}`
+                                              location.origin + `/box/${this.boxId}/ward=${this.userCard.ward_id}`
                                           )
                                         : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
 
@@ -200,8 +200,10 @@ export class BoxView {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
                         this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
-                    } else if (this.userCard?.card_id === cardId || this.userCard?.ward_id === cardId) {
+                    } else if (this.userCard?.card_id === cardId) {
                         this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
+                    } else if (this.userCard?.ward_id === cardId) {
+                        this.controller.route(location.origin + `/box/${this.boxId}/ward=${cardId}`);
                     }
                 }
             });
