@@ -132,7 +132,6 @@ export class BoxView {
         const toggleMenu = document.querySelector('.box__toggle');
         const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
         const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');
-        console.log('bb', toggleMenu);
         if (toggleMenu) {
             toggleMenu.addEventListener('click', (e) => {
                 const target = e.target as HTMLDivElement;
@@ -175,7 +174,6 @@ export class BoxView {
             });
         }
         const buttonDraw = document.getElementById('draw');
-        console.log(buttonDraw, this.cards, this.box);
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
                 toggleLoader();
@@ -191,7 +189,6 @@ export class BoxView {
         if (currentBox) {
             currentBox.addEventListener('click', () => this.controller.route(location.origin + `/box/${this.boxId}`));
         }
-
         const cardList = document.querySelector('.cards__list');
         if (cardList) {
             cardList.addEventListener('click', (e) => {

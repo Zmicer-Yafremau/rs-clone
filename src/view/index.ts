@@ -73,10 +73,8 @@ export class View {
     async renderRoute() {
         const route = this.model.route;
         const [, path, path2, path3] = route.path;
-        console.log(route);
         let isLogin = false;
         const USR = new Authorization();
-        console.log('123', localStorage.token);
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
@@ -86,7 +84,6 @@ export class View {
                 isLogin = true;
             } else localStorage.token = '';
         }
-        console.log(path, path2);
         switch (path) {
             case '':
             case Routing.MAIN:
@@ -115,7 +112,7 @@ export class View {
                         this.boxView.addListeners();
                         break;
                     } else if (path2 === 'new') {
-                        await this.newBoxView.render();
+                        this.newBoxView.render();
                         this.newBoxView.addListeners();
                         break;
                     } else if (path2 === 'edit' && path3) {
@@ -139,19 +136,19 @@ export class View {
                 await this.ratingView.render();
                 break;
             case Routing.REGISTER:
-                await this.regView.render();
+                this.regView.render();
                 this.regView.addListeners();
                 break;
             case Routing.LOGIN:
-                await this.loginView.render();
+                this.loginView.render();
                 this.loginView.addListeners();
                 break;
             case Routing.FAQ:
-                await this.faqView.render();
+                this.faqView.render();
                 this.faqView.addListeners();
                 break;
             default:
-                await this.mainView.render();
+                this.errorView.render();
         }
         this.addHandlers();
     }

@@ -4,6 +4,7 @@
     padding: 10px 0px;
     width: 100%;
     margin: 65px auto;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -50,7 +51,14 @@
         display: flex;
         align-items: flex-start;
         flex-direction: column;
-
+        .box__pictures {
+            flex-wrap: wrap;
+            align-items: center;
+            max-height: fit-content;
+        }
+        #submitBoxImg {
+            margin-top: 10px;
+        }
         &.input {
             flex-direction: row;
             align-items: center;
@@ -431,12 +439,14 @@
     align-items: center;
 }
 .no-ward {
-    font-weight: 600;
+    max-height: 350px;
     > div {
-        margin: 30px 0;
+        margin-top: 55px;
+        margin-bottom: 30px;
     }
     .txt-main {
         font-size: 23px;
+        font-weight: 600;
     }
     .txt-add {
         font-size: 13px;
@@ -459,6 +469,7 @@
         }
     }
 }
+
 @media (max-width: 1100px) {
     .box__menu {
         flex-direction: column;
@@ -478,6 +489,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+}
+@media (max-width: 760px) {
+    .box__edit .section,
+    .cards__not .section {
+        flex-direction: column;
+        > div {
+            min-width: fit-content;
+        }
+    }
+    .box__edit .check-section .box__pictures {
+        overflow-y: hidden;
+        align-self: center;
+    }
+    .box__edit .check-section,
+    .cards__not .check-section {
+        min-width: fit-content;
     }
 }
 @media (max-width: 615px) {
@@ -508,5 +536,10 @@
     .toggle-menu .toggle-menu-item {
         padding: 3px;
         min-width: 85px;
+    }
+    .no-ward {
+        .txt-main {
+            font-size: 18px;
+        }
     }
 }
