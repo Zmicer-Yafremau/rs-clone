@@ -124,8 +124,8 @@ export class EditBoxView {
                                 <h5 class="">Обложка</h5>
                             </div>
         
-                            <div class="check-section col-5 input">
-                                <div class="box__pictures center flex-wrap p-3"></div>
+                            <div class="check-section col-5">
+                                <div class="box__pictures d-flex center"></div>
                                 <button  id="submitBoxImg"  type="button" class="btn text-secondary bg-none">Сохранить</button>
                             </div>
                             

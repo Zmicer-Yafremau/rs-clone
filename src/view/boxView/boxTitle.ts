@@ -11,7 +11,6 @@ export function drawBoxTitle(box: IBoxReq, userId: string) {
         window.location.pathname.split('/').length > 3 && window.location.pathname.split('/')[3].includes('ward')
             ? 'active'
             : '';
-    console.log(window.location.pathname.split('/').length);
     return `<div class="box__menu-wrapper">
 <div class="box__menu">
 <div class="box__info">
