@@ -154,15 +154,11 @@ export class BoxView {
                                     this.controller.route(location.origin + `/box/${this.boxId}`);
                                     break;
                                 case '2':
-                                    this.controller.route(
-                                        location.origin + `/box/${this.boxId}/card=${this.userCard.card_id}`
-                                    );
+                                    this.controller.route(location.origin + `/box/${this.boxId}/card`);
                                     break;
                                 case '3':
                                     this.userCard.ward_id
-                                        ? this.controller.route(
-                                              location.origin + `/box/${this.boxId}/ward=${this.userCard.ward_id}`
-                                          )
+                                        ? this.controller.route(location.origin + `/box/${this.boxId}/ward`)
                                         : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
 
                                     break;
@@ -199,11 +195,11 @@ export class BoxView {
                 if (target && target.closest('LI')?.classList.contains('card__wrapper')) {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.boxId}/card/edit/${cardId}`);
                     } else if (this.userCard?.card_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.boxId}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/ward=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.boxId}/ward`);
                     }
                 }
             });

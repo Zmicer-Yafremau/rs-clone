@@ -114,7 +114,7 @@ export class View {
                         this.mainView.render();
                     } else if (path2 && path3 && path3.includes('card') && path4 === 'edit') {
                         await this.editCardView.render(path2);
-                        //this.editCard.addListeners();
+                        this.editCardView.addListeners();
                         this.boxView.addListeners();
                         break;
                     } else if (path2 && path3 && (path3.includes('card') || path3.includes('ward'))) {

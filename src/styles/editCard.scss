@@ -5,6 +5,11 @@
 
 .wrapper__name-phone {
   width: 100%;
+  .check-section{
+    &.input:first-child {
+    margin-bottom: 20px;
+    }
+  }
 }
 
 .form-wish {
@@ -66,6 +71,7 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  padding-top: 20px;
 }
 
 .form-page__buttons {

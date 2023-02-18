@@ -2,22 +2,34 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { drawBoxTitle } from '../boxView/boxTitle';
 import { addUsrPics } from '../newBoxView/add-usr-pics';
+import { toggleLoader } from '../../utils/utils';
+import { IBoxReq, ICardReq } from '../../types/requestTypes';
 
 export class EditCardView {
-    constructor(private controller: Controller, private model: Model, private root: Element) {}
+    box: IBoxReq | undefined;
+    cards: ICardReq[] | undefined;
+    userId: string;
+    cardId: ICardReq | undefined;
+    constructor(private controller: Controller, private model: Model, private root: Element) {
+        this.box = undefined;
+        this.cards = [];
+        this.cardId = undefined;
+        this.userId = '';
+    }
 
-  async render(path: string) {
-    const boxId = Number(path);
-    const box = await this.controller.boxesController.getBox(boxId);
-    const userId = localStorage.getItem('id');
-    userId ? userId : null;
-    const cards = await this.controller.cardController.getCard(box.box_id);
-    const cardId = cards?.find((card) => card.user_id === Number(userId));
+    async render(path: string) {
+        const boxId = Number(path);
+        const box = await this.controller.boxesController.getBox(boxId);
+        this.box = box;
+        const userId = localStorage.getItem('id');
+        userId ? (this.userId = userId) : null;
+        const cards = await this.controller.cardController.getCard(box.box_id);
+        const cardId = cards?.find((card) => card.user_id === Number(userId));
+        this.cardId = cardId;
 
-      this.root.innerHTML = `
+        this.root.innerHTML = `
       <div class="box__view">
       ${box && userId ? drawBoxTitle(box, userId) : ''}
-  
       <div class="box__edit  box">
       <div class="edit-card__wrapper container">
           <div class="section">
@@ -95,28 +107,141 @@ export class EditCardView {
           <div class="form-page__footer">
           <div class="form-page__buttons">
           <div class="btn-secondary btn-back">Назад к карточке</div>
-          <div class="btn main__button active center">Сохранить изменения</div>
+          <div id="submitCardEdit" type="button" class="btn main__button active center">Сохранить изменения</div>
           </div>
           </div>        
           </div>     
           <div class="section">
               <div class="col-4"><h5 class="">Удаление карточки</h5></div>
               <div class="check-section wrapper__name-phone">
-              <span class="hint txt-secondary">Вы можете удалить карточку, если не желаете участвовать в игре.</span>
-                  <label for="inputDeleteCard" class="">Для подтверждения введите: <strong>Удалить карточку</strong></label>
-                  <input
-                      type="text"
-                      class="form-control"
-                      id="inputDeleteCard"
-                      placeholder=""
-                      minlength="1"
-                  />
+              ${
+                  this.box.is_draw
+                      ? `<span class="hint txt-secondary">Вы не можете самостоятельно удалить карточку после проведения жеребьевки.
+              Если вы передумали участвовать в игре, обратитесь к организатору, он сможет удалить вашу карточку.</span>`
+                      : `<span class="hint txt-secondary">Вы можете удалить карточку, если не желаете участвовать в игре.</span>
+              <label for="inputDeleteCard" class="">Для подтверждения введите: <strong>Удалить карточку</strong></label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="inputDeleteCard"
+                  placeholder=""
+                  minlength="1"
+              />`
+              }
                   <button id="submit-delete" type="submit" class="btn bg-none">Удалить</button>
               </div>
           </div>
       </div>
     </div> 
       </div>`;
-    addUsrPics();
+        addUsrPics();
+    }
+
+    addListeners() {
+        const deleteCardInput = document.querySelector('#inputDeleteCard');
+        const submitDeleteButton = document.querySelector('#submit-delete');
+        if (deleteCardInput) {
+            deleteCardInput.addEventListener('input', (e) => {
+                const target = e.target as HTMLInputElement;
+                target.value === 'Удалить карточку'
+                    ? submitDeleteButton?.classList.add('show')
+                    : submitDeleteButton?.classList.remove('show');
+            });
+        }
+
+        const imgBox = document.querySelector('.check-section .box__pictures');
+        const allImg = document.querySelectorAll('.box__svg');
+        const inputNameUser = document.querySelector('#inputNameUser') as HTMLInputElement;
+        const inputNumberPhone = document.querySelector('#inputNumberPhone');
+        const inputWishes = document.querySelector('#inputWishes');
+        const submitCardEdit = document.querySelector('#submitCardEdit');
+        const imgActive = Array.from(allImg).find((img) => img.children[0].classList[0] === this.cardId?.card_img);
+        imgActive?.classList.add('active');
+        let newImg = '';
+        let newName = '';
+        let newNumber = '';
+        let newWishes = '';
+
+        if (imgBox) {
+            imgBox.addEventListener('click', (e) => {
+                const target = e.target as HTMLDivElement;
+                const targetDiv = target.closest('DIV') as HTMLDivElement;
+                if (target && targetDiv.classList.contains('box__svg')) {
+                    this.deleteClass(allImg);
+                    targetDiv.classList.add('active');
+                    newImg = targetDiv.children[0].classList[0];
+                }
+            });
+        }
+
+        if (inputNameUser) {
+            inputNameUser.addEventListener('input', (e) => {
+                const target = e.target as HTMLInputElement;
+                newName = target.value;
+            });
+        }
+        if (inputNumberPhone) {
+            inputNumberPhone.addEventListener('input', (e) => {
+                const target = e.target as HTMLInputElement;
+                newNumber = target.value;
+            });
+        }
+
+        if (inputWishes) {
+            inputWishes.addEventListener('input', (e) => {
+                const target = e.target as HTMLInputElement;
+                newWishes = target.value;
+            });
+        }
+
+        if (imgBox && inputNameUser && inputNumberPhone && inputWishes && submitCardEdit) {
+            submitCardEdit.addEventListener('click', async (e) => {
+                if (this.box && this.cardId) {
+                    toggleLoader();
+                    if (newImg) {
+                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                            cardImg: newImg,
+                        });
+                    }
+                    if (newName) {
+                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                            userName: newName,
+                        });
+                    }
+                    if (newNumber) {
+                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                            phone: newNumber,
+                        });
+                    }
+                    if (newWishes) {
+                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                            wishes: newWishes,
+                        });
+                    }
+                    this.controller.route(location.href);
+                    toggleLoader();
+                }
+            });
+        }
+
+        const buttonBack = document.querySelector('.btn-back');
+        if (buttonBack) {
+            buttonBack.addEventListener('click', () => {
+                this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
+            });
+        }
+
+        // const buttonDelete = document.querySelector('#submit-delete');
+        // if (buttonDelete) {
+        //     buttonDelete.addEventListener('click', () => {
+        //         toggleLoader();
+        //         deleteBox(this.cards, this.box, this.controller, Number(this.userId));
+        //         toggleLoader();
+        //         this.controller.route(location.origin + `/account/boxes`);
+        //     });
+        // }
+    }
+    deleteClass(el: NodeListOf<Element>) {
+        el.forEach((el) => el.classList.remove('active'));
     }
 }
