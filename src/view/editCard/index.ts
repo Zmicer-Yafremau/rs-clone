@@ -24,6 +24,7 @@ export class EditCardView {
         const userId = localStorage.getItem('id');
         userId ? (this.userId = userId) : null;
         const cards = await this.controller.cardController.getCard(box.box_id);
+        this.cards = cards;
         const cardId = cards?.find((card) => card.user_id === Number(userId));
         this.cardId = cardId;
 
@@ -42,6 +43,7 @@ export class EditCardView {
                       <div class="input-box">
                           <label for="inputNameUser" >Ваше имя</label>
                           <input
+                              required
                               type="text"
                               class="form-control"
                               id="inputNameUser"
@@ -60,7 +62,7 @@ export class EditCardView {
                               id="inputNumberPhone"
                               placeholder=""
                               minlength="1" 
-                              value="${cardId?.phone}" 
+                              value="${cardId?.phone?cardId?.phone:''}" 
                           />
                           </div>
                       </div>
@@ -99,7 +101,7 @@ export class EditCardView {
                   <div class="check-section input">
                   <div class="input-box">
                   <label for="inputWishes">Пожелания</label>
-                  <textarea id="inputWishes" class="form-control" required rows="6"></textarea>
+                  <textarea id="inputWishes" class="form-control" required rows="6">${cardId?.wishes}</textarea>
                   </div>
                   </div>
                   </div>
@@ -149,20 +151,19 @@ export class EditCardView {
             });
         }
 
-        const imgBox = document.querySelector('.check-section .box__pictures');
+        const imgBox = document.querySelector('.check-section .box__pictures') as Element;
         const allImg = document.querySelectorAll('.box__svg');
         const inputNameUser = document.querySelector('#inputNameUser') as HTMLInputElement;
-        const inputNumberPhone = document.querySelector('#inputNumberPhone');
-        const inputWishes = document.querySelector('#inputWishes');
-        const submitCardEdit = document.querySelector('#submitCardEdit');
+        const inputNumberPhone = document.querySelector('#inputNumberPhone') as HTMLInputElement;
+        const inputWishes = document.querySelector('#inputWishes') as HTMLInputElement;
+        const submitCardEdit = document.querySelector('#submitCardEdit')as HTMLDivElement;
         const imgActive = Array.from(allImg).find((img) => img.children[0].classList[0] === this.cardId?.card_img);
         imgActive?.classList.add('active');
-        let newImg = '';
-        let newName = '';
-        let newNumber = '';
-        let newWishes = '';
+        let newImg: string;
+        let newName: string;
+        let newNumber: string;
+        let newWishes: string;
 
-        if (imgBox) {
             imgBox.addEventListener('click', (e) => {
                 const target = e.target as HTMLDivElement;
                 const targetDiv = target.closest('DIV') as HTMLDivElement;
@@ -171,31 +172,23 @@ export class EditCardView {
                     targetDiv.classList.add('active');
                     newImg = targetDiv.children[0].classList[0];
                 }
-            });
-        }
-
-        if (inputNameUser) {
+            });        
+        
             inputNameUser.addEventListener('input', (e) => {
                 const target = e.target as HTMLInputElement;
                 newName = target.value;
             });
-        }
-        if (inputNumberPhone) {
             inputNumberPhone.addEventListener('input', (e) => {
                 const target = e.target as HTMLInputElement;
                 newNumber = target.value;
             });
-        }
-
-        if (inputWishes) {
             inputWishes.addEventListener('input', (e) => {
                 const target = e.target as HTMLInputElement;
                 newWishes = target.value;
             });
-        }
 
-        if (imgBox && inputNameUser && inputNumberPhone && inputWishes && submitCardEdit) {
-            submitCardEdit.addEventListener('click', async (e) => {
+        if (submitCardEdit) {
+            submitCardEdit?.addEventListener('click', async (e) => {
                 if (this.box && this.cardId) {
                     toggleLoader();
                     if (newImg) {
@@ -208,16 +201,9 @@ export class EditCardView {
                             userName: newName,
                         });
                     }
-                    if (newNumber) {
-                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
-                            phone: newNumber,
-                        });
-                    }
-                    if (newWishes) {
-                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
-                            wishes: newWishes,
-                        });
-                    }
+                    this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                            phone: newNumber, wishes: newWishes,
+                        });            
                     this.controller.route(location.href);
                     toggleLoader();
                 }
@@ -231,15 +217,20 @@ export class EditCardView {
             });
         }
 
-        // const buttonDelete = document.querySelector('#submit-delete');
-        // if (buttonDelete) {
-        //     buttonDelete.addEventListener('click', () => {
-        //         toggleLoader();
-        //         deleteBox(this.cards, this.box, this.controller, Number(this.userId));
-        //         toggleLoader();
-        //         this.controller.route(location.origin + `/account/boxes`);
-        //     });
-        // }
+        const buttonDelete = document.querySelector('#submit-delete');
+        if (buttonDelete) {
+            buttonDelete.addEventListener('click', async () => {
+                toggleLoader();
+                if (this.box && this.cardId) {
+        const newBox = this.box?.cards_id.filter((id) => id !== this.cardId?.card_id);
+        await  this.controller.boxesController.updateBox(this.box.box_id,{cardsId: newBox});
+                    await this.controller.cardController.deleteCard(this.cardId.card_id);
+                }
+                toggleLoader();
+                this.controller.route(location.origin + `/box/${this.box?.box_id}`);
+            });
+        }
+
     }
     deleteClass(el: NodeListOf<Element>) {
         el.forEach((el) => el.classList.remove('active'));

@@ -192,6 +192,9 @@ export class BoxView {
                 if (target && target.closest('LI')?.classList.contains('card__wrapper')) {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
+                        if (this.userCard?.card_id === cardId) {
+                            this.controller.route(location.origin + `/box/${this.boxId}/card`);
+                        } else
                         this.controller.route(location.origin + `/box/${this.boxId}/card/edit/${cardId}`);
                     } else if (this.userCard?.card_id === cardId) {
                         this.controller.route(location.origin + `/box/${this.boxId}/card`);

@@ -51,7 +51,7 @@ export class CardView {
         const svgPicture = this.cardId !== undefined ? cardsImg[this.cardId.card_img] : '';
         const nameUserCard = this.cardId?.user_name;
         const wishesCard =
-            this.cardId?.wishes === null
+            this.cardId?.wishes === ''
                 ? this.cardId === userCardId
                     ? `<p>
         <div class="btn-secondary to-edit">
@@ -202,9 +202,12 @@ ${wishesCard}
             })
         );
 
-        const editCardSvg = document.querySelector('.to-edit') as Element;
-        editCardSvg.addEventListener('click', () => {
+        const editCard = document.querySelectorAll('.to-edit') as NodeListOf<Element>;
+
+        Array.from(editCard).forEach((button) => {
+            button.addEventListener('click', () => {
             this.controller.route(location.href + `/edit`);
-        });
+            });
+        })      
     }
 }

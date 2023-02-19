@@ -109,12 +109,12 @@ export class View {
                 if (isLogin) {
                     if (!path2) {
                         this.mainView.render();
-                    } else if (path2 && path3 && path3.includes('card') && path4 === 'edit') {
+                    } else if (path2 && path3 && path3 === 'card' && path4 === 'edit') {
                         await this.editCardView.render(path2);
                         this.editCardView.addListeners();
                         this.boxView.addListeners();
                         break;
-                    } else if (path2 && path3 && (path3.includes('card') || path3.includes('ward'))) {
+                    } else if (path2 && path3 && (path3 === 'card' || path3 === 'ward')) {
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
                         this.boxView.addListeners();
