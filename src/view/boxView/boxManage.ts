@@ -1,4 +1,6 @@
 import { Controller } from '../../controller';
+import { BoxesController } from '../../controller/boxes.controller';
+import { CardController } from '../../controller/card.controller';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { mixArr } from '../../utils/utils';
 
@@ -66,4 +68,17 @@ export async function deleteBox(
         await Promise.all(cards.map(async (card) => await controller.cardController.deleteCard(card.card_id)));
         await controller.boxesController.deleteBox(box.box_id);
     }
+}
+export async function getParticipants(path: string, controller: BoxesController) {
+    const allBoxesOfUser = await controller.getBoxes();
+    const currentBoxId = Number(path);
+    if (allBoxesOfUser && allBoxesOfUser.length > 0) {
+        const currentBox = allBoxesOfUser.find((box) => box.box_id === Number(currentBoxId));
+        return currentBox;
+    }
+    return null;
+}
+export async function getBoxCards(id: number, controller: CardController) {
+    const allCards = await controller.getCard(id);
+    return allCards;
 }
