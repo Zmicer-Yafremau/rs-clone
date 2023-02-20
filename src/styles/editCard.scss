@@ -82,8 +82,26 @@
   width: 65%;
 }
 
-@media (max-width: 779px) {
+@media (max-width: 760px) {
+
+  .form-page__footer {
+    justify-content: space-around;
+  }
+
+  .form-page__buttons {
+    width: 100%;
+  }
+
+  .card-row {
+    flex-direction: column;
+  }
+
+}
+
+@media (max-width: 440px) {
+
   .form-page__buttons {
     flex-direction: column;
   }
+
 }

@@ -206,8 +206,8 @@ ${wishesCard}
 
         Array.from(editCard).forEach((button) => {
             button.addEventListener('click', () => {
-            this.controller.route(location.href + `/edit`);
+                this.controller.route(location.href + `/edit`);
             });
-        })      
+        });
     }
 }

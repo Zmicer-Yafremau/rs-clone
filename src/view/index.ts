@@ -75,7 +75,7 @@ export class View {
 
     async renderRoute() {
         const route = this.model.route;
-        const [, path, path2, path3, path4] = route.path;
+        const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
         const USR = new Authorization();
         if (localStorage.token) {
@@ -110,7 +110,7 @@ export class View {
                     if (!path2) {
                         this.mainView.render();
                     } else if (path2 && path3 && path3 === 'card' && path4 === 'edit') {
-                        await this.editCardView.render(path2);
+                        await this.editCardView.render(path2, path5);
                         this.editCardView.addListeners();
                         this.boxView.addListeners();
                         break;

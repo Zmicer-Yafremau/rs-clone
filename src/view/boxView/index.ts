@@ -194,8 +194,7 @@ export class BoxView {
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
                         if (this.userCard?.card_id === cardId) {
                             this.controller.route(location.origin + `/box/${this.boxId}/card`);
-                        } else
-                        this.controller.route(location.origin + `/box/${this.boxId}/card/edit/${cardId}`);
+                        } else this.controller.route(location.origin + `/box/${this.boxId}/card/edit/${cardId}`);
                     } else if (this.userCard?.card_id === cardId) {
                         this.controller.route(location.origin + `/box/${this.boxId}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
