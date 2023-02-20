@@ -1,5 +1,5 @@
 .my-card__wrapper {
-  height: 40rem;
+  height: 33rem;
   padding: 20px;
   width: 750px;
 }
@@ -212,10 +212,45 @@
   display: none;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 780px) {
 
   .my-card__wrapper {
-    max-width: 750px;
+    width: 600px;
   }
 
+  @media (max-width: 640px) {
+
+    .my-card__wrapper {
+      width: 400px;
+    }
+
+    .my-card__wish {
+      font-size: 1.3rem;
+    }
+
+    .my-card__info__action {
+      text-align: center;
+    }
+
+    .my-card__info__bottom-wrapper {
+      padding: 0.5rem;
+    }
+  
+  }
+
+  @media (max-width: 440px) {
+
+    .my-card__wrapper {
+      width: 300px;
+    }
+
+    .my-card__wish {
+      font-size: 1rem;
+    }
+
+    .my-card__info__action {
+      font-size: 0.7rem;
+    }
+  
+  }
 }

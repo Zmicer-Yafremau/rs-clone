@@ -18,6 +18,7 @@ import { NewBoxView } from './newBoxView';
 import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
 import { EditCardView } from './editCard';
+import { BoxMenu } from './boxView/boxMenu';
 
 export class View {
     root: Element;
@@ -34,6 +35,8 @@ export class View {
     inviteView: InviteView;
     editBoxView: EditBoxView;
     editCardView: EditCardView;
+    boxMenu: BoxMenu;
+
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -52,6 +55,7 @@ export class View {
         this.cardView = new CardView(this.controller, this.model, main);
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.editCardView = new EditCardView(this.controller, this.model, main);
+        this.boxMenu = new BoxMenu(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
     }
@@ -110,24 +114,26 @@ export class View {
                     if (!path2) {
                         this.mainView.render();
                     } else if (path2 && path3 && path3 === 'card' && path4 === 'edit') {
+                        await this.boxMenu.render(path2);
                         await this.editCardView.render(path2, path5);
                         this.editCardView.addListeners();
-                        this.boxView.addListeners();
                         break;
                     } else if (path2 && path3 && (path3 === 'card' || path3 === 'ward')) {
+                        await this.boxMenu.render(path2);
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
-                        this.boxView.addListeners();
                         break;
                     } else if (path2 === 'new') {
                         this.newBoxView.render();
                         this.newBoxView.addListeners();
                         break;
-                    } else if (path2 === 'edit' && path3) {
-                        await this.editBoxView.render(path3);
+                    } else if (path2 && path3 === 'edit') {
+                        await this.boxMenu.render(path2);
+                        await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
                     }
+                    await this.boxMenu.render(path2);
                     await this.boxView.render(path2);
                     this.boxView.addListeners();
                 } else {

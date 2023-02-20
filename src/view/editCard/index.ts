@@ -1,6 +1,5 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-import { drawBoxTitle } from '../boxView/boxTitle';
 import { addUsrPics } from '../newBoxView/add-usr-pics';
 import { toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
@@ -32,14 +31,14 @@ export class EditCardView {
             const cardId = cards?.find((card) => card.user_id === Number(userId));
             this.cardId = cardId;
         }
-
         const deleteCard = `<label for="inputDeleteCard" class="">Для подтверждения введите: <strong>Удалить карточку</strong></label>
-        <input type="text" class="form-control" id="inputDeleteCard" placeholder="" minlength="1"/>`
+        <input type="text" class="form-control" id="inputDeleteCard" placeholder="" minlength="1"/>`;
+
         if (box && userId) {
-            this.root.innerHTML = `
-      <div class="box__view">
-      ${box && userId ? drawBoxTitle(box, userId) : ''}
-      <div class="box__edit  box">
+            const placeToInsert = document.querySelector('.box__view');
+            const div = document.createElement('div');
+            div.classList.add('box__edit', 'box');
+            div.innerHTML = `
       <div class="edit-card__wrapper container">
           <div class="section">
               <h4>Настройки карточки</h4>
@@ -131,17 +130,17 @@ export class EditCardView {
                       : userId && box.admin_id !== Number(userId)
                       ? `<span class="hint txt-secondary">Вы не можете самостоятельно удалить карточку после проведения жеребьевки.
               Если вы передумали участвовать в игре, обратитесь к организатору, он сможет удалить вашу карточку.</span>`
-                    :  box.cards_id.length > 2
-                    ? `<span class="hint txt-secondary">Вы можете удалить карточку участника, если он передумал участвовать в игре. 
+                      : box.cards_id.length > 2
+                      ? `<span class="hint txt-secondary">Вы можете удалить карточку участника, если он передумал участвовать в игре. 
                     Санте данного участника отправится уведомление о смене подопечного — он будет дарить подарок подопечному текущего участника.</span> ${deleteCard}`
-                    :`<span class="hint txt-secondary">Вы не можете удалить карточку участника, пока не отмените проведение жеребьевки.</span>`
+                      : `<span class="hint txt-secondary">Вы не можете удалить карточку участника, пока не отмените проведение жеребьевки.</span>`
               }
                   <button id="submit-delete" type="submit" class="btn bg-none">Удалить</button>
               </div>
           </div>
       </div>
-    </div> 
-      </div>`;
+    `;
+            placeToInsert ? placeToInsert.append(div) : null;
             addUsrPics();
         }
     }
@@ -233,7 +232,9 @@ export class EditCardView {
                     if (this.box.is_draw) {
                         const santa = this.cards.find((card) => card.ward_id === this.cardId?.card_id);
                         if (santa) {
-                            await this.controller.cardController.updateCard(santa.card_id, { wardId: this.cardId.ward_id });   
+                            await this.controller.cardController.updateCard(santa.card_id, {
+                                wardId: this.cardId.ward_id,
+                            });
                         }
                     }
                     const newBox = this.box?.cards_id.filter((id) => id !== this.cardId?.card_id);
