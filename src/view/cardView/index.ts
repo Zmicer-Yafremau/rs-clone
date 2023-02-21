@@ -63,6 +63,7 @@ export class CardView {
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
                 : `<span>Телефон: ${this.cardId?.phone}</span>`;
+                if (this.cardId && userId) {
         const placeToInsert = document.querySelector('.box__view');
         const div = document.createElement('div');
         if (path === 'ward=0') {
@@ -310,7 +311,8 @@ export class CardView {
             
     `;
         }
-        placeToInsert ? placeToInsert.append(div) : null;
+                    placeToInsert ? placeToInsert.append(div) : null;
+    }
     }
 
     addListeners() {

@@ -118,7 +118,7 @@ export class View {
                         await this.editCardView.render(path2, path5);
                         this.editCardView.addListeners();
                         break;
-                    } else if (path2 && path3 && (path3 === 'card' || path3 === 'ward')) {
+                    } else if (path2 && path3 && (path3 === 'card' || path3.includes('ward'))) {
                         await this.boxMenu.render(path2);
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
@@ -132,10 +132,11 @@ export class View {
                         await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
-                    } 
+                    } else
                     await this.boxMenu.render(path2);
                     await this.boxView.render(path2);
                     this.boxView.addListeners();
+                    break;
                 } else {
                     this.loginView.render();
                     this.loginView.addListeners();
