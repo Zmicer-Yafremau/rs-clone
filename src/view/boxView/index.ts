@@ -4,62 +4,45 @@ import { cardsImg } from '../../db/cardsImg';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { copy, toggleLoader } from '../../utils/utils';
 import { errorCats } from '../../db/errorCats';
-import { drawBoxTitle } from './boxTitle';
-import { drawRandomCards } from './boxManage';
+import { drawRandomCards, getBoxCards, getParticipants } from './boxManage';
 
 export class BoxView {
     cards: ICardReq[] | undefined;
     box: IBoxReq | undefined | null;
     userCard: undefined | ICardReq | null;
-
-    boxId: string;
     userId: string;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.cards = [];
         this.box;
         this.userCard;
-        this.boxId = '';
         this.userId = '';
     }
 
-    async getParticipants(path: string) {
-        const allBoxesOfUser = await this.controller.boxesController.getBoxes();
-
-        const currentBoxId = path;
-
-        this.boxId = currentBoxId;
-        if (allBoxesOfUser && allBoxesOfUser.length > 0) {
-            const currentBox = allBoxesOfUser.find((box) => box.box_id === Number(currentBoxId));
-            return currentBox;
-        }
-        return null;
-    }
-    async getBoxCards(id: number) {
-        const allCards = await this.controller.cardController.getCard(id);
-        return allCards;
-    }
     async render(path2: string) {
-        const box = await this.getParticipants(path2);
+        const box = await getParticipants(path2, this.controller.boxesController);
         this.box = box;
         const userId = localStorage.getItem('id');
         userId ? (this.userId = userId) : null;
-        const cards = box ? await this.getBoxCards(box.box_id) : [];
+        const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
         this.cards = cards;
         const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
         this.userCard = userCard;
-        this.root.innerHTML = !box
-            ? `<div class="box__not" >${errorCats.boxNotFound}
+        if (!box) {
+            this.root.innerHTML = `<div class="box__not" >${errorCats.boxNotFound}
             <div><p>Коробка не найдена</p><p>Похоже, вы перешли по неверной ссылке для коробки..</p></div>
             <button id="back" type="button" class="btn main__button bg-light active">
                             Вернуться на главную
-                        </button></div>`
-            : `<div class="box__view">
-            ${this.box && this.userId ? drawBoxTitle(this.box, this.userId) : ''}
-            <div class="box__cards center">
+                        </button></div>`;
+        } else {
+            const placeToInsert = document.querySelector('.box__view');
+
+            const div = document.createElement('div');
+            div.classList.add('box__cards', 'center');
+            div.innerHTML = `
             <div class="box__wrapper">
             
             ${
-                !box.is_draw && box.cards_id.length >= 3
+                !box.is_draw && box.cards_id.length >= 3 && box.admin_id === Number(this.userId)
                     ? '<button id="draw" class="btn main__button bg-light active ward">Провести жеребьевку</button>'
                     : ''
             }
@@ -115,6 +98,8 @@ export class BoxView {
          </div>
         </div>
         `;
+            placeToInsert ? placeToInsert.append(div) : null;
+        }
     }
 
     addListeners() {
@@ -129,50 +114,7 @@ export class BoxView {
                 this.controller.route(location.origin + '/');
             });
         }
-        const toggleMenu = document.querySelector('.box__toggle');
-        const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
-        const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');
-        if (toggleMenu) {
-            toggleMenu.addEventListener('click', (e) => {
-                const target = e.target as HTMLDivElement;
 
-                if (target.closest('DIV')?.classList.contains('active')) {
-                    return;
-                } else if (target.closest('DIV')?.classList.contains('toggle-menu-item')) {
-                    this.toggleClassInList(allMenuItem, 'active');
-                    this.toggleClassInList(allMenuSlider, 'active');
-                    target.closest('DIV')?.classList.add('active');
-                    const menuNumber = target.closest('DIV')?.id;
-
-                    if (menuNumber) {
-                        const currentSlider = document.querySelector(`.toggle-menu-item--slider.${menuNumber}`);
-                        currentSlider?.classList.add('active');
-                        if (this.box && this.boxId && this.userCard) {
-                            switch (menuNumber.split('-')[1]) {
-                                case '1':
-                                    this.controller.route(location.origin + `/box/${this.boxId}`);
-                                    break;
-                                case '2':
-                                    this.controller.route(
-                                        location.origin + `/box/${this.boxId}/card=${this.userCard.card_id}`
-                                    );
-                                    break;
-                                case '3':
-                                    this.userCard.ward_id
-                                        ? this.controller.route(
-                                              location.origin + `/box/${this.boxId}/ward=${this.userCard.ward_id}`
-                                          )
-                                        : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
-
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                }
-            });
-        }
         const buttonDraw = document.getElementById('draw');
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
@@ -185,10 +127,6 @@ export class BoxView {
                 toggleLoader();
             });
         }
-        const currentBox = document.getElementById('curr-box');
-        if (currentBox) {
-            currentBox.addEventListener('click', () => this.controller.route(location.origin + `/box/${this.boxId}`));
-        }
         const cardList = document.querySelector('.cards__list');
         if (cardList) {
             cardList.addEventListener('click', (e) => {
@@ -196,23 +134,16 @@ export class BoxView {
                 if (target && target.closest('LI')?.classList.contains('card__wrapper')) {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
+                        if (this.userCard?.card_id === cardId) {
+                            this.controller.route(location.origin + `/box/${this.box.box_id}/card`);
+                        } else this.controller.route(location.origin + `/box/${this.box.box_id}/card/edit/${cardId}`);
                     } else if (this.userCard?.card_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/card=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.boxId}/ward=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.box?.box_id}/ward`);
                     }
                 }
             });
         }
-        const settings = document.getElementById('setting');
-        if (settings) {
-            settings.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/edit/${this.box?.box_id}`)
-            );
-        }
-    }
-    toggleClassInList(list: NodeListOf<Element>, className: string) {
-        list.forEach((el) => el.classList.remove(className));
     }
 }

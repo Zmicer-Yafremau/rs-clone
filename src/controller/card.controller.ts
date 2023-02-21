@@ -13,9 +13,14 @@ export class CardController {
         const result = await Cards.update(id, obj);
         return result;
     }
-    async deleteCard(id: number): Promise<ICardReq> {
+    async deleteCard(id: number): Promise<ICardReq | undefined> {
         const Cards = this.model.cardModel;
-        const result = await Cards.delete(id);
-        return result;
+        try {
+            const result = await Cards.delete(id);
+            return result;
+        }
+        catch (e) {
+            
+        }
     }
 }
