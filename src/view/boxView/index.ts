@@ -134,11 +134,13 @@ export class BoxView {
                 if (target && target.closest('LI')?.classList.contains('card__wrapper')) {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card=${cardId}`);
+                        if (this.userCard?.card_id === cardId) {
+                            this.controller.route(location.origin + `/box/${this.box.box_id}/card`);
+                        } else this.controller.route(location.origin + `/box/${this.box.box_id}/card/edit/${cardId}`);
                     } else if (this.userCard?.card_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/ward=${cardId}`);
+                        this.controller.route(location.origin + `/box/${this.box?.box_id}/ward`);
                     }
                 }
             });

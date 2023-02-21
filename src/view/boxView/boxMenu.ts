@@ -136,13 +136,13 @@ export class BoxMenu {
                                     break;
                                 case '2':
                                     this.controller.route(
-                                        location.origin + `/box/${this.boxId}/card=${this.userCard.card_id}`
+                                        location.origin + `/box/${this.boxId}/card`
                                     );
                                     break;
                                 case '3':
                                     this.userCard.ward_id
                                         ? this.controller.route(
-                                              location.origin + `/box/${this.boxId}/ward=${this.wardId}`
+                                              location.origin + `/box/${this.boxId}/ward`
                                           )
                                         : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
 

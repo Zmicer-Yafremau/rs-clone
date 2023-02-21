@@ -13,6 +13,7 @@ export class CardView {
     async render(pathBox: string, path: string) {
         const box = await getParticipants(pathBox, this.controller.boxesController);
         const userId = localStorage.getItem('id');
+        userId ? userId : null;
         const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
         const userCardId = cards?.find((card) => card.user_id === Number(userId));
         const wardCardId = cards?.find((card) => card.card_id === userCardId?.ward_id);
@@ -30,15 +31,15 @@ export class CardView {
             if (!localStorage.cardGift) {
                 localStorage.cardGift = `[]`;
             }
-            if (!localStorage.wardGift) {
-                localStorage.wardGift = `[]`;
-            }
             const isCardGift = JSON.parse(localStorage.cardGift).includes(String(this.cardId?.card_id));
             textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
             svgGift = isCardGift ? 'gift-active' : '';
         } else {
             this.cardId = wardCardId;
             editCardSvg = '';
+            if (!localStorage.wardGift) {
+                localStorage.wardGift = `[]`;
+            }
             const isWardGift = JSON.parse(localStorage.wardGift).includes(String(this.cardId?.card_id));
             textGift = isWardGift ? 'Вы отправили подарок' : 'Я отправил подарок';
             svgGift = isWardGift ? 'gift-active' : '';
@@ -47,14 +48,12 @@ export class CardView {
         const svgPicture = this.cardId !== undefined ? cardsImg[this.cardId.card_img] : '';
         const nameUserCard = this.cardId?.user_name;
         const wishesCard =
-            this.cardId?.wishes === null
+            this.cardId?.wishes === ''
                 ? this.cardId === userCardId
                     ? `<p>
-        <a class="" href="/box/boxName=id/card=id/edit">
         <div class="btn-secondary to-edit">
         <span class="txt-buttons txt">Добавить пожелания</span>
         </div>
-        </a>
         </p>`
                     : `Ваш подопечный пока что не оставил пожеланий.`
                 : `<span>${this.cardId?.wishes}</span>`;
@@ -64,6 +63,7 @@ export class CardView {
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
                 : `<span>Телефон: ${this.cardId?.phone}</span>`;
+                if (this.cardId && userId) {
         const placeToInsert = document.querySelector('.box__view');
         const div = document.createElement('div');
         if (path === 'ward=0') {
@@ -311,7 +311,8 @@ export class CardView {
             
     `;
         }
-        placeToInsert ? placeToInsert.append(div) : null;
+                    placeToInsert ? placeToInsert.append(div) : null;
+    }
     }
 
     addListeners() {
@@ -368,9 +369,12 @@ export class CardView {
             })
         );
 
-        const editCardSvg = document.querySelector('.to-edit');
-        editCardSvg?.addEventListener('click', () => {
-            this.controller.route(location.href + `/edit`);
+        const editCard = document.querySelectorAll('.to-edit') as NodeListOf<Element>;
+
+        Array.from(editCard).forEach((button) => {
+            button.addEventListener('click', () => {
+                this.controller.route(location.href + `/edit`);
+            });
         });
     }
 }

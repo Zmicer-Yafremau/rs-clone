@@ -17,6 +17,7 @@ import { CardView } from './cardView';
 import { NewBoxView } from './newBoxView';
 import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
+import { EditCardView } from './editCard';
 import { BoxMenu } from './boxView/boxMenu';
 
 export class View {
@@ -33,7 +34,9 @@ export class View {
     newBoxView: NewBoxView;
     inviteView: InviteView;
     editBoxView: EditBoxView;
+    editCardView: EditCardView;
     boxMenu: BoxMenu;
+
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
         this.addListeners();
@@ -51,6 +54,7 @@ export class View {
         this.ratingView = new RatingView(this.controller, this.model, main);
         this.cardView = new CardView(this.controller, this.model, main);
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
+        this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
         this.renderRoute();
         this.addHandlers();
@@ -75,7 +79,7 @@ export class View {
 
     async renderRoute() {
         const route = this.model.route;
-        const [, path, path2, path3] = route.path;
+        const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
         const USR = new Authorization();
         if (localStorage.token) {
@@ -109,7 +113,12 @@ export class View {
                 if (isLogin) {
                     if (!path2) {
                         this.mainView.render();
-                    } else if (path2 && path3 && (path3.includes('card') || path3.includes('ward'))) {
+                    } else if (path2 && path3 && path3 === 'card' && path4 === 'edit') {
+                        await this.boxMenu.render(path2);
+                        await this.editCardView.render(path2, path5);
+                        this.editCardView.addListeners();
+                        break;
+                    } else if (path2 && path3 && (path3 === 'card' || path3.includes('ward'))) {
                         await this.boxMenu.render(path2);
                         await this.cardView.render(path2, path3);
                         this.cardView.addListeners();
@@ -123,10 +132,11 @@ export class View {
                         await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
-                    }
+                    } else
                     await this.boxMenu.render(path2);
                     await this.boxView.render(path2);
                     this.boxView.addListeners();
+                    break;
                 } else {
                     this.loginView.render();
                     this.loginView.addListeners();

@@ -185,7 +185,7 @@ export class EditBoxView {
                 if (newImg && this.box) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxImg: newImg });
-                    this.controller.route(location.origin + `/box/edit/${this.box.box_id}`);
+                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
@@ -201,7 +201,7 @@ export class EditBoxView {
                 if (newName && this.box && this.userId) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxName: newName });
-                    this.controller.route(location.origin + `/box/edit/${this.box.box_id}`);
+                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
