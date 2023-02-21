@@ -59,19 +59,20 @@ export class CardView {
                 ? this.card === userCard
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
-                : `<span>Телефон: ${this.card?.phone}</span>`;
-        const placeToInsert = document.querySelector('.box__view');
-        const div = document.createElement('div');
-        if (path === 'ward=0') {
-            div.classList.add('no-ward');
-            div.innerHTML = `
+                : `<span>Телефон: ${this.cardId?.phone}</span>`;
+        if (this.cardId && userId) {
+            const placeToInsert = document.querySelector('.box__view');
+            const div = document.createElement('div');
+            if (path === 'ward=0') {
+                div.classList.add('no-ward');
+                div.innerHTML = `
                 <div>${errorCats.noWard}</div>
                 <span class="txt-main">У вас пока нет подопечного</span>
                 <span class="txt-add">Он появится сразу после жеребьевки</span>
                 `;
-        } else {
-            div.classList.add('box__cards', 'center');
-            div.innerHTML = `
+            } else {
+                div.classList.add('box__cards', 'center');
+                div.innerHTML = `
                 <div class="my-card__wrapper center">
                 <div class="my-card">
                     <span class="my-card__bg">
@@ -306,8 +307,9 @@ export class CardView {
             </div>
             
     `;
+            }
+            placeToInsert ? placeToInsert.append(div) : null;
         }
-        placeToInsert ? placeToInsert.append(div) : null;
     }
 
     addListeners() {
