@@ -18,9 +18,6 @@ export class CardController {
         try {
             const result = await Cards.delete(id);
             return result;
-        }
-        catch (e) {
-            
-        }
+        } catch (e) {}
     }
 }

@@ -28,21 +28,20 @@ export class CardView {
             <path d="M14.77 11.06l-1.83-1.83M9.126 16.5H7.5v-1.626c0-.132.053-.26.146-.353l6.667-6.668a.5.5 0 01.707 0l1.126 1.126a.5.5 0 010 .707l-6.667 6.668a.499.499 0 01-.353.146v0z" stroke="#FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
             </span>`;
-            if (!localStorage.cardGift) {
-                localStorage.cardGift = `[]`;
+            if (this.cardId) {
+                const isCardGift = this.cardId.card_gift;
+                console.log(this.cardId)
+                textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
+                svgGift = isCardGift ? 'gift-active' : '';
             }
-            const isCardGift = JSON.parse(localStorage.cardGift).includes(String(this.cardId?.card_id));
-            textGift = isCardGift ? 'Вы получили подарок' : 'Я получил подарок';
-            svgGift = isCardGift ? 'gift-active' : '';
         } else {
             this.cardId = wardCardId;
             editCardSvg = '';
-            if (!localStorage.wardGift) {
-                localStorage.wardGift = `[]`;
-            }
-            const isWardGift = JSON.parse(localStorage.wardGift).includes(String(this.cardId?.card_id));
+            if (this.cardId) {
+            const isWardGift = this.cardId.ward_gift;
             textGift = isWardGift ? 'Вы отправили подарок' : 'Я отправил подарок';
             svgGift = isWardGift ? 'gift-active' : '';
+            }
         }
 
         const svgPicture = this.cardId !== undefined ? cardsImg[this.cardId.card_img] : '';
@@ -63,19 +62,20 @@ export class CardView {
                     ? `Вы пока что не оставили никаких контактных данных. `
                     : `Ваш подопечный пока что не оставил контактных данных.`
                 : `<span>Телефон: ${this.cardId?.phone}</span>`;
-                if (this.cardId && userId) {
-        const placeToInsert = document.querySelector('.box__view');
-        const div = document.createElement('div');
-        if (path === 'ward=0') {
-            div.classList.add('no-ward');
-            div.innerHTML = `
+        
+        if (this.cardId && userId) {
+            const placeToInsert = document.querySelector('.box__view');
+            const div = document.createElement('div');
+            if (path === 'ward=0') {
+                div.classList.add('no-ward');
+                div.innerHTML = `
                 <div>${errorCats.noWard}</div>
                 <span class="txt-main">У вас пока нет подопечного</span>
                 <span class="txt-add">Он появится сразу после жеребьевки</span>
                 `;
-        } else {
-            div.classList.add('box__cards', 'center');
-            div.innerHTML = `
+            } else {
+                div.classList.add('box__cards', 'center');
+                div.innerHTML = `
                 <div class="my-card__wrapper center">
                 <div class="my-card">
                     <span class="my-card__bg">
@@ -310,9 +310,9 @@ export class CardView {
             </div>
             
     `;
+            }
+            placeToInsert ? placeToInsert.append(div) : null;
         }
-                    placeToInsert ? placeToInsert.append(div) : null;
-    }
     }
 
     addListeners() {
@@ -324,7 +324,7 @@ export class CardView {
         const showWish = document.querySelector('.show-wish') as HTMLSpanElement;
 
         buttonIcon.forEach((el) =>
-            el.addEventListener('click', (e) => {
+            el.addEventListener('click', async (e) => {
                 const target = e.target as HTMLDivElement;
                 if (target.closest('DIV')?.classList.contains('svg-envelope')) {
                     target.closest('DIV')?.classList.remove('svg-envelope');
@@ -347,30 +347,23 @@ export class CardView {
                     !target.closest('DIV')?.classList.contains('gift-active')
                 ) {
                     target.closest('DIV')?.classList.add('gift-active');
-                    let cardIdArray: string[];
-                    if (textGift.innerText === 'Я получил подарок') {
-                        if (!localStorage.cardGift) {
-                            localStorage.cardGift = `[]`;
+                    if (this.cardId) {
+                        if (textGift.innerText === 'Я получил подарок') {
+                            await this.controller.cardController.updateCard(this.cardId.card_id, {
+                                cardGift: true,
+                            });
+                            textGift.innerText = 'Вы получили подарок';
+                        } else if (textGift.innerText === 'Я отправил подарок') {
+                            await this.controller.cardController.updateCard(this.cardId.card_id, {
+                                wardGift: true,
+                            });
+                            textGift.innerText = 'Вы отправили подарок';
                         }
-                        cardIdArray = JSON.parse(localStorage.cardGift);
-                        cardIdArray.push(`${this.cardId?.card_id}`);
-                        localStorage.cardGift = JSON.stringify(cardIdArray);
-                        textGift.innerText = 'Вы получили подарок';
-                    } else if (textGift.innerText === 'Я отправил подарок') {
-                        if (!localStorage.wardGift) {
-                            localStorage.wardGift = `[]`;
-                        }
-                        cardIdArray = JSON.parse(localStorage.wardGift);
-                        cardIdArray.push(`${this.cardId?.card_id}`);
-                        localStorage.wardGift = JSON.stringify(cardIdArray);
-                        textGift.innerText = 'Вы отправили подарок';
                     }
                 }
             })
         );
-
         const editCard = document.querySelectorAll('.to-edit') as NodeListOf<Element>;
-
         Array.from(editCard).forEach((button) => {
             button.addEventListener('click', () => {
                 this.controller.route(location.href + `/edit`);
