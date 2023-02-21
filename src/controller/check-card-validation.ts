@@ -25,7 +25,8 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const userName = INPUT.value;
                     const wishes = WISHES_INPUT.value;
                     const wardId = null;
-                    const randomKey = '';
+                    const wardGift = false;
+                    const cardGift = false;
                     const userId = +localStorage.id;
                     const boxId = +localStorage.boxId;
                     const cardImg = VALIDATE_PIC.children[0].classList[0].trim();
@@ -42,11 +43,12 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                         userName,
                         wardId,
                         cardImg,
-                        randomKey,
                         wishes,
                         boxId,
                         userId,
                         phone,
+                        wardGift,
+                        cardGift,
                     });
                     const BOX = new Box();
                     const BOX_OBJ = await BOX.getByBoxId(localStorage.boxId);

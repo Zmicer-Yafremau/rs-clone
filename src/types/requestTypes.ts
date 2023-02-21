@@ -2,22 +2,24 @@ export interface ICard {
     userName: string;
     wardId: number | null;
     cardImg: string;
-    randomKey: string;
     wishes: string;
     boxId: number;
     userId: number;
     phone: string;
+    wardGift: boolean;
+    cardGift: boolean;
 }
 export interface ICardReq {
     card_id: number;
     user_name: string;
     ward_id: number | null;
     card_img: string;
-    random_key: string;
     wishes: string;
     box_id: number;
     user_id: number;
     phone: string;
+    wardGift: boolean;
+    cardGift: boolean;
 }
 export interface IBox {
     boxName: string;
