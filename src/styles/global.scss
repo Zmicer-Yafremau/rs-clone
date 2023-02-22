@@ -116,6 +116,13 @@ textarea {
     justify-content: flex-end;
     flex-wrap: wrap;
 }
+
+.btn-modal {
+    color: white;
+    margin-right: 30px;
+    padding: 0;
+    border-width: 0;
+}
 #root {
     flex: 1 1 auto;
     &.shadow {
