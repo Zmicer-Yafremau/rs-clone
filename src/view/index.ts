@@ -57,7 +57,6 @@ export class View {
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
         this.renderRoute();
-        this.addHandlers();
     }
 
     addHandlers() {
@@ -94,7 +93,7 @@ export class View {
         switch (path) {
             case '':
             case Routing.MAIN:
-                await this.mainView.render();
+                this.mainView.render();
                 break;
             case Routing.ACCOUNT:
                 if (isLogin) {
@@ -132,11 +131,12 @@ export class View {
                         await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
-                    } else
-                    await this.boxMenu.render(path2);
-                    await this.boxView.render(path2);
-                    this.boxView.addListeners();
-                    break;
+                    } else {
+                        await this.boxMenu.render(path2);
+                        await this.boxView.render(path2);
+                        this.boxView.addListeners();
+                        break;
+                    }
                 } else {
                     this.loginView.render();
                     this.loginView.addListeners();

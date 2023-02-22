@@ -1,6 +1,7 @@
 import { Controller } from '../../controller';
 import { BoxesController } from '../../controller/boxes.controller';
 import { CardController } from '../../controller/card.controller';
+import { UserBoxesController } from '../../controller/user-boxes.controller';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { mixArr } from '../../utils/utils';
 
@@ -37,12 +38,19 @@ export async function redrawRandomCards(
 ) {
     if (cards && box) {
         const updateCards = await Promise.all(
-            cards.map(async (cards) => await controller.cardController.updateCard(cards.card_id, { wardId: null }))
+            cards.map(
+                async (cards) =>
+                    await controller.cardController.updateCard(cards.card_id, {
+                        wardId: null,
+                        cardGift: false,
+                        wardGift: false,
+                    })
+            )
         );
         cards = updateCards;
         const updateBox = await controller.boxesController.updateBox(box.box_id, { isDraw: false });
         box = updateBox;
-        controller.route(location.origin + `/box/edit/${box.box_id}`);
+        controller.route(location.origin + `/box/${box.box_id}/edit`);
         return { cards, box };
     }
     return false;
@@ -62,13 +70,22 @@ export async function deleteBox(
     userId: number
 ) {
     if (cards && box) {
-        const userBoxes = (await controller.userBoxesController.getUserBoxes(userId))[0];
-        const newBoxes = userBoxes.user_boxes.filter((id) => id !== box.box_id);
-        await controller.userBoxesController.updateUserBoxes(userBoxes.id, newBoxes, userBoxes.account_id);
+        await updateUserBoxes(userId, box.box_id, controller.userBoxesController);
+        await Promise.all(
+            cards.map(async (card) => {
+                await updateUserBoxes(card.user_id, box.box_id, controller.userBoxesController);
+            })
+        );
         await Promise.all(cards.map(async (card) => await controller.cardController.deleteCard(card.card_id)));
         await controller.boxesController.deleteBox(box.box_id);
     }
 }
+async function updateUserBoxes(userId: number, boxId: number, controller: UserBoxesController) {
+    const userBoxes = (await controller.getUserBoxes(userId))[0];
+    const newBoxes = userBoxes.user_boxes.filter((id) => id !== boxId);
+    await controller.updateUserBoxes(userBoxes.id, newBoxes, userBoxes.account_id);
+}
+
 export async function getParticipants(path: string, controller: BoxesController) {
     const allBoxesOfUser = await controller.getBoxes();
     const currentBoxId = Number(path);
