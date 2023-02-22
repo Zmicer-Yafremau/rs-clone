@@ -53,7 +53,7 @@ export function checkValidation(form: HTMLFormElement) {
                         }
                         const U_BOX = new UserBoxes();
                         console.log(await U_BOX.getByUserId(localStorage.id));
-                        //location.replace(location.origin);
+                        location.replace(location.origin);
                     } else USER_EXIST.classList.remove('visually-hidden');
                 }
             }
