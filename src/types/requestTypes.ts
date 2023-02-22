@@ -18,8 +18,8 @@ export interface ICardReq {
     box_id: number;
     user_id: number;
     phone: string;
-    wardGift: boolean;
-    cardGift: boolean;
+    ward_gift: boolean;
+    card_gift: boolean;
 }
 export interface IBox {
     boxName: string;
