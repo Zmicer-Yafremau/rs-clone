@@ -47,10 +47,9 @@ export class Card {
     }
 
     async delete(id: number) {
-        return (
-            await fetch(`${this.url}/${id}`, {
-                method: 'DELETE',
-            })
-        ).json();
+        const res = await fetch(`${this.url}/${id}`, {
+            method: 'DELETE',
+        });
+        return res;
     }
 }

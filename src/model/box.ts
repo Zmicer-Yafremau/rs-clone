@@ -49,10 +49,9 @@ export class Box {
     }
 
     async delete(id: number) {
-        return (
-            await fetch(`${this.url}/${id}`, {
-                method: 'DELETE',
-            })
-        ).json();
+        const result = await fetch(`${this.url}/${id}`, {
+            method: 'DELETE',
+        });
+        return result;
     }
 }

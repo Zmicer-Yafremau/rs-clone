@@ -23,7 +23,7 @@ export class BoxesController {
         const result = await Box.getByBoxId(id);
         return result;
     }
-    async deleteBox(id: number): Promise<IBoxReq> {
+    async deleteBox(id: number): Promise<Response> {
         const Box = this.model.boxModel;
         const result = await Box.delete(id);
         return result;
