@@ -36,10 +36,8 @@ export class Feedback {
     }
 
     async delete(id: number) {
-        return (
-            await fetch(`${this.url}/${id}`, {
-                method: 'DELETE',
-            })
-        ).json();
+        return await fetch(`${this.url}/${id}`, {
+            method: 'DELETE',
+        });
     }
 }

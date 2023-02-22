@@ -122,12 +122,6 @@ export class EditBoxView {
         }
     }
     addListeners() {
-        const currentBox = document.getElementById('curr-box');
-        if (currentBox) {
-            currentBox.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${this.box?.box_id}`)
-            );
-        }
         const buttonDraw = document.getElementById('draw');
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
@@ -208,9 +202,9 @@ export class EditBoxView {
         }
         const buttonDelete = document.querySelector('#submit-delete');
         if (buttonDelete) {
-            buttonDelete.addEventListener('click', () => {
+            buttonDelete.addEventListener('click', async () => {
                 toggleLoader();
-                deleteBox(this.cards, this.box, this.controller, Number(this.userId));
+                await deleteBox(this.cards, this.box, this.controller, Number(this.userId));
                 toggleLoader();
                 this.controller.route(location.origin + `/account/boxes`);
             });

@@ -57,7 +57,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const id = localStorage.boxId;
                     const cardsId = CARD_ARR;
                     await BOX.update(id, { cardsId });
-                    location.replace(location.origin + '/account/boxes');
+                    location.replace(location.origin + `/box/${boxId}`);
                 } else {
                     ERR.classList.remove('visually-hidden');
                 }

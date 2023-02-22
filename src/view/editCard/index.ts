@@ -8,11 +8,11 @@ export class EditCardView {
     box: IBoxReq | undefined;
     cards: ICardReq[] | undefined;
     userId: string;
-    cardId: ICardReq | undefined;
+    card: ICardReq | undefined;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.box = undefined;
         this.cards = [];
-        this.cardId = undefined;
+        this.card = undefined;
         this.userId = '';
     }
 
@@ -25,11 +25,11 @@ export class EditCardView {
         const cards = await this.controller.cardController.getCard(box.box_id);
         this.cards = cards;
         if (pathId !== undefined) {
-            const cardId = cards?.find((card) => card.card_id === Number(pathId));
-            this.cardId = cardId;
+            const card = cards?.find((card) => card.card_id === Number(pathId));
+            this.card = card;
         } else {
             const cardId = cards?.find((card) => card.user_id === Number(userId));
-            this.cardId = cardId;
+            this.card = cardId;
         }
         const deleteCard = `<label for="inputDeleteCard" class="">Для подтверждения введите: <strong>Удалить карточку</strong></label>
         <input type="text" class="form-control" id="inputDeleteCard" placeholder="" minlength="1"/>`;
@@ -56,7 +56,7 @@ export class EditCardView {
                               id="inputNameUser"
                               placeholder=""
                               minlength="1"
-                              value="${this.cardId?.user_name}" 
+                              value="${this.card?.user_name}" 
                           />
                           </div>
                       </div>
@@ -69,7 +69,7 @@ export class EditCardView {
                               id="inputNumberPhone"
                               placeholder=""
                               minlength="1" 
-                              value="${this.cardId?.phone ? this.cardId?.phone : ''}" 
+                              value="${this.card?.phone ? this.card?.phone : ''}" 
                           />
                           </div>
                       </div>
@@ -108,7 +108,7 @@ export class EditCardView {
                   <div class="check-section input">
                   <div class="input-box">
                   <label for="inputWishes">Пожелания</label>
-                  <textarea id="inputWishes" class="form-control" required rows="6">${this.cardId?.wishes}</textarea>
+                  <textarea id="inputWishes" class="form-control" required rows="6">${this.card?.wishes}</textarea>
                   </div>
                   </div>
                   </div>
@@ -145,7 +145,7 @@ export class EditCardView {
         }
     }
 
-    addListeners() {
+    async addListeners() {
         const deleteCardInput = document.querySelector('#inputDeleteCard');
         const submitDeleteButton = document.querySelector('#submit-delete');
         if (deleteCardInput) {
@@ -163,7 +163,7 @@ export class EditCardView {
         const inputNumberPhone = document.querySelector('#inputNumberPhone') as HTMLInputElement;
         const inputWishes = document.querySelector('#inputWishes') as HTMLInputElement;
         const submitCardEdit = document.querySelector('#submitCardEdit') as HTMLDivElement;
-        const imgActive = Array.from(allImg).find((img) => img.children[0].classList[0] === this.cardId?.card_img);
+        const imgActive = Array.from(allImg).find((img) => img.children[0].classList[0] === this.card?.card_img);
         imgActive?.classList.add('active');
         let newImg: string;
         let newName: string;
@@ -195,19 +195,19 @@ export class EditCardView {
 
         if (submitCardEdit) {
             submitCardEdit?.addEventListener('click', async (e) => {
-                if (this.box && this.cardId) {
+                if (this.box && this.card) {
                     toggleLoader();
                     if (newImg) {
-                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                        this.card = await this.controller.cardController.updateCard(this.card.card_id, {
                             cardImg: newImg,
                         });
                     }
                     if (newName) {
-                        this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                        this.card = await this.controller.cardController.updateCard(this.card.card_id, {
                             userName: newName,
                         });
                     }
-                    this.cardId = await this.controller.cardController.updateCard(this.cardId.card_id, {
+                    this.card = await this.controller.cardController.updateCard(this.card.card_id, {
                         phone: newNumber,
                         wishes: newWishes,
                     });
@@ -228,18 +228,18 @@ export class EditCardView {
         if (buttonDelete) {
             buttonDelete.addEventListener('click', async () => {
                 toggleLoader();
-                if (this.box && this.cardId && this.cards) {
+                if (this.box && this.card && this.cards) {
                     if (this.box.is_draw) {
-                        const santa = this.cards.find((card) => card.ward_id === this.cardId?.card_id);
+                        const santa = this.cards.find((card) => card.ward_id === this.card?.card_id);
                         if (santa) {
                             await this.controller.cardController.updateCard(santa.card_id, {
-                                wardId: this.cardId.ward_id,
+                                wardId: this.card.ward_id,
                             });
                         }
                     }
-                    const newBox = this.box?.cards_id.filter((id) => id !== this.cardId?.card_id);
-                    await this.controller.cardController.deleteCard(this.cardId.card_id);
+                    const newBox = this.box?.cards_id.filter((id) => id !== this.card?.card_id);
                     await this.controller.boxesController.updateBox(this.box.box_id, { cardsId: newBox });
+                    await this.controller.cardController.deleteCard(this.card.card_id);
                 }
                 toggleLoader();
                 this.controller.route(location.origin + `/box/${this.box?.box_id}`);
