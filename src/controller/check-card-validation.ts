@@ -7,6 +7,8 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
         async (event) => {
+            const SUBMIT_BUTTON = document.getElementsByClassName('ucard__btn')[0] as HTMLButtonElement;
+            SUBMIT_BUTTON.setAttribute('disabled', '');
             const ERR = document.getElementsByClassName('ucard__err')[0] as HTMLDivElement;
             ERR.classList.add('visually-hidden');
             if (!form.checkValidity()) {
@@ -60,12 +62,15 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const id = localStorage.boxId;
                     const cardsId = CARD_ARR;
                     await BOX.update(id, { cardsId });
-                    location.replace(location.origin + `/box/${boxId}`);
+                    SUBMIT_BUTTON.removeAttribute('disabled');
+                    location.replace(location.origin + '/account/boxes');
                 } else {
                     ERR.classList.remove('visually-hidden');
+                    SUBMIT_BUTTON.removeAttribute('disabled');
                 }
             }
             form.classList.add('was-validated');
+            SUBMIT_BUTTON.removeAttribute('disabled');
         },
         false
     );

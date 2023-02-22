@@ -36,7 +36,7 @@ export function renderCardReg() {
     </div>
 
     <div class="screenshot__footer center">
-                <button type="submit" class="btn main__button active">Создать</button>
+                <button type="submit" class="btn ucard__btn main__button active">Создать</button>
 
     </div>
 </div>
