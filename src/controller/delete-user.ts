@@ -2,16 +2,7 @@ import { Authorization } from '../model/authorization';
 import { Box } from '../model/box';
 import { Card } from '../model/card';
 import { UserBoxes } from '../model/userBoxes';
-
-import { Box } from '../model/box';
-import { Card } from '../model/card';
-import { UserBoxes } from '../model/userBoxes';
-
 export async function deleteUser() {
-    const DELETE_ERR = document.getElementsByClassName('delete__error')[0] as HTMLDivElement;
-    DELETE_ERR.classList.add('visually-hidden');
-    const ADMINS = document.getElementsByClassName('account__admins')[0] as HTMLSpanElement;
-    ADMINS.innerHTML = '';
     const DELETE_ERR = document.getElementsByClassName('delete__error')[0] as HTMLDivElement;
     DELETE_ERR.classList.add('visually-hidden');
     const ADMINS = document.getElementsByClassName('account__admins')[0] as HTMLSpanElement;
