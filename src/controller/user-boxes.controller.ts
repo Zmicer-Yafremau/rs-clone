@@ -1,5 +1,5 @@
 import { Model } from '../model';
-import { IBoxReq, ICard, ICardReq, IUserBoxesReq } from '../types/requestTypes';
+import { IUserBoxesReq } from '../types/requestTypes';
 
 export class UserBoxesController {
     constructor(private model: Model) {}

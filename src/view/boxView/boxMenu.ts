@@ -3,28 +3,33 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { getBoxCards, getParticipants } from './boxManage';
+import { USR_STATE } from '../../db/usr-state';
+import { copy } from '../../utils/utils';
 
 export class BoxMenu {
     box: IBoxReq | undefined | null;
     wardId: number | undefined;
     userCard: ICardReq | undefined;
     boxId: string;
-    userId: string;
+    userId: number | undefined;
+    cards: ICardReq[] | undefined;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.wardId;
         this.userCard;
         this.box;
         this.boxId = '';
-        this.userId = '';
+        this.userId;
+        this.cards;
     }
 
     async render(path2: string) {
         this.boxId = path2;
         const box = await getParticipants(path2, this.controller.boxesController);
         this.box = box;
-        const userId = localStorage.getItem('id');
+        const userId = USR_STATE.id;
         userId ? (this.userId = userId) : null;
         const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
+        this.cards = cards;
         const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
         if (userCard) {
             this.userCard = userCard;
@@ -33,13 +38,15 @@ export class BoxMenu {
         if (this.userCard && this.userCard.ward_id) {
             this.wardId = this.userCard?.ward_id;
         }
-        const active1 = window.location.pathname.split('/').length === 3 ? 'active' : '';
+        const locationArr = window.location.pathname.split('/');
+        const wardInPath = locationArr.slice(-1)[0];
+        const active1 = locationArr.length === 3 || locationArr.includes('santas') ? 'active' : '';
         const active2 =
-            window.location.pathname.split('/').length > 3 && window.location.pathname.split('/')[3].includes('card')
+            locationArr.length > 3 && locationArr[3].includes('card') && Number(wardInPath) !== userCard?.ward_id
                 ? 'active'
                 : '';
         const active3 =
-            window.location.pathname.split('/').length > 3 && window.location.pathname.split('/')[3].includes('ward')
+            (locationArr.length > 3 && locationArr[3].includes('ward')) || Number(wardInPath) === userCard?.ward_id
                 ? 'active'
                 : '';
         this.root.innerHTML = box
@@ -50,13 +57,20 @@ export class BoxMenu {
 <div class="box__info">
   <div id="curr-box" class="box-img">${boxImages[box.box_img]}</div>
   <div class="box-description">
-      <h4>${box.box_name}</h4>
+  <h4>${box.box_name}</h4>
       <div class="description-bottom">
       <div> <span>Участников: ${box.cards_id.length}</span>
       <div class="dot"></div></div>
       <div  class="admin"><span>Организатор:</span> <span class="admin-name">${
-          userId && box.admin_id === Number(userId) ? 'Вы организатор' : box.admin_name
-      }</span></div>
+          this.userId !== this.box?.admin_id
+              ? `<input id="copy-email"
+        type="text"
+        class="copy-link-input" data-tippy-arrow="false"
+        data-tippy-content="Email скопирован"
+        data-tippy-placement="bottom-start"
+        readonly value=${box.admin_name}/>`
+              : `<span class="admin-name">Вы организатор</span>`
+      }</div>
       </div>
   </div>
 </div>
@@ -112,6 +126,16 @@ export class BoxMenu {
         this.addListeners();
     }
     addListeners() {
+        if (this.userId !== this.box?.admin_id) {
+            const link = document.querySelector('#copy-email') as HTMLInputElement;
+            link.value = `${this.box?.admin_name}`;
+
+            const adminCard = this.cards?.find((card) => card.user_id === this.box?.admin_id);
+            link.value = `${adminCard?.email}`;
+            link ? copy(link) : null;
+            link.value = `${this.box?.admin_name}`;
+        }
+
         const toggleMenu = document.querySelector('.box__toggle');
         const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
         const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');
