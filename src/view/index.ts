@@ -20,6 +20,8 @@ import { EditBoxView } from './editBox';
 import { EditCardView } from './editCard';
 import { BoxMenu } from './boxView/boxMenu';
 import { Hotkeys } from '../components/hotkeys';
+import { BoxTable } from './boxTable/boxTable';
+import { USR_STATE } from '../db/usr-state';
 
 export class View {
     root: Element;
@@ -38,6 +40,7 @@ export class View {
     editCardView: EditCardView;
     boxMenu: BoxMenu;
     hotkeys: Hotkeys;
+    boxTable: BoxTable;
 
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
@@ -59,6 +62,7 @@ export class View {
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
         this.hotkeys = new Hotkeys(this.controller, this.model);
+        this.boxTable = new BoxTable(this.controller, this.model, main);
         this.renderRoute();
     }
 
@@ -87,6 +91,9 @@ export class View {
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
+                USR_STATE.id = USR_OBJ[0].id;
+                USR_STATE.name = USR_OBJ[0].name;
+                USR_STATE.email = USR_OBJ[0].email;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
@@ -128,6 +135,11 @@ export class View {
                     } else if (path2 === 'new') {
                         this.newBoxView.render();
                         this.newBoxView.addListeners();
+                        break;
+                    } else if (path3 === 'santas') {
+                        console.log(path3);
+                        await this.boxMenu.render(path2);
+                        await this.boxTable.render(path2);
                         break;
                     } else if (path2 && path3 === 'edit') {
                         await this.boxMenu.render(path2);

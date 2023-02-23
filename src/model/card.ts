@@ -9,7 +9,7 @@ export class Card {
         return (await fetch(`${this.url}?id=${id}`)).json();
     }
     async update(id: number, obj: Partial<ICard>): Promise<ICardReq> {
-        const { userName, wardId, cardImg, wishes, boxId, userId, phone, wardGift, cardGift } = obj;
+        const { userName, wardId, cardImg, wishes, boxId, userId, phone, wardGift, cardGift, email } = obj;
         return (
             await fetch(`${this.url}`, {
                 method: 'PATCH',
@@ -24,6 +24,7 @@ export class Card {
                     phone,
                     wardGift,
                     cardGift,
+                    email,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,10 +34,21 @@ export class Card {
     }
 
     async create(obj: ICard): Promise<ICardReq> {
-        const { userName, wardId, cardImg, wishes, boxId, userId, phone, wardGift, cardGift } = obj;
+        const { userName, wardId, cardImg, wishes, boxId, userId, phone, wardGift, cardGift, email } = obj;
         const response = await fetch(`${this.url}`, {
             method: 'POST',
-            body: JSON.stringify({ userName, wardId, cardImg, wishes, boxId, userId, phone, wardGift, cardGift }),
+            body: JSON.stringify({
+                userName,
+                wardId,
+                cardImg,
+                wishes,
+                boxId,
+                userId,
+                phone,
+                wardGift,
+                cardGift,
+                email,
+            }),
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

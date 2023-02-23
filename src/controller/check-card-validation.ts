@@ -2,6 +2,7 @@ import { Card } from '../model/card';
 import { UserBoxes } from '../model/userBoxes';
 import { Box } from '../model/box';
 import { Authorization } from '../model/authorization';
+import { USR_STATE } from '../db/usr-state';
 export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
@@ -27,9 +28,10 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const wardId = null;
                     const wardGift = false;
                     const cardGift = false;
-                    const userId = +localStorage.id;
+                    const userId = USR_STATE.id;
                     const boxId = +localStorage.boxId;
                     const cardImg = VALIDATE_PIC.children[0].classList[0].trim();
+                    const email = USR_STATE.email;
                     const U_BOX_OBJ = await U_BOX.getByUserId(userId);
                     if (!U_BOX_OBJ[0].user_boxes.includes(boxId)) {
                         const NEW_BOX_ARR = await U_BOX_OBJ[0]['user_boxes'];
@@ -49,6 +51,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                         phone,
                         wardGift,
                         cardGift,
+                        email,
                     });
                     const BOX = new Box();
                     const BOX_OBJ = await BOX.getByBoxId(localStorage.boxId);

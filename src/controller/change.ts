@@ -1,3 +1,4 @@
+import { USR_STATE } from '../db/usr-state';
 import { Authorization } from '../model/authorization';
 import { switchHeader } from '../view/mainView/switch-header';
 export async function change(form: HTMLFormElement) {
@@ -20,6 +21,7 @@ export async function change(form: HTMLFormElement) {
                     const NAME = NAME_INPUT.value;
                     await USR.changeName(ID, NAME);
                     switchHeader(NAME);
+                    USR_STATE.name = NAME;
                     SAVED.classList.add('active');
                     setTimeout(() => {
                         SAVED.classList.remove('active');
@@ -33,6 +35,7 @@ export async function change(form: HTMLFormElement) {
                         USER_EXIST.classList.remove('visually-hidden');
                     } else {
                         USER_EXIST.classList.add('visually-hidden');
+                        USR_STATE.email = MAIL;
                         SAVED.classList.add('active');
                         setTimeout(() => {
                             SAVED.classList.remove('active');
