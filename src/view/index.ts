@@ -58,7 +58,7 @@ export class View {
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
-        this.hotkeys = new Hotkeys(this.controller);
+        this.hotkeys = new Hotkeys(this.controller, this.model);
         this.renderRoute();
     }
 

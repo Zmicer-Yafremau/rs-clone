@@ -194,7 +194,7 @@ export class EditCardView {
         });
 
         if (submitCardEdit) {
-            submitCardEdit?.addEventListener('click', async (e) => {
+            submitCardEdit?.addEventListener('click', async () => {
                 if (this.box && this.card) {
                     toggleLoader();
                     if (newImg) {
