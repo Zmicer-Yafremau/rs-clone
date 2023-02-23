@@ -116,28 +116,49 @@ export async function deleteUser() {
                         });
                     }
                 })();
+                /*Выдаляю астатняе*/
+                await (async () => {
+                    /*Выдаляю юзер бокс аккаўнта*/
+                    if (USER_BOX_ARR.length) {
+                        const U_B_DEL = await USER_BOX.delete(USER_BOX_ARR[0].id);
+                    } else alert(`Гэты аккаўнт ня мае user-box аб'екта, хаця на ўвахозе меў`);
+                    /*Выдаляю аккаўнт*/
+                    const USR_DEL = await USR.remove(localStorage.id);
+                    if (USR_DEL.error) {
+                        alert(`${JSON.stringify(USR_DEL)}`);
+                    } else {
+                        /*Калі выдаліўся чышчу і раблю рэдырэкт*/
+                        localStorage.token = '';
+                        localStorage.id = '';
+                        localStorage.boxId = '';
+                        localStorage.name = '';
+                        localStorage.inviteKey = '';
+                        location.replace(location.origin);
+                    }
+                })();
             }
+        } else {
+            /*Выдаляю астатняе*/
+            await (async () => {
+                /*Выдаляю юзер бокс аккаўнта*/
+                if (USER_BOX_ARR.length) {
+                    const U_B_DEL = await USER_BOX.delete(USER_BOX_ARR[0].id);
+                } else alert(`Гэты аккаўнт ня мае user-box аб'екта, хаця на ўвахозе меў`);
+                /*Выдаляю аккаўнт*/
+                const USR_DEL = await USR.remove(localStorage.id);
+                if (USR_DEL.error) {
+                    alert(`${JSON.stringify(USR_DEL)}`);
+                } else {
+                    /*Калі выдаліўся чышчу і раблю рэдырэкт*/
+                    localStorage.token = '';
+                    localStorage.id = '';
+                    localStorage.boxId = '';
+                    localStorage.name = '';
+                    localStorage.inviteKey = '';
+                    location.replace(location.origin);
+                }
+            })();
         }
-        /*Выдаляю астатняе*/
-        await (async () => {
-            /*Выдаляю юзер бокс аккаўнта*/
-            if (USER_BOX_ARR.length) {
-                const U_B_DEL = await USER_BOX.delete(USER_BOX_ARR[0].id);
-            } else alert(`Гэты аккаўнт ня мае user-box аб'екта, хаця на ўвахозе меў`);
-            /*Выдаляю аккаўнт*/
-            const USR_DEL = await USR.remove(localStorage.id);
-            if (USR_DEL.error) {
-                alert(`${JSON.stringify(USR_DEL)}`);
-            } else {
-                /*Калі выдаліўся чышчу і раблю рэдырэкт*/
-                localStorage.token = '';
-                localStorage.id = '';
-                localStorage.boxId = '';
-                localStorage.name = '';
-                localStorage.inviteKey = '';
-                location.replace(location.origin);
-            }
-        })();
     } else {
         alert(`Ня мае user-box аб'екта`);
         const USR_DEL = await USR.remove(localStorage.id);
