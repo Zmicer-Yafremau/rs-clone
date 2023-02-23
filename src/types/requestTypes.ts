@@ -8,6 +8,7 @@ export interface ICard {
     phone: string;
     wardGift: boolean;
     cardGift: boolean;
+    email: string;
 }
 export interface ICardReq {
     card_id: number;
@@ -20,6 +21,7 @@ export interface ICardReq {
     phone: string;
     ward_gift: boolean;
     card_gift: boolean;
+    email: string;
 }
 export interface IBox {
     boxName: string;
@@ -63,4 +65,11 @@ export interface IFeedbackReq {
     text: string;
     user_name: string;
     user_id: number | null;
+}
+export interface IUser {
+    id: number;
+    name: string;
+    email: string;
+    phonenumber: string;
+    jwtToken: string;
 }

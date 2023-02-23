@@ -3,24 +3,25 @@ import { Controller } from '../../controller';
 import { addUsrPics } from '../newBoxView/add-usr-pics';
 import { toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
+import { USR_STATE } from '../../db/usr-state';
 
 export class EditCardView {
     box: IBoxReq | undefined;
     cards: ICardReq[] | undefined;
-    userId: string;
+    userId: number | undefined;
     card: ICardReq | undefined;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.box = undefined;
         this.cards = [];
         this.card = undefined;
-        this.userId = '';
+        this.userId;
     }
 
     async render(path: string, pathId: string) {
         const boxId = Number(path);
         const box = await this.controller.boxesController.getBox(boxId);
         this.box = box;
-        const userId = localStorage.getItem('id');
+        const userId = USR_STATE.id;
         userId ? (this.userId = userId) : null;
         const cards = await this.controller.cardController.getCard(box.box_id);
         this.cards = cards;
@@ -194,7 +195,7 @@ export class EditCardView {
         });
 
         if (submitCardEdit) {
-            submitCardEdit?.addEventListener('click', async (e) => {
+            submitCardEdit?.addEventListener('click', async () => {
                 if (this.box && this.card) {
                     toggleLoader();
                     if (newImg) {

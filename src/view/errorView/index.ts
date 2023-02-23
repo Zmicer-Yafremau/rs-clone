@@ -16,7 +16,7 @@ export class ErrorView {
     addListeners() {
         const buttonBack = document.querySelector('#back');
         if (buttonBack) {
-            buttonBack.addEventListener('click', (e) => {
+            buttonBack.addEventListener('click', () => {
                 this.controller.route(location.origin + '/');
             });
         }

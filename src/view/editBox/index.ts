@@ -4,15 +4,16 @@ import { addBoxPics } from '../newBoxView/add-box-pics';
 import { copy, toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { deleteBox, drawRandomCards, redrawRandomCards } from '../boxView/boxManage';
+import { USR_STATE } from '../../db/usr-state';
 
 export class EditBoxView {
     box: IBoxReq | undefined;
     cards: ICardReq[] | undefined;
-    userId: string;
+    userId: number | undefined;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.box = undefined;
         this.cards = [];
-        this.userId = '';
+        this.userId;
     }
 
     async getBox(id: number) {
@@ -23,7 +24,7 @@ export class EditBoxView {
         const boxId = Number(path3);
         const box = await this.getBox(boxId);
         this.box = box;
-        const userId = localStorage.getItem('id');
+        const userId = USR_STATE.id;
         userId ? (this.userId = userId) : null;
         const allCards = await this.controller.cardController.getCard(box.box_id);
         this.cards = allCards;
@@ -43,7 +44,7 @@ export class EditBoxView {
             </div>
         
             <div>
-                <div class="section">
+               <div class="section">
                     <div class="col-4"><h5 class="">Название</h5></div>
                     <div class="check-section col-5 input">
                         <div class="input-box">
@@ -65,6 +66,12 @@ export class EditBoxView {
                 </div>
             </div>
             <div class="section">
+              <div class="col-4"><h5 class="">Таблица участников</h5></div>
+              <div class="check-section col-5">
+              <button id="showTable" type="button" class="bbtn main__button bg-light active">Показать таблицу</button>
+              </div>
+             </div>
+            <div class="section">
                 <div class="col-4"><h5 class="">Пригласить по ссылке</h5></div>
                 <div class="check-section col-5 link">
                     <p>
@@ -79,8 +86,7 @@ export class EditBoxView {
                         data-tippy-arrow="false"
                         data-tippy-content="Ссылка скопирована"
                         data-tippy-placement="bottom-start"
-                        ,
-                        readonly
+                         readonly
                     />
                 </div>
             </div>
@@ -146,7 +152,7 @@ export class EditBoxView {
                 toggleLoader();
             });
         }
-        const link = document.querySelector('.copy-link-input') as HTMLInputElement;
+        const link = document.querySelector('#copy-link') as HTMLInputElement;
         link.value = `${location.origin}/invite/${this.box?.invited_key}`;
         link ? copy(link) : null;
         const deleteBoxInput = document.querySelector('#inputDeleteBox');
@@ -175,7 +181,7 @@ export class EditBoxView {
                     newImg = targetDiv.children[0].classList[1];
                 }
             });
-            submitBoxImg.addEventListener('click', async (e) => {
+            submitBoxImg.addEventListener('click', async () => {
                 if (newImg && this.box) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxImg: newImg });
@@ -191,7 +197,7 @@ export class EditBoxView {
                 const target = e.target as HTMLInputElement;
                 newName = target.value;
             });
-            submitBoxName.addEventListener('click', async (e) => {
+            submitBoxName.addEventListener('click', async () => {
                 if (newName && this.box && this.userId) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxName: newName });
@@ -199,6 +205,12 @@ export class EditBoxView {
                     toggleLoader();
                 }
             });
+        }
+        const buttonTable = document.querySelector('#showTable');
+        if (buttonTable && this.box) {
+            buttonTable.addEventListener('click', () =>
+                this.controller.route(location.origin + `/box/${(this.box as IBoxReq).box_id}/santas`)
+            );
         }
         const buttonDelete = document.querySelector('#submit-delete');
         if (buttonDelete) {

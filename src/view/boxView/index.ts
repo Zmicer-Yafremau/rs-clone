@@ -5,28 +5,31 @@ import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { copy, toggleLoader } from '../../utils/utils';
 import { errorCats } from '../../db/errorCats';
 import { drawRandomCards, getBoxCards, getParticipants } from './boxManage';
+import { USR_STATE } from '../../db/usr-state';
 
 export class BoxView {
     cards: ICardReq[] | undefined;
     box: IBoxReq | undefined | null;
     userCard: undefined | ICardReq | null;
-    userId: string;
+    userId: number | undefined;
     constructor(private controller: Controller, private model: Model, private root: Element) {
         this.cards = [];
         this.box;
         this.userCard;
-        this.userId = '';
+        this.userId;
     }
 
     async render(path2: string) {
         const box = await getParticipants(path2, this.controller.boxesController);
         this.box = box;
-        const userId = localStorage.getItem('id');
+
+        const userId = USR_STATE.id;
         userId ? (this.userId = userId) : null;
         const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
         this.cards = cards;
         const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
         this.userCard = userCard;
+
         if (!box) {
             this.root.innerHTML = `<div class="box__not" >${errorCats.boxNotFound}
             <div><p>Коробка не найдена</p><p>Похоже, вы перешли по неверной ссылке для коробки..</p></div>
@@ -110,7 +113,7 @@ export class BoxView {
         }
         const buttonBack = document.querySelector('#back');
         if (buttonBack) {
-            buttonBack.addEventListener('click', (e) => {
+            buttonBack.addEventListener('click', () => {
                 this.controller.route(location.origin + '/');
             });
         }

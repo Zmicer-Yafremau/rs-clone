@@ -4,6 +4,7 @@ import { cardsImg } from '../../db/cardsImg';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { errorCats } from '../../db/errorCats';
 import { getBoxCards, getParticipants } from '../boxView/boxManage';
+import { USR_STATE } from '../../db/usr-state';
 
 export class CardView {
     card: ICardReq | undefined;
@@ -15,7 +16,7 @@ export class CardView {
     async render(pathBox: string, path: string) {
         const box = await getParticipants(pathBox, this.controller.boxesController);
         this.box = box ? box : undefined;
-        const userId = localStorage.getItem('id');
+        const userId = USR_STATE.id;
         userId ? userId : null;
         const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
         const userCard = cards?.find((card) => card.user_id === Number(userId));
