@@ -60,6 +60,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const cardsId = CARD_ARR;
                     await BOX.update(id, { cardsId });
                     SUBMIT_BUTTON.removeAttribute('disabled');
+                    localStorage.invite = '';
                     location.replace(location.origin + '/account/boxes');
                 } else {
                     ERR.classList.remove('visually-hidden');
