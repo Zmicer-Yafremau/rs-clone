@@ -23,13 +23,17 @@ export class InviteView {
                     const U_CARD_OBJ = await U_CARD.getCardsOfBox(localStorage.boxId);
                     const CHECK_CARDS = U_CARD_OBJ.some((el) => el.user_id === ID);
                     console.log(U_CARD_OBJ);
-                    if (CHECK_CARDS) location.replace(`${location.origin}/box/${localStorage.boxId}`);
+                    if (CHECK_CARDS) {
+                        localStorage.invite = '';
+                        location.replace(`${location.origin}/box/${localStorage.boxId}`);
+                    }
                 }
                 renderCardReg();
             } else {
                 location.replace(`${location.origin}/login`);
             }
         } catch {
+            localStorage.inviteKey = '';
             location.replace(`${location.origin}/error404`);
         }
     }
