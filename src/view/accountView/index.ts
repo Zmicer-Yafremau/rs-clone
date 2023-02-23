@@ -7,13 +7,15 @@ import { change } from '../../controller/change';
 import { boxImages } from '../../db/boxesImg';
 import { getEnding } from '../../utils/utils';
 import { errorCats } from '../../db/errorCats';
+import { USR_STATE } from '../../db/usr-state';
 
 export class AccountView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
     async render(path2: string) {
         const userBoxes = await this.controller.boxesController.getBoxes();
         const years: string[] = [];
-        const userId: string | null = localStorage.getItem('id');
+        const userId: number | undefined = USR_STATE.id;
+        console.log(USR_STATE);
         if (userBoxes && userBoxes.length > 0) {
             userBoxes.forEach((boxes) => (!years.includes(boxes.year) ? years.push(boxes.year) : null));
         }
