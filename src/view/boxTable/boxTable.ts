@@ -41,7 +41,7 @@ export class BoxTable {
         if (cards) {
             cards.forEach(async (card, i) => {
                 const cardItem = document.createElement('tr');
-                const { card_id, user_name, ward_id, wishes, phone, ward_gift, card_gift } = card;
+                const { card_id, user_name, ward_id, wishes, phone, ward_gift, card_gift, email } = card;
                 const wardName = cards.find((card) => card.card_id === ward_id)?.user_name;
 
                 const santaName = cards.find((card) => card.ward_id === card_id)?.user_name;
@@ -53,7 +53,7 @@ export class BoxTable {
         <td >${santaName}</td>
         <td >${card_gift ? 'Да' : 'Нет'}</td>
         <td >${ward_gift ? 'Да' : 'Нет'}</td>
-        <td >${`email`}</td>
+        <td >${email ? email : ''}</td>
         <td >${phone}</td>
         <td >${wishes}</td>
         `;
