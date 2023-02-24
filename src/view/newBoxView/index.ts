@@ -35,7 +35,7 @@ export class NewBoxView {
             </div>
 
             <div class="screenshot__footer center">
-                        <button type="submit" class="btn main__button active">Создать</button>
+                        <button type="submit" class="btn box__sub-btn main__button active">Создать</button>
 
             </div>
         </div>

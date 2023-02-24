@@ -152,12 +152,10 @@ export class View {
                         await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
-                    } else {
-                        await this.boxMenu.render(path2);
-                        await this.boxView.render(path2);
-                        this.boxView.addListeners();
-                        break;
-                    }
+                    } else await this.boxMenu.render(path2);
+                    await this.boxView.render(path2);
+                    this.boxView.addListeners();
+                    break;
                 } else {
                     this.loginView.render();
                     this.loginView.addListeners();

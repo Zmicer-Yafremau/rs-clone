@@ -5,6 +5,8 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
         'submit',
         async (event) => {
+            const SUBMIT_BUTTON = document.getElementsByClassName('box__sub-btn')[0] as HTMLButtonElement;
+            SUBMIT_BUTTON.setAttribute('disabled', '');
             const ERR = document.getElementsByClassName('box__err')[0] as HTMLDivElement;
             ERR.classList.add('visually-hidden');
             if (!form.checkValidity()) {
@@ -47,12 +49,15 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
                     NEW_BOX_ARR.push(BOX_OBJ.box_id);
                     await USR_BOX.update(BOX_GET[0].id, NEW_BOX_ARR, BOX_GET[0].account_id);
                     localStorage.boxId = BOX_OBJ.box_id;
+                    SUBMIT_BUTTON.removeAttribute('disabled');
                     renderCardReg();
                 } else {
                     ERR.classList.remove('visually-hidden');
+                    SUBMIT_BUTTON.removeAttribute('disabled');
                 }
             }
             form.classList.add('was-validated');
+            SUBMIT_BUTTON.removeAttribute('disabled');
         },
         false
     );
