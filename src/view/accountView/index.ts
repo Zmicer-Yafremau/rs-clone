@@ -236,10 +236,13 @@ export class AccountView {
                     <div class="d-flex justify-content-end visually-hidden">
                         <button type="submit" class="btn text-secondary bg-none">Удалить</button>
                     </div>
-                    <div class="delete__error authorization__errors visually-hidden">
-                         Невозможно удалить профиль, есть коробки в которых уже состоялась жеребьёвка.
-                         Обратитесь к создателям этих коробок <span class="account__admins"></span>.
+                    <div class="delete__error-part authorization__errors visually-hidden">
+                         Невозможно удалить профиль, есть коробки в которых вы учавствуете.
+                         Обратитесь к создателям этих коробок <span class="account__admins"></span> для того, что бы они вас удалили.
                     </div>
+                    <div class="delete__error-admin authorization__errors visually-hidden">
+                    Невозможно удалить профиль, сначало удалите свои коробки.
+               </div>
                 </form>
             </div>
         </div>
