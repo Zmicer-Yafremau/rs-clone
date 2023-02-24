@@ -89,9 +89,9 @@ async function updateUserBoxes(userId: number, boxId: number, controller: UserBo
 export async function getParticipants(path: string, controller: BoxesController) {
     const allBoxesOfUser = await controller.getBoxes();
     const currentBoxId = Number(path);
-    if (allBoxesOfUser && allBoxesOfUser.length > 0) {
+    if (currentBoxId && allBoxesOfUser && allBoxesOfUser.length > 0) {
         const currentBox = allBoxesOfUser.find((box) => box.box_id === Number(currentBoxId));
-        return currentBox;
+        return currentBox ? currentBox : null;
     }
     return null;
 }

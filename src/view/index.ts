@@ -94,11 +94,12 @@ export class View {
                 USR_STATE.id = USR_OBJ[0].id;
                 USR_STATE.name = USR_OBJ[0].name;
                 USR_STATE.email = USR_OBJ[0].email;
+                USR_STATE.phonenumber = USR_OBJ[0].phonenumber;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
                 isLogin = true;
-            } else localStorage.token = '';
+            } else localStorage.clear();
         }
         switch (path) {
             case '':
