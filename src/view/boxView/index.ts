@@ -91,7 +91,7 @@ export class BoxView {
                       Ccылка-приглашение (кликните, чтобы скопировать):
                      
                      </p> 
-                     <input id="copy-link" type="text" class="copy-link-input"  data-tippy-arrow="false" data-tippy-content="Ссылка скопирована" data-tippy-placement="bottom-start",  readonly>
+                     <input id="copy" type="text" class="copy-link-input copy-link"  data-tippy-arrow="false" data-tippy-content="Ссылка скопирована" data-tippy-placement="bottom-start",  readonly>
                      </div>
                   </div>`
             }
@@ -106,7 +106,7 @@ export class BoxView {
     }
 
     addListeners() {
-        const link = document.querySelector('.copy-link-input') as HTMLInputElement;
+        const link = document.querySelector('.copy-link') as HTMLInputElement;
         if (link) {
             link.value = `${location.origin}/invite/${this.box?.invited_key}`;
             copy(link);

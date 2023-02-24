@@ -80,9 +80,9 @@ export class EditBoxView {
                     </p>
                     <p class="link-copy">Ccылка-приглашение (кликните, чтобы скопировать):</p>
                     <input
-                        id="copy-link"
+                        id="copy"
                         type="text"
-                        class="copy-link-input"
+                        class="copy-link-input copy-link"
                         data-tippy-arrow="false"
                         data-tippy-content="Ссылка скопирована"
                         data-tippy-placement="bottom-start"
@@ -152,7 +152,7 @@ export class EditBoxView {
                 toggleLoader();
             });
         }
-        const link = document.querySelector('#copy-link') as HTMLInputElement;
+        const link = document.querySelector('.copy-link') as HTMLInputElement;
         link.value = `${location.origin}/invite/${this.box?.invited_key}`;
         link ? copy(link) : null;
         const deleteBoxInput = document.querySelector('#inputDeleteBox');
