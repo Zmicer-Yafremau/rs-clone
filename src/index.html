@@ -8,12 +8,57 @@
         <title>RS clone</title>
     </head>
     <body class="body">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Горячие клавиши</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Alt+S</li>
+                            <li class="list-group-item">Создать новую коробку. Для зарегестрированных пользователей.</li>
+                          </ul>
+                          <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Ctrl+E</li>
+                            <li class="list-group-item">Переключатель для карточки между пожеланиями и контактами. Выполняется со страницы карточки.</li>
+                          </ul>
+                          <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Alt+C</li>
+                            <li class="list-group-item">Перейти на страницу с ответами на частые вопросы.</li>
+                          </ul>
+                          <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Alt+R</li>
+                            <li class="list-group-item">Перейти на страницу с отзывами и предложениями.</li>
+                          </ul>
+                          <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Alt+E</li>
+                            <li class="list-group-item">Перейти на страницу настроек своей коробки. Выполняется после входа в  свою коробку.</li>
+                          </ul>
+                          <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">Alt+T</li>
+                            <li class="list-group-item">Перейти на страницу настроек своей карточки. Выполняется после входа в свою карточку.</li>
+                          </ul>
+                          
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn main__button bg-light" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <header class="header fixed-top center">
             <div class="header__wrapper between">
-                <div class="header__logo">
+                <div class="header__logo center">
                     <a href="/" class="nav__link text-dark">
                         <h4 class="logo">тайный санта</h4>
                     </a>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label text-center" for="flexSwitchCheckDefault">Сменить тему</label>
                 </div>
                 <div class="navigation">
                     <span class="navigation__reg">
@@ -57,6 +102,9 @@
                         <div class="col d-flex flex-wrap">
                             <a href="/faq" class="nav__link">Частые вопросы</a>
                             <a href="/rating" class="nav__link">Обратная связь</a>
+                            <button type="button" class="btn btn-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Горячие клавиши
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,17 @@ h1 {
     outline: 0 !important;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
-
+.form-check-input:checked {
+    background-color: $faq-text;
+    border-color: $faq-text;
+}
+.form-check-input:focus {
+    border-color:$faq-text;
+    background-color: $faq-text;
+}
+.form-switch .form-check-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='white'/%3e%3c/svg%3e");
+  }
 textarea {
     resize: none;
 }
@@ -115,6 +125,13 @@ textarea {
     align-items: center;
     justify-content: flex-end;
     flex-wrap: wrap;
+}
+
+.btn-modal {
+    color: white;
+    margin-right: 30px;
+    padding: 0;
+    border-width: 0;
 }
 #root {
     flex: 1 1 auto;
@@ -223,7 +240,10 @@ textarea {
         font-size: 14px;
     }
     .nav {
-        width: 200px;
+        width: 170px;
+    }
+    .form-check label {
+        display: none !important;
     }
 }
 .loader {

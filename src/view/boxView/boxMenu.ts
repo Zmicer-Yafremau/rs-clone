@@ -25,32 +25,34 @@ export class BoxMenu {
     async render(path2: string) {
         this.boxId = path2;
         const box = await getParticipants(path2, this.controller.boxesController);
-        this.box = box;
-        const userId = USR_STATE.id;
-        userId ? (this.userId = userId) : null;
-        const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
-        this.cards = cards;
-        const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
-        if (userCard) {
-            this.userCard = userCard;
-        }
+        if (box) {
+            this.box = box;
 
-        if (this.userCard && this.userCard.ward_id) {
-            this.wardId = this.userCard?.ward_id;
-        }
-        const locationArr = window.location.pathname.split('/');
-        const wardInPath = locationArr.slice(-1)[0];
-        const active1 = locationArr.length === 3 || locationArr.includes('santas') ? 'active' : '';
-        const active2 =
-            locationArr.length > 3 && locationArr[3].includes('card') && Number(wardInPath) !== userCard?.ward_id
-                ? 'active'
-                : '';
-        const active3 =
-            (locationArr.length > 3 && locationArr[3].includes('ward')) || Number(wardInPath) === userCard?.ward_id
-                ? 'active'
-                : '';
-        this.root.innerHTML = box
-            ? `
+            const userId = USR_STATE.id;
+            userId ? (this.userId = userId) : null;
+            const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
+            this.cards = cards;
+            const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
+            if (userCard) {
+                this.userCard = userCard;
+            }
+
+            if (this.userCard && this.userCard.ward_id) {
+                this.wardId = this.userCard?.ward_id;
+            }
+            const locationArr = window.location.pathname.split('/');
+            const wardInPath = locationArr.slice(-1)[0];
+            const active1 = locationArr.length === 3 || locationArr.includes('santas') ? 'active' : '';
+            const active2 =
+                locationArr.length > 3 && locationArr[3].includes('card') && Number(wardInPath) !== userCard?.ward_id
+                    ? 'active'
+                    : '';
+            const active3 =
+                (locationArr.length > 3 && locationArr[3].includes('ward')) || Number(wardInPath) === userCard?.ward_id
+                    ? 'active'
+                    : '';
+            this.root.innerHTML = box
+                ? `
             <div class="box__view">
             <div class="box__menu-wrapper">
 <div class="box__menu">
@@ -63,12 +65,11 @@ export class BoxMenu {
       <div class="dot"></div></div>
       <div  class="admin"><span>Организатор:</span> <span class="admin-name">${
           this.userId !== this.box?.admin_id
-              ? `<input id="copy-email"
+              ? `<input id="copy"
         type="text"
-        class="copy-link-input" data-tippy-arrow="false"
+        class="copy-link-input copy-email" data-tippy-arrow="false"
         data-tippy-content="Email скопирован"
-        data-tippy-placement="bottom-start"
-        readonly value=${box.admin_name}/>`
+        data-tippy-placement="bottom-start" readonly />`
               : `<span class="admin-name">Вы организатор</span>`
       }</div>
       </div>
@@ -121,21 +122,20 @@ export class BoxMenu {
   }
 </div></div></div></div>            
 `
-            : '  <div class="box__view"></div>';
-
-        this.addListeners();
+                : '  <div class="box__view"></div>';
+            this.addListeners();
+        }
     }
-    addListeners() {
-        if (this.userId !== this.box?.admin_id) {
-            const link = document.querySelector('#copy-email') as HTMLInputElement;
-            link.value = `${this.box?.admin_name}`;
 
+    addListeners() {
+        const link = document.querySelector('.copy-email') as HTMLInputElement;
+        if (this.userId !== this.box?.admin_id) {
+            link.value = `${this.box?.admin_name}`;
             const adminCard = this.cards?.find((card) => card.user_id === this.box?.admin_id);
-            link.value = `${adminCard?.email}`;
+            link.value = `${adminCard ? adminCard.email : this.box?.admin_name}`;
             link ? copy(link) : null;
             link.value = `${this.box?.admin_name}`;
         }
-
         const toggleMenu = document.querySelector('.box__toggle');
         const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
         const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');

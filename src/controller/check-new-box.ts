@@ -21,7 +21,7 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement) {
                 if (VALIDATE_PIC) {
                     const BOX = new Box();
                     const INPUT = document.getElementById('boxInput') as HTMLInputElement;
-                    const boxName = INPUT.value;
+                    const boxName = INPUT.value.trim();
                     let invitedKey = '';
                     const adminName = localStorage.name;
                     const year = '2023';

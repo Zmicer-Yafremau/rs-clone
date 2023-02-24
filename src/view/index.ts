@@ -19,6 +19,7 @@ import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
 import { EditCardView } from './editCard';
 import { BoxMenu } from './boxView/boxMenu';
+import { Hotkeys } from '../components/hotkeys';
 import { BoxTable } from './boxTable/boxTable';
 import { USR_STATE } from '../db/usr-state';
 
@@ -38,6 +39,7 @@ export class View {
     editBoxView: EditBoxView;
     editCardView: EditCardView;
     boxMenu: BoxMenu;
+    hotkeys: Hotkeys;
     boxTable: BoxTable;
 
     constructor(private controller: Controller, private model: Model) {
@@ -59,6 +61,7 @@ export class View {
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
+        this.hotkeys = new Hotkeys(this.controller, this.model);
         this.boxTable = new BoxTable(this.controller, this.model, main);
         this.renderRoute();
     }
@@ -78,6 +81,11 @@ export class View {
         this.model.on('route', () => {
             this.renderRoute();
         });
+        const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+        const BODY = document.body;
+        THEME_CHECKBOX.addEventListener('change', () => {
+            BODY.classList.toggle('darkTheme');
+        });
     }
 
     async renderRoute() {
@@ -91,11 +99,12 @@ export class View {
                 USR_STATE.id = USR_OBJ[0].id;
                 USR_STATE.name = USR_OBJ[0].name;
                 USR_STATE.email = USR_OBJ[0].email;
+                USR_STATE.phonenumber = USR_OBJ[0].phonenumber;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
                 isLogin = true;
-            } else localStorage.token = '';
+            } else localStorage.clear();
         }
         switch (path) {
             case '':
@@ -176,6 +185,7 @@ export class View {
                 this.errorView.render();
         }
         this.addHandlers();
+        this.hotkeys.addHotKeys();
     }
 
     renderContent() {

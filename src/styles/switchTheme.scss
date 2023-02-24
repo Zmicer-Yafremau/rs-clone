@@ -1,0 +1,16 @@
+@import './variables/var.scss';
+.darkTheme {
+    background-color: $cost-bg;
+}
+.darkTheme .header {
+    background-color: $cost-bg;
+} 
+.darkTheme .main__lights-bg {
+    fill: $cost-bg !important;
+}
+.darkTheme .extra-faq {
+    background-color: #e5dcfd;
+}
+.darkTheme .accordion-item {
+    background-color: $limit-bg !important;
+}

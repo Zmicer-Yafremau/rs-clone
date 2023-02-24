@@ -43,19 +43,17 @@ export class BoxTable {
                 const cardItem = document.createElement('tr');
                 const { card_id, user_name, ward_id, wishes, phone, ward_gift, card_gift, email } = card;
                 const wardName = cards.find((card) => card.card_id === ward_id)?.user_name;
-
                 const santaName = cards.find((card) => card.ward_id === card_id)?.user_name;
                 cardItem.classList.add('card-item');
-
                 cardItem.innerHTML = `<td class="number">${i + 1}</td>
         <td >${user_name}</td>
-        <td >${wardName}</td>
-        <td >${santaName}</td>
+        <td >${wardName ? wardName : 'Нет подопечного'}</td>
+        <td >${santaName ? santaName : 'Нет подопечного'}</td>
         <td >${card_gift ? 'Да' : 'Нет'}</td>
         <td >${ward_gift ? 'Да' : 'Нет'}</td>
         <td >${email ? email : ''}</td>
-        <td >${phone}</td>
-        <td >${wishes}</td>
+        <td >${phone ? phone : ''}</td>
+        <td >${wishes ? wishes : 'Нет пожеланий'}</td>
         `;
                 table.append(cardItem);
             });

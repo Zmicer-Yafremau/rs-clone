@@ -54,6 +54,7 @@
     },
     "dependencies": {
         "bootstrap": "^5.2.3",
+        "hotkeys-js": "^3.10.1",
         "jsdom": "^20.0.3",
         "mini-css-extract-plugin": "^2.7.2",
         "nouislider": "^15.6.0",

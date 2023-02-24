@@ -40,7 +40,7 @@ export function copy(el: HTMLInputElement) {
     el.addEventListener('click', () => {
         el.select();
         navigator.clipboard.writeText(text);
-        tippy(`#copy-link`, {
+        tippy(`#copy`, {
             trigger: 'click',
         });
     });

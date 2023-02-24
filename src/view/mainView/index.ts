@@ -553,6 +553,7 @@ export class MainView {
             <svg class="main__lights" width="4006" height="159" viewBox="0 0 4006 159" fill="none"
                 style="background: none; width: 175rem; height: 6.94583rem">
                 <path
+                    class="main__lights-bg"
                     d="M968.88 31.88l239.47 4.6 255.47-4.6 129.48-5.73h176.48l199.48 5.73 234.97 2.87h102.98l191.98-6.88L2618.17 25h117.49l117.98 2.87 286.97 6.88h228.47l165.98-5.16h227.97L4005 37.05V158.5H15.5V28.44l123.98 4.6 258.47 1.71L643.42 25H799.4l169.48 6.88z"
                     fill="#FDFDFF"></path>
                 <g filter="url(#prefix__a)">
