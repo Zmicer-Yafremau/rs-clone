@@ -19,6 +19,7 @@ import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
 import { EditCardView } from './editCard';
 import { BoxMenu } from './boxView/boxMenu';
+import { Hotkeys } from '../components/hotkeys';
 import { BoxTable } from './boxTable/boxTable';
 import { USR_STATE } from '../db/usr-state';
 
@@ -38,6 +39,7 @@ export class View {
     editBoxView: EditBoxView;
     editCardView: EditCardView;
     boxMenu: BoxMenu;
+    hotkeys: Hotkeys;
     boxTable: BoxTable;
 
     constructor(private controller: Controller, private model: Model) {
@@ -59,6 +61,7 @@ export class View {
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
+        this.hotkeys = new Hotkeys(this.controller, this.model);
         this.boxTable = new BoxTable(this.controller, this.model, main);
         this.renderRoute();
     }
@@ -178,6 +181,7 @@ export class View {
                 this.errorView.render();
         }
         this.addHandlers();
+        this.hotkeys.addHotKeys();
     }
 
     renderContent() {
