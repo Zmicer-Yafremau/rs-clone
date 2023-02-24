@@ -1,4 +1,4 @@
 export function exit() {
-    localStorage.token = '';
+    localStorage.clear();
     location.replace(location.origin);
 }

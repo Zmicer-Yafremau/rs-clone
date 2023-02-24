@@ -96,7 +96,7 @@ export class View {
                 localStorage.id = USR_OBJ[0].id;
                 switchHeader(USR_OBJ[0].name);
                 isLogin = true;
-            } else localStorage.token = '';
+            } else localStorage.clear();
         }
         switch (path) {
             case '':

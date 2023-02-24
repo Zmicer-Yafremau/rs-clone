@@ -15,7 +15,6 @@ export class AccountView {
         const userBoxes = await this.controller.boxesController.getBoxes();
         const years: string[] = [];
         const userId: number | undefined = USR_STATE.id;
-        console.log(USR_STATE);
         if (userBoxes && userBoxes.length > 0) {
             userBoxes.forEach((boxes) => (!years.includes(boxes.year) ? years.push(boxes.year) : null));
         }
