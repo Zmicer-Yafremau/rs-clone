@@ -128,11 +128,7 @@ export async function deleteUser() {
                         alert(`${JSON.stringify(USR_DEL)}`);
                     } else {
                         /*Калі выдаліўся чышчу і раблю рэдырэкт*/
-                        localStorage.token = '';
-                        localStorage.id = '';
-                        localStorage.boxId = '';
-                        localStorage.name = '';
-                        localStorage.inviteKey = '';
+                        localStorage.clear();
                         location.replace(location.origin);
                     }
                 })();
@@ -150,11 +146,7 @@ export async function deleteUser() {
                     alert(`${JSON.stringify(USR_DEL)}`);
                 } else {
                     /*Калі выдаліўся чышчу і раблю рэдырэкт*/
-                    localStorage.token = '';
-                    localStorage.id = '';
-                    localStorage.boxId = '';
-                    localStorage.name = '';
-                    localStorage.inviteKey = '';
+                    localStorage.clear();
                     location.replace(location.origin);
                 }
             })();
