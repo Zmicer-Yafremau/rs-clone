@@ -81,6 +81,11 @@ export class View {
         this.model.on('route', () => {
             this.renderRoute();
         });
+        const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+        const BODY = document.body;
+        THEME_CHECKBOX.addEventListener('change', () => {
+            BODY.classList.toggle('darkTheme');
+        });
     }
 
     async renderRoute() {
