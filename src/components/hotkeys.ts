@@ -3,7 +3,7 @@ import { Controller } from '../controller';
 import { Model } from '../model';
 
 export class Hotkeys {
-  constructor(private controller: Controller, private model: Model) { }
+    constructor(private controller: Controller, private model: Model) {}
 
     async addHotKeys() {
         hotkeys('alt+s', (event) => {
@@ -22,19 +22,19 @@ export class Hotkeys {
         });
 
         hotkeys('alt+e', (event) => {
-          event.preventDefault();
-          const setting = document.getElementById('setting') as HTMLDivElement;
-          const path = window.location.pathname.split('/')[2];
+            event.preventDefault();
+            const setting = document.getElementById('setting') as HTMLDivElement;
+            const path = window.location.pathname.split('/')[2];
             if (setting) {
                 this.controller.route(location.origin + `/box/${path}/edit`);
             }
         });
 
         hotkeys('alt+t', (event) => {
-          event.preventDefault();
-          const path = window.location.pathname.split('/')[2];
-          const pathCard = window.location.pathname.split('/')[3];
-          const pathEdit = window.location.pathname.split('/')[4];
+            event.preventDefault();
+            const path = window.location.pathname.split('/')[2];
+            const pathCard = window.location.pathname.split('/')[3];
+            const pathEdit = window.location.pathname.split('/')[4];
             if (pathCard === 'card' && !pathEdit) {
                 this.controller.route(location.origin + `/box/${path}/card/edit`);
             }
