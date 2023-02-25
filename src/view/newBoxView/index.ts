@@ -56,6 +56,6 @@ export class NewBoxView {
                 DIV.classList.toggle('active');
             }
         });
-        checkNewBox(FORM, BOX_PICTURES);
+        checkNewBox(FORM, BOX_PICTURES, this.controller, this.model);
     }
 }

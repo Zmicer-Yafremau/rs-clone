@@ -1,5 +1,6 @@
 import { Model } from '../model';
 import { Controller } from '.';
+import { switchHeader } from '../view/mainView/switch-header';
 export async function deleteUser(controller: Controller, model: Model) {
     const PART_ERR = document.getElementsByClassName('delete__error-part')[0] as HTMLDivElement;
     PART_ERR.classList.add('visually-hidden');
@@ -48,7 +49,8 @@ export async function deleteUser(controller: Controller, model: Model) {
             } else {
                 /*Калі выдаліўся чышчу і раблю рэдырэкт*/
                 localStorage.clear();
-                location.replace(location.origin);
+                controller.route(location.origin);
+                switchHeader();
             }
         }
     } else {

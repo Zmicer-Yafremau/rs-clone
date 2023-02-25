@@ -15,4 +15,5 @@ export type USR_STATE_TYPE = {
     email: string;
     phonenumber: string;
     password: string;
+    dark:boolean;
 };

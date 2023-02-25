@@ -283,7 +283,7 @@ export class AccountView {
                 EXIT.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    exit();
+                    exit(this.controller);
                 });
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();

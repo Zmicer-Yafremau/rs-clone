@@ -1,4 +1,7 @@
-export function exit() {
+import { Controller } from '.';
+import { switchHeader } from '../view/mainView/switch-header';
+export function exit(controller: Controller) {
     localStorage.clear();
-    location.replace(location.origin);
+    controller.route(location.origin);
+    switchHeader();
 }

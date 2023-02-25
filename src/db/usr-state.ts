@@ -5,4 +5,5 @@ export const USR_STATE: USR_STATE_TYPE = {
     email: '',
     phonenumber: '',
     password: '',
+    dark: false,
 };
