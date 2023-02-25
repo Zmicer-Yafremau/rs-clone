@@ -25,16 +25,16 @@ export class InviteView {
                     console.log(U_CARD_OBJ);
                     if (CHECK_CARDS) {
                         localStorage.invite = '';
-                        location.replace(`${location.origin}/box/${localStorage.boxId}`);
+                        location.replace(`${this.model.route.origin}/box/${localStorage.boxId}`);
                     }
                 }
                 renderCardReg();
             } else {
-                location.replace(`${location.origin}/login`);
+                location.replace(`${this.model.route.origin}/login`);
             }
         } catch {
             localStorage.inviteKey = '';
-            location.replace(`${location.origin}/error404`);
+            location.replace(`${this.model.route.origin}/error404`);
         }
     }
 }

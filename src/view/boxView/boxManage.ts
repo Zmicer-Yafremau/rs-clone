@@ -2,13 +2,15 @@ import { Controller } from '../../controller';
 import { BoxesController } from '../../controller/boxes.controller';
 import { CardController } from '../../controller/card.controller';
 import { UserBoxesController } from '../../controller/user-boxes.controller';
+import { Model } from '../../model';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { mixArr } from '../../utils/utils';
 
 export async function drawRandomCards(
     cards: ICardReq[] | undefined,
     box: IBoxReq | null | undefined,
-    controller: Controller
+    controller: Controller,
+    model: Model
 ) {
     const cardsId = cards?.map((card) => card.card_id);
     if (cardsId && cardsId.length >= 3 && box) {
@@ -26,7 +28,7 @@ export async function drawRandomCards(
         cards = updateCards;
         const updateBox = await controller.boxesController.updateBox(box.box_id, { isDraw: true });
         box = updateBox;
-        controller.route(location.origin + `/box/${box.box_id}`);
+        controller.route(model.route.origin + `/box/${box.box_id}`);
         return { cards, box };
     }
 }
@@ -34,7 +36,8 @@ export async function drawRandomCards(
 export async function redrawRandomCards(
     cards: ICardReq[] | undefined,
     box: IBoxReq | null | undefined,
-    controller: Controller
+    controller: Controller,
+    model: Model
 ) {
     if (cards && box) {
         const updateCards = await Promise.all(
@@ -50,7 +53,7 @@ export async function redrawRandomCards(
         cards = updateCards;
         const updateBox = await controller.boxesController.updateBox(box.box_id, { isDraw: false });
         box = updateBox;
-        controller.route(location.origin + `/box/${box.box_id}/edit`);
+        controller.route(model.route.origin + `/box/${box.box_id}/edit`);
         return { cards, box };
     }
     return false;
