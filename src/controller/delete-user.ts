@@ -1,18 +1,15 @@
-import { Authorization } from '../model/authorization';
-import { Box } from '../model/box';
-import { Card } from '../model/card';
-import { UserBoxes } from '../model/userBoxes';
-export async function deleteUser() {
+import { Model } from '../model';
+import { Controller } from '.';
+export async function deleteUser(controller: Controller, model: Model) {
     const PART_ERR = document.getElementsByClassName('delete__error-part')[0] as HTMLDivElement;
     PART_ERR.classList.add('visually-hidden');
     const ADMIN_ERR = document.getElementsByClassName('delete__error-admin')[0] as HTMLDivElement;
     ADMIN_ERR.classList.add('visually-hidden');
     const ADMINS = document.getElementsByClassName('account__admins')[0] as HTMLSpanElement;
     ADMINS.innerHTML = '';
-    const USR = new Authorization();
-    const BOX = new Box();
-    const CARD = new Card();
-    const USER_BOX = new UserBoxes();
+    const USR = model.authorizationModel;
+    const BOX = model.boxModel;
+    const USER_BOX = model.userBoxesModel;
     const USER_BOX_ARR = await USER_BOX.getByUserId(localStorage.id);
     const ADMIN_BOX_ARR = await BOX.getByAdminId(localStorage.id);
     let admin_boxes = false;
@@ -36,13 +33,13 @@ export async function deleteUser() {
             if (PART_CHECK.length) {
                 PART_ERR.classList.remove('visually-hidden');
                 ADMINS.innerHTML = PART_CHECK.toString();
-            } else ADMIN_ERR.classList.remove('visually-hidden');
+            } else if (admin_boxes) ADMIN_ERR.classList.remove('visually-hidden');
         } else {
             /*Выдаляю астатняе*/
 
             /*Выдаляю юзер бокс аккаўнта*/
             if (USER_BOX_ARR.length) {
-                const U_B_DEL = await USER_BOX.delete(USER_BOX_ARR[0].id);
+                await USER_BOX.delete(USER_BOX_ARR[0].id);
             } else alert(`Гэты аккаўнт ня мае user-box аб'екта, хаця на ўвахозе меў`);
             /*Выдаляю аккаўнт*/
             const USR_DEL = await USR.remove(localStorage.id);

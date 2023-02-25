@@ -288,7 +288,7 @@ export class AccountView {
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();
                     event.stopImmediatePropagation();
-                    await deleteUser();
+                    await deleteUser(this.controller, this.model);
                 });
                 DELETE__INPUT.addEventListener('input', () => {
                     if (DELETE__INPUT.value === 'Удалить профиль') {
