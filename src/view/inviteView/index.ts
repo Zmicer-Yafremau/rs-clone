@@ -20,16 +20,16 @@ export class InviteView {
                     const CHECK_CARDS = U_CARD_OBJ.some((el) => el.user_id === ID);
                     if (CHECK_CARDS) {
                         localStorage.invite = '';
-                        this.controller.route(`${location.origin}/box/${localStorage.boxId}`);
+                        this.controller.route(`${this.model.route.origin}/box/${localStorage.boxId}`);
                     }
                 }
-                this.controller.route(location.origin + '/card');
+                this.controller.route(this.model.route.origin + '/card');
             } else {
-                this.controller.route(`${location.origin}/login`);
+                this.controller.route(`${this.model.route.origin}/login`);
             }
         } catch {
             localStorage.inviteKey = '';
-            this.controller.route(`${location.origin}/error404`);
+            this.controller.route(`${this.model.route.origin}/error404`);
         }
     }
 }

@@ -65,7 +65,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement, control
                         await BOX.update(id, { cardsId });
                     }
                     localStorage.invite = '';
-                    controller.route(location.origin + `/box/${boxId}`);
+                    controller.route(model.route.origin + `/box/${boxId}`);
                 } else {
                     ERR.classList.remove('visually-hidden');
                     SUBMIT_BUTTON.innerHTML = `Создать`;

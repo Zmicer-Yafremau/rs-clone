@@ -51,7 +51,7 @@ export function checkNewBox(form: HTMLFormElement, div: HTMLDivElement, controll
                     await USR_BOX.update(BOX_GET[0].id, NEW_BOX_ARR, BOX_GET[0].account_id);
                     localStorage.boxId = BOX_OBJ.box_id;
                     SUBMIT_BUTTON.removeAttribute('disabled');
-                    controller.route(location.origin + '/card');
+                    controller.route(model.route.origin + '/card');
                 } else {
                     ERR.classList.remove('visually-hidden');
                     SUBMIT_BUTTON.innerHTML = `Создать`;

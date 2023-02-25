@@ -257,14 +257,16 @@ export class AccountView {
                         const target = e.target as HTMLElement;
                         if (target && target.closest('LI')) {
                             const box_id = target.closest('LI')?.getAttribute('data-id');
-                            this.controller.route(location.origin + `/box/${box_id}`);
+                            this.controller.route(this.model.route.origin + `/box/${box_id}`);
                         }
                     })
                 );
             }
             const CREATE__BUTTON = document.getElementById('create');
             if (CREATE__BUTTON) {
-                CREATE__BUTTON.addEventListener('click', () => this.controller.route(location.origin + `/box/new`));
+                CREATE__BUTTON.addEventListener('click', () =>
+                    this.controller.route(this.model.route.origin + `/box/new`)
+                );
             }
         }
         if (location.pathname !== '/account/boxes') {
@@ -283,7 +285,7 @@ export class AccountView {
                 EXIT.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    exit(this.controller);
+                    exit(this.controller, this.model);
                 });
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();

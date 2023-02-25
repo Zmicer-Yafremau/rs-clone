@@ -27,8 +27,8 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                     if (res) {
                         const ID = localStorage.id;
                         await USR_BOXES.create([], ID);
-                        if (localStorage.inviteKey) controller.route(location.origin + '/card');
-                        else controller.route(location.origin);
+                        if (localStorage.inviteKey) controller.route(model.route.origin + '/card');
+                        else controller.route(model.route.origin);
                     } else USER_EXIST.classList.remove('visually-hidden');
                 } else if (FORM_TYPE === 'log') {
                     const USER_EXIST = document.getElementsByClassName('log__exist')[0] as HTMLDivElement;
@@ -43,11 +43,11 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                                 const U_CARD = model.cardModel;
                                 const U_CARD_OBJ = await U_CARD.getCardsOfBox(localStorage.boxId);
                                 const CHECK_CARDS = U_CARD_OBJ.some((el) => el.user_id === ID);
-                                if (CHECK_CARDS) controller.route(`${location.origin}/box/${localStorage.boxId}`);
+                                if (CHECK_CARDS) controller.route(`${model.route.origin}/box/${localStorage.boxId}`);
                             }
-                            controller.route(location.origin + '/card');
+                            controller.route(model.route.origin + '/card');
                         }
-                        controller.route(location.origin);
+                        controller.route(model.route.origin);
                     } else USER_EXIST.classList.remove('visually-hidden');
                 }
             }

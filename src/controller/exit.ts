@@ -1,7 +1,8 @@
 import { Controller } from '.';
+import { Model } from '../model';
 import { switchHeader } from '../view/mainView/switch-header';
-export function exit(controller: Controller) {
+export function exit(controller: Controller, model: Model) {
     localStorage.clear();
-    controller.route(location.origin);
+    controller.route(model.route.origin);
     switchHeader();
 }
