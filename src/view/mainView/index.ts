@@ -2,6 +2,7 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import Snowflakes from 'magic-snowflakes';
 import { addBoxPics } from '../newBoxView/add-box-pics';
+
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
     render() {

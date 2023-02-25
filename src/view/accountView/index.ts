@@ -235,12 +235,12 @@ export class AccountView {
                     <div class="d-flex justify-content-end visually-hidden">
                         <button type="submit" class="btn text-secondary bg-none">Удалить</button>
                     </div>
-                    <div class="delete__error-part authorization__errors visually-hidden">
+                    <div class="delete__error-part delete__error authorization__errors visually-hidden">
                          Невозможно удалить профиль, есть коробки в которых вы учавствуете.
-                         Обратитесь к создателям этих коробок <span class="account__admins"></span> для того, что бы они вас удалили.
+                         Обратитесь к <span class="account__admins"></span> для того, что бы Вас удалили.
                     </div>
-                    <div class="delete__error-admin authorization__errors visually-hidden">
-                    Невозможно удалить профиль, сначало удалите свои коробки.
+                    <div class="delete__error-admin delete__error authorization__errors visually-hidden">
+                    Невозможно удалить профиль, сначала удалите свои коробки.
                </div>
                 </form>
             </div>
@@ -257,14 +257,16 @@ export class AccountView {
                         const target = e.target as HTMLElement;
                         if (target && target.closest('LI')) {
                             const box_id = target.closest('LI')?.getAttribute('data-id');
-                            this.controller.route(location.origin + `/box/${box_id}`);
+                            this.controller.route(this.model.route.origin + `/box/${box_id}`);
                         }
                     })
                 );
             }
             const CREATE__BUTTON = document.getElementById('create');
             if (CREATE__BUTTON) {
-                CREATE__BUTTON.addEventListener('click', () => this.controller.route(location.origin + `/box/new`));
+                CREATE__BUTTON.addEventListener('click', () =>
+                    this.controller.route(this.model.route.origin + `/box/new`)
+                );
             }
         }
         if (location.pathname !== '/account/boxes') {
@@ -283,12 +285,12 @@ export class AccountView {
                 EXIT.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    exit();
+                    exit(this.controller, this.model);
                 });
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();
                     event.stopImmediatePropagation();
-                    await deleteUser();
+                    await deleteUser(this.controller, this.model);
                 });
                 DELETE__INPUT.addEventListener('input', () => {
                     if (DELETE__INPUT.value === 'Удалить профиль') {

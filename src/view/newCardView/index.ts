@@ -1,9 +1,12 @@
-import { addUsrPics } from './add-usr-pics';
+import { Model } from '../../model/index';
+import { Controller } from '../../controller';
+import { addUsrPics } from '../newBoxView/add-usr-pics';
 import { checkNewCard } from '../../controller/check-card-validation';
-export function renderCardReg() {
-    const BOX = document.getElementById('root') as HTMLDivElement;
-    BOX.innerHTML = ` 
-    <div class="box ucard">
+export class NewCardView {
+    constructor(private controller: Controller, private model: Model, private root: Element) {}
+
+    render() {
+        this.root.innerHTML = `<div class="box ucard">
         <div class="box__wrapper">
         <div class="box__container container screenshot__container shadow-lg bg-body-tertiary rounded">
     <form class="ucard__form" novalidate>    
@@ -44,17 +47,20 @@ export function renderCardReg() {
 </div>
 </div>
 </div>`;
-    addUsrPics();
-    const FORM = document.getElementsByClassName('ucard__form')[0] as HTMLFormElement;
-    const BOX_PICTURES = document.getElementsByClassName('box__pictures')[0] as HTMLDivElement;
-    BOX_PICTURES.addEventListener('click', (event) => {
-        const DIV = (event.target as HTMLElement).closest('div') as HTMLDivElement;
-        if (DIV.classList.contains('box__svg')) {
-            Array.from(BOX_PICTURES.children).forEach((el) => {
-                if (el !== DIV) el.classList.remove('active');
-            });
-            DIV.classList.toggle('active');
-        }
-    });
-    checkNewCard(FORM, BOX_PICTURES);
+        addUsrPics();
+    }
+    addListeners() {
+        const FORM = document.getElementsByClassName('ucard__form')[0] as HTMLFormElement;
+        const BOX_PICTURES = document.getElementsByClassName('box__pictures')[0] as HTMLDivElement;
+        BOX_PICTURES.addEventListener('click', (event) => {
+            const DIV = (event.target as HTMLElement).closest('div') as HTMLDivElement;
+            if (DIV.classList.contains('box__svg')) {
+                Array.from(BOX_PICTURES.children).forEach((el) => {
+                    if (el !== DIV) el.classList.remove('active');
+                });
+                DIV.classList.toggle('active');
+            }
+        });
+        checkNewCard(FORM, BOX_PICTURES, this.controller, this.model);
+    }
 }
