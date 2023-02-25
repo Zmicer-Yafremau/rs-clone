@@ -14,3 +14,68 @@
 .darkTheme .accordion-item {
     background-color: $limit-bg !important;
 }
+.darkTheme .modal {
+    --bs-modal-bg:  #f1ecfe !important;
+}
+.darkTheme .list-group-horizontal > .list-group-item {
+    background-color:  $limit-bg !important;
+}
+.darkTheme .feedback-text {
+    background-color: #e5dcfd;
+}
+.darkTheme .form-control {
+    background-color:  $limit-bg !important;
+}
+.darkTheme .rating-star {
+    background-image: url(/src/assets/icons/star-dark.svg);
+}
+.darkTheme .card__wrapper {
+    background-color: #e5dcfd;
+}
+.darkTheme .boxes__list > .box__wrapper {
+    background-color: #e5dcfd;
+}
+.darkTheme .boxes__view p {
+    background-color:  $limit-bg !important;
+}
+.darkTheme .boxes__view {
+    background-color:  #b1c5d8 !important;
+}
+.darkTheme{
+    .screenshot__container{
+        background-color:  $limit-bg
+    }
+    .plus {
+        background-color:  $limit-bg;
+    }
+    .box__svg {
+        background-color:  #b1c5d8;
+    }
+    .toggle__wrapper {
+        background:  #b1c5d8;
+    }
+}
+
+.darkTheme .boxes__section .boxes__year h4::after{
+    background-color:  #b1c5d8 !important;
+}
+.darkTheme .toggle-menu {
+    background:  #b1c5d8 !important;
+}
+.darkTheme .toggle-menu-button {
+    background:  #b1c5d8 !important;
+}
+.darkTheme .toggle-menu-panel .toggle-menu-item--slider.active {
+    background-color:  $limit-bg !important;
+}
+.darkTheme {
+    .toggle-menu-button--inner{
+        background-color:  $limit-bg !important;
+    }
+    .my-card {
+        background-color: $limit-bg;
+    }
+}
+.darkTheme .box__edit .section, .cards__not .section{
+    border-color:  #b1c5d8 !important;
+}
