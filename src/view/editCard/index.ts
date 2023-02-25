@@ -4,6 +4,7 @@ import { addUsrPics } from '../newBoxView/add-usr-pics';
 import { toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { USR_STATE } from '../../db/usr-state';
+import { UserBoxes } from '../../model/userBoxes';
 
 export class EditCardView {
     box: IBoxReq | undefined;
@@ -17,7 +18,7 @@ export class EditCardView {
         this.userId;
     }
 
-    async render(path: string, pathId: string) {
+    async render(path: string, pathId: string) { 
         const boxId = Number(path);
         const box = await this.controller.boxesController.getBox(boxId);
         this.box = box;
@@ -229,7 +230,7 @@ export class EditCardView {
         if (buttonDelete) {
             buttonDelete.addEventListener('click', async () => {
                 toggleLoader();
-                if (this.box && this.card && this.cards) {
+                if (this.box && this.card && this.cards && this.userId) {
                     if (this.box.is_draw) {
                         const santa = this.cards.find((card) => card.ward_id === this.card?.card_id);
                         if (santa) {
@@ -241,9 +242,14 @@ export class EditCardView {
                     const newBox = this.box?.cards_id.filter((id) => id !== this.card?.card_id);
                     await this.controller.boxesController.updateBox(this.box.box_id, { cardsId: newBox });
                     await this.controller.cardController.deleteCard(this.card.card_id);
+                    if (this.box.admin_id !== Number(this.userId)) {
+                        const userBox = await this.controller.userBoxesController.getUserBoxes(this.userId);
+                        const newUserBox = userBox[0].user_boxes.filter((box) => box !== this.box?.box_id);
+                        await this.controller.userBoxesController.updateUserBoxes(userBox[0].id, newUserBox, this.userId);
+                    }
                 }
                 toggleLoader();
-                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}`);
+                this.controller.route(this.model.route.origin  + `/account/boxes`);
             });
         }
     }
