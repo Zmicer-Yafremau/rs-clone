@@ -21,20 +21,26 @@ export async function deleteUser(controller: Controller, model: Model) {
     if (USER_BOX_ARR.length) {
         /*Правараяю на наяўнасць ці ёсць скрыні ў аккаўнта*/
         if (USER_BOX_ARR[0].user_boxes.length) {
-            /*Перабіраю ўсе скрыні аккаўнта*/
-            await USER_BOX_ARR[0].user_boxes.forEach(async (box_id) => {
-                const BOXES_OBJ = await BOX.getByBoxId(box_id);
-                /* Выключаем адміна */
-                if (BOXES_OBJ.admin_id !== +localStorage.id) {
-                    /*Закідваю імёны адмінаў ў массіў, каб потым дадаць у памылку, што выдаліць немагчыма*/
-                    PART_CHECK.push(BOXES_OBJ.admin_name);
-                } else admin_boxes = true;
-            });
-            /*Калі хтосьці ў массіве выводжу паведамленне аб памылцы*/
-            if (PART_CHECK.length) {
-                PART_ERR.classList.remove('visually-hidden');
-                ADMINS.innerHTML = PART_CHECK.toString();
-            } else if (admin_boxes) ADMIN_ERR.classList.remove('visually-hidden');
+            await (async () => {
+                /*Перабіраю ўсе скрыні аккаўнта*/
+                for (const box_id of USER_BOX_ARR[0].user_boxes) {
+                    const BOXES_OBJ = await BOX.getByBoxId(box_id);
+                    /* Выключаем адміна */
+
+                    if (BOXES_OBJ.admin_id !== +localStorage.id) {
+                        /*Закідваю імёны адмінаў ў массіў, каб потым дадаць у памылку, што выдаліць немагчыма*/
+                        PART_CHECK.push(BOXES_OBJ.admin_name);
+                    } else admin_boxes = true;
+                    console.log('p', PART_CHECK);
+                }
+                /*Калі хтосьці ў массіве выводжу паведамленне аб памылцы*/
+                if (admin_boxes) ADMIN_ERR.classList.remove('visually-hidden');
+                else if (PART_CHECK.length) {
+                    PART_ERR.classList.remove('visually-hidden');
+                    console.log('hello');
+                    ADMINS.innerHTML = PART_CHECK.toString();
+                }
+            })();
         } else {
             /*Выдаляю астатняе*/
 
