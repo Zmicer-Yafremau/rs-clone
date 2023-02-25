@@ -2,6 +2,7 @@ import { Card } from '../model/card';
 import { UserBoxes } from '../model/userBoxes';
 import { Box } from '../model/box';
 import { USR_STATE } from '../db/usr-state';
+import { toggleLoader } from '../utils/utils';
 
 export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
     form.addEventListener(
@@ -25,8 +26,8 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                     const U_BOX = new UserBoxes();
                     const INPUT = document.getElementById('ucardInput') as HTMLInputElement;
                     const WISHES_INPUT = document.getElementById('wishesInput') as HTMLInputElement;
-                    const userName = INPUT.value;
-                    const wishes = WISHES_INPUT.value;
+                    const userName = INPUT.value.trim();
+                    const wishes = WISHES_INPUT.value.trim();
                     const wardId = null;
                     const wardGift = false;
                     const cardGift = false;
@@ -57,12 +58,14 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement) {
                             email,
                         });
                         const BOX = new Box();
+                        toggleLoader();
                         const BOX_OBJ = await BOX.getByBoxId(localStorage.boxId);
                         const CARD_ARR = BOX_OBJ.cards_id;
                         CARD_ARR.push(NEW_CARD.card_id);
                         const id = localStorage.boxId;
                         const cardsId = CARD_ARR;
                         await BOX.update(id, { cardsId });
+                        toggleLoader();
                     }
                     localStorage.invite = '';
                     location.replace(location.origin + `/box/${boxId}`);
