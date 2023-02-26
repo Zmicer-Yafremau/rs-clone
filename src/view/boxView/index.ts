@@ -38,7 +38,9 @@ export class BoxView {
                         </button></div>`;
         } else {
             const placeToInsert = document.querySelector('.box__view');
-
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
             const div = document.createElement('div');
             div.classList.add('box__cards', 'center');
             div.innerHTML = `

@@ -4,7 +4,6 @@ import { addUsrPics } from '../newBoxView/add-usr-pics';
 import { toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { USR_STATE } from '../../db/usr-state';
-import { UserBoxes } from '../../model/userBoxes';
 
 export class EditCardView {
     box: IBoxReq | undefined;
@@ -18,7 +17,7 @@ export class EditCardView {
         this.userId;
     }
 
-    async render(path: string, pathId: string) { 
+    async render(path: string, pathId: string) {
         const boxId = Number(path);
         const box = await this.controller.boxesController.getBox(boxId);
         this.box = box;
@@ -38,6 +37,9 @@ export class EditCardView {
 
         if (box && userId) {
             const placeToInsert = document.querySelector('.box__view');
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
             const div = document.createElement('div');
             div.classList.add('box__edit', 'box');
             div.innerHTML = `
@@ -245,11 +247,15 @@ export class EditCardView {
                     if (this.box.admin_id !== Number(this.userId)) {
                         const userBox = await this.controller.userBoxesController.getUserBoxes(this.userId);
                         const newUserBox = userBox[0].user_boxes.filter((box) => box !== this.box?.box_id);
-                        await this.controller.userBoxesController.updateUserBoxes(userBox[0].id, newUserBox, this.userId);
+                        await this.controller.userBoxesController.updateUserBoxes(
+                            userBox[0].id,
+                            newUserBox,
+                            this.userId
+                        );
                     }
                 }
                 toggleLoader();
-                this.controller.route(this.model.route.origin  + `/account/boxes`);
+                this.controller.route(this.model.route.origin + `/account/boxes`);
             });
         }
     }
