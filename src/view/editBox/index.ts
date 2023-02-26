@@ -132,7 +132,7 @@ export class EditBoxView {
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await drawRandomCards(this.cards, this.box, this.controller);
+                const result = await drawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -144,7 +144,7 @@ export class EditBoxView {
         if (buttonRedraw && this.cards && this.box) {
             buttonRedraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await redrawRandomCards(this.cards, this.box, this.controller);
+                const result = await redrawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -153,7 +153,7 @@ export class EditBoxView {
             });
         }
         const link = document.querySelector('.copy-link') as HTMLInputElement;
-        link.value = `${location.origin}/invite/${this.box?.invited_key}`;
+        link.value = `${this.model.route.origin}/invite/${this.box?.invited_key}`;
         link ? copy(link) : null;
         const deleteBoxInput = document.querySelector('#inputDeleteBox');
         const submitDeleteButton = document.querySelector('#submit-delete');
@@ -185,7 +185,7 @@ export class EditBoxView {
                 if (newImg && this.box) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxImg: newImg });
-                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
+                    this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
@@ -195,13 +195,13 @@ export class EditBoxView {
             let newName = '';
             inputNameBox.addEventListener('input', (e) => {
                 const target = e.target as HTMLInputElement;
-                newName = target.value;
+                newName = target.value.trim();
             });
             submitBoxName.addEventListener('click', async () => {
                 if (newName && this.box && this.userId) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxName: newName });
-                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
+                    this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
@@ -209,16 +209,17 @@ export class EditBoxView {
         const buttonTable = document.querySelector('#showTable');
         if (buttonTable && this.box) {
             buttonTable.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${(this.box as IBoxReq).box_id}/santas`)
+                this.controller.route(this.model.route.origin + `/box/${(this.box as IBoxReq).box_id}/santas`)
             );
         }
-        const buttonDelete = document.querySelector('#submit-delete');
+        const buttonDelete: HTMLButtonElement | null = document.querySelector('#submit-delete');
         if (buttonDelete) {
             buttonDelete.addEventListener('click', async () => {
+                buttonDelete.setAttribute('disabled', '');
                 toggleLoader();
                 await deleteBox(this.cards, this.box, this.controller, Number(this.userId));
+                this.controller.route(this.model.route.origin + `/account/boxes`);
                 toggleLoader();
-                this.controller.route(location.origin + `/account/boxes`);
             });
         }
     }

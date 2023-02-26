@@ -1,4 +1,5 @@
 import { USR_STATE } from '../db/usr-state';
+import { toggleLoader } from '../utils/utils';
 import { Model } from '../model';
 import { Controller } from '.';
 export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement, controller: Controller, model: Model) {
@@ -25,8 +26,8 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement, control
                     const U_BOX = model.userBoxesModel;
                     const INPUT = document.getElementById('ucardInput') as HTMLInputElement;
                     const WISHES_INPUT = document.getElementById('wishesInput') as HTMLInputElement;
-                    const userName = INPUT.value;
-                    const wishes = WISHES_INPUT.value;
+                    const userName = INPUT.value.trim();
+                    const wishes = WISHES_INPUT.value.trim();
                     const wardId = null;
                     const wardGift = false;
                     const cardGift = false;
@@ -44,6 +45,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement, control
                     if (!isUserCard) {
                         const phone = USR_STATE.phonenumber;
                         const email = USR_STATE.email;
+                        toggleLoader();
                         const NEW_CARD = await CARD.create({
                             userName,
                             wardId,
@@ -63,6 +65,7 @@ export function checkNewCard(form: HTMLFormElement, div: HTMLDivElement, control
                         const id = localStorage.boxId;
                         const cardsId = CARD_ARR;
                         await BOX.update(id, { cardsId });
+                        toggleLoader();
                     }
                     localStorage.invite = '';
                     controller.route(model.route.origin + `/box/${boxId}`);

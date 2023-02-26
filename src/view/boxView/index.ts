@@ -108,13 +108,13 @@ export class BoxView {
     addListeners() {
         const link = document.querySelector('.copy-link') as HTMLInputElement;
         if (link) {
-            link.value = `${location.origin}/invite/${this.box?.invited_key}`;
+            link.value = `${this.model.route.origin}/invite/${this.box?.invited_key}`;
             copy(link);
         }
         const buttonBack = document.querySelector('#back');
         if (buttonBack) {
             buttonBack.addEventListener('click', () => {
-                this.controller.route(location.origin + '/');
+                this.controller.route(this.model.route.origin + '/');
             });
         }
 
@@ -122,7 +122,7 @@ export class BoxView {
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await drawRandomCards(this.cards, this.box, this.controller);
+                const result = await drawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -138,12 +138,15 @@ export class BoxView {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
                         if (this.userCard?.card_id === cardId) {
-                            this.controller.route(location.origin + `/box/${this.box.box_id}/card`);
-                        } else this.controller.route(location.origin + `/box/${this.box.box_id}/card/edit/${cardId}`);
+                            this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/card`);
+                        } else
+                            this.controller.route(
+                                this.model.route.origin + `/box/${this.box.box_id}/card/edit/${cardId}`
+                            );
                     } else if (this.userCard?.card_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
+                        this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/ward`);
+                        this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/ward`);
                     }
                 }
             });

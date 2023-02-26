@@ -27,7 +27,6 @@ export class BoxMenu {
         const box = await getParticipants(path2, this.controller.boxesController);
         if (box) {
             this.box = box;
-
             const userId = USR_STATE.id;
             userId ? (this.userId = userId) : null;
             const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
@@ -156,15 +155,15 @@ export class BoxMenu {
                         if (this.box && this.boxId && this.userCard) {
                             switch (menuNumber.split('-')[1]) {
                                 case '1':
-                                    this.controller.route(location.origin + `/box/${this.boxId}`);
+                                    this.controller.route(this.model.route.origin + `/box/${this.boxId}`);
                                     break;
                                 case '2':
-                                    this.controller.route(location.origin + `/box/${this.boxId}/card`);
+                                    this.controller.route(this.model.route.origin + `/box/${this.boxId}/card`);
                                     break;
                                 case '3':
                                     this.userCard.ward_id
-                                        ? this.controller.route(location.origin + `/box/${this.boxId}/ward`)
-                                        : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
+                                        ? this.controller.route(this.model.route.origin + `/box/${this.boxId}/ward`)
+                                        : this.controller.route(this.model.route.origin + `/box/${this.boxId}/ward=0`);
 
                                     break;
                                 default:
@@ -178,13 +177,13 @@ export class BoxMenu {
         const currentBox = document.getElementById('curr-box');
         if (currentBox) {
             currentBox.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${this.box?.box_id}`)
+                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}`)
             );
         }
         const settings = document.getElementById('setting');
         if (settings) {
             settings.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${this.box?.box_id}/edit`)
+                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/edit`)
             );
         }
     }

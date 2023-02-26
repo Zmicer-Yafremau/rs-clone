@@ -18,7 +18,7 @@ export async function change(form: HTMLFormElement) {
                 const PASS_SAVED = document.getElementsByClassName('pass__saved')[0] as HTMLDivElement;
                 if (FORM_TYPE === 'name-form') {
                     const NAME_INPUT = document.getElementById('inputNameChange') as HTMLInputElement;
-                    const NAME = NAME_INPUT.value;
+                    const NAME = NAME_INPUT.value.trim();
                     await USR.changeName(ID, NAME);
                     switchHeader(NAME);
                     USR_STATE.name = NAME;

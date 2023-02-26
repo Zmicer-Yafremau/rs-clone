@@ -1,7 +1,6 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import { getBoxCards, getParticipants } from '../boxView/boxManage';
-import { USR_STATE } from '../../db/usr-state';
 
 export class BoxTable {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
@@ -12,14 +11,15 @@ export class BoxTable {
         const div = document.createElement('div');
         div.classList.add('box__table', 'center');
         div.innerHTML = ` 
-        <h4>Таблица участников</h4>
-        <div class="table__info d-flex">
-        <p>На этой странице показан актуальный список участников со всей информацией.</p>
+        <h4>Таблица участников</h4>${
+            cards && cards.length > 0
+                ? `
+        <div class="table__info d-flex"> <p>На этой странице показан актуальный список участников со всей информацией.</p>
         <button id="download" type="button" class="btn bg-light rounded-pill">
         Скачать таблицу
              </button>
           </div> 
-        <div class="table-wrapper">
+          <div class="table-wrapper">
          <table id="exportMe" class="table">
         <thead class="table-head">
             <tr>
@@ -35,10 +35,13 @@ export class BoxTable {
             </tr>
         </thead>
         <tbody class="table__body"></tbody>
-        </table></div>`;
+        </table></div>`
+                : '<div class="table__info d-flex justify-content-center w-50 mt-3"><p>Пока нет участников...</p></div>'
+        }
+        `;
         placeToInsert?.append(div);
         const table = document.querySelector('.table__body') as HTMLTableElement;
-        if (cards) {
+        if (cards && cards.length > 0) {
             cards.forEach(async (card, i) => {
                 const cardItem = document.createElement('tr');
                 const { card_id, user_name, ward_id, wishes, phone, ward_gift, card_gift, email } = card;
@@ -58,7 +61,7 @@ export class BoxTable {
                 table.append(cardItem);
             });
         }
-        console.log(USR_STATE);
+
         this.addListeners();
     }
     addListeners() {
