@@ -30,11 +30,14 @@ export class EditBoxView {
         this.cards = allCards;
         if (box && userId) {
             const placeToInsert = document.querySelector('.box__view');
-            const menuItem = document.querySelector('#num-1');
-            const menuItemSlider = document.querySelector('.toggle-menu-item--slider.num-1');
-            if (menuItemSlider && menuItem) {
-                menuItem.classList.add('active');
-                menuItemSlider.classList.add('active');
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
+            const menuItem = document.querySelectorAll('.toggle-menu-item');
+            const menuItemSlider = document.querySelectorAll('.toggle-menu-item--slider');
+            if (menuItemSlider.length && menuItem.length) {
+                menuItem.forEach((item) => item.classList.remove('active'));
+                menuItemSlider.forEach((item) => item.classList.remove('active'));
             }
             const div = document.createElement('div');
             div.classList.add('box__edit', 'box');
