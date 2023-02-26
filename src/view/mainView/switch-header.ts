@@ -1,4 +1,5 @@
 import tippy from 'tippy.js';
+import { animateNavigation } from './animate-navigation';
 export function switchHeader(name = '', notification = 'Уведомлений нет') {
     const NAVIGATION = document.getElementsByClassName('navigation')[0] as HTMLDivElement;
     if (name) {
@@ -21,9 +22,9 @@ export function switchHeader(name = '', notification = 'Уведомлений �
       <a href="/login" class="nav__link">Вход и регистрация</a>
   </span>`;
     }
-
     tippy(`#notifications`, {
         content: notification,
         trigger: 'click',
     });
+    animateNavigation(-100, 0, 2.5);
 }

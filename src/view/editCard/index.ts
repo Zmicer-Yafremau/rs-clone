@@ -18,7 +18,7 @@ export class EditCardView {
         this.userId;
     }
 
-    async render(path: string, pathId: string) { 
+    async render(path: string, pathId: string) {
         const boxId = Number(path);
         const box = await this.controller.boxesController.getBox(boxId);
         this.box = box;
@@ -245,11 +245,15 @@ export class EditCardView {
                     if (this.box.admin_id !== Number(this.userId)) {
                         const userBox = await this.controller.userBoxesController.getUserBoxes(this.userId);
                         const newUserBox = userBox[0].user_boxes.filter((box) => box !== this.box?.box_id);
-                        await this.controller.userBoxesController.updateUserBoxes(userBox[0].id, newUserBox, this.userId);
+                        await this.controller.userBoxesController.updateUserBoxes(
+                            userBox[0].id,
+                            newUserBox,
+                            this.userId
+                        );
                     }
                 }
                 toggleLoader();
-                this.controller.route(this.model.route.origin  + `/account/boxes`);
+                this.controller.route(this.model.route.origin + `/account/boxes`);
             });
         }
     }

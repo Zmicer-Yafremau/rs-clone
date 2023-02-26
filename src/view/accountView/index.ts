@@ -227,19 +227,19 @@ export class AccountView {
                 <div class="col-4 account__section">
                     <h5 class="">Удаление профиля</h5>
                 </div>
-                <form class="col-auto delete__form mt-3" novalidate>
+                <form class="col-auto delete__form mt-3" d-flex novalidate>
                     <div class="d-flex flex-column justify-content-center align-items-start">
                         <label for="inputDel" class="text-secondary">Для подтверждения введите: <b> Удалить профиль</b></label>
-                        <input type="text" class="form-control" id="inputDel">
+                        <input type="text" class="form-control mt-1" id="inputDel">
                     </div>
-                    <div class="d-flex justify-content-end visually-hidden">
-                        <button type="submit" class="btn text-secondary bg-none">Удалить</button>
+                    <div class="delete__btn d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn text-secondary bg-none run">Удалить</button>
                     </div>
-                    <div class="delete__error-part delete__error authorization__errors visually-hidden">
+                    <div class="delete__error-part delete__error authorization__errors visually-hidden mt-3">
                          Невозможно удалить профиль, есть коробки в которых вы учавствуете.
                          Обратитесь к <span class="account__admins"></span> для того, что бы Вас удалили.
                     </div>
-                    <div class="delete__error-admin delete__error authorization__errors visually-hidden">
+                    <div class="delete__error-admin delete__error authorization__errors visually-hidden mt-3">
                     Невозможно удалить профиль, сначала удалите свои коробки.
                </div>
                 </form>
@@ -290,11 +290,11 @@ export class AccountView {
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();
                     event.stopImmediatePropagation();
-                    await deleteUser(this.controller, this.model);
+                    if (!DELETE__BUTTON.classList.contains('run')) await deleteUser(this.controller, this.model);
                 });
                 DELETE__INPUT.addEventListener('input', () => {
                     if (DELETE__INPUT.value === 'Удалить профиль') {
-                        DELETE__DIV.classList.remove('visually-hidden');
+                        DELETE__BUTTON.classList.remove('run');
                     }
                 });
                 const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
