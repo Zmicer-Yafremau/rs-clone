@@ -13634,6 +13634,10 @@ textarea {
   max-width: 360px
 }
 
+.delete__btn {
+  height: 50px
+}
+
 #snowflakes-container {
   width: 100%;
   position: relative;
