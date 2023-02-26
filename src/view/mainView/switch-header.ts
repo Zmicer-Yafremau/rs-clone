@@ -31,14 +31,20 @@ export function switchHeader(name = '', notification = '') {
         const NOTIFICATIONS = document.getElementById('notifications') as HTMLDivElement;
         const NOTIFICATIONS_CONTENT = document.getElementsByClassName(`notifications__content`)[0] as HTMLDivElement;
         if (NOTIFICATIONS) {
-            NOTIFICATIONS?.addEventListener('click', () => {
-                NOTIFICATIONS.classList.toggle('active');
-                if (NOTIFICATIONS.classList.contains('active')) {
-                    animateNavigation(0, 580, 20, NOTIFICATIONS_CONTENT);
-                } else {
-                    animateNavigation(580, 0, -20, NOTIFICATIONS_CONTENT);
-                }
-            });
+            NOTIFICATIONS?.addEventListener(
+                'click',
+                (event) => {
+                    event.stopImmediatePropagation();
+                    NOTIFICATIONS.classList.toggle('active');
+                    console.log(event.target);
+                    if (NOTIFICATIONS.classList.contains('active')) {
+                        animateNavigation(0, 580, 20, NOTIFICATIONS_CONTENT);
+                    } else {
+                        animateNavigation(580, 0, -20, NOTIFICATIONS_CONTENT);
+                    }
+                },
+                false
+            );
         }
     } else {
         NAVIGATION.innerHTML = `
@@ -50,24 +56,36 @@ export function switchHeader(name = '', notification = '') {
     const BOXES = new Box();
     setTimeout(async () => {
         const U_BOX_ARR = await U_BOXES.getByUserId(localStorage.id);
+        const NAME_ARR = [];
         for (const box_id of U_BOX_ARR[0].user_boxes) {
             const BOX_OBJ = await BOXES.getByBoxId(box_id);
             if (BOX_OBJ.is_draw) {
-                createNote(`В коробке ${BOX_OBJ.box_name} прошла жеребьёвка`);
+                NAME_ARR.push(BOX_OBJ.box_name);
             }
+        }
+        const UNIC_BOX = Array.from(new Set([NAME_ARR]));
+        for (const box_name of UNIC_BOX) {
+            createNote(`В коробке ${box_name} прошла жеребьёвка`);
         }
         const NOTIFICATIONS_CONTENT = document.getElementsByClassName(`notifications__content`)[0] as HTMLDivElement;
         if (NOTIFICATIONS_CONTENT) {
             if (!NOTIFICATIONS_CONTENT.innerHTML.length) {
                 createNote('Уведомлений нет');
             }
-            NOTIFICATIONS_CONTENT.addEventListener('click', (event) => {
-                const ELEMENT = event.target as HTMLElement;
-                if (ELEMENT.classList.contains('note__close')) {
-                    const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
-                    TO_REMOVE?.remove();
-                }
-            });
+            NOTIFICATIONS_CONTENT.addEventListener(
+                'click',
+                (event) => {
+                    event.stopImmediatePropagation();
+                    const ELEMENT = event.target as HTMLElement;
+                    console.log('E', ELEMENT);
+                    if (ELEMENT.classList.contains('note__close')) {
+                        const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
+                        TO_REMOVE?.remove();
+                    }
+                },
+                false
+            );
         }
     }, 0);
+    animateNavigation(-100, 0, 2.5, NAVIGATION.children[0] as HTMLElement);
 }
