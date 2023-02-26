@@ -22,6 +22,7 @@ import { Hotkeys } from '../components/hotkeys';
 import { BoxTable } from './boxTable/boxTable';
 import { USR_STATE } from '../db/usr-state';
 import { NewCardView } from './newCardView';
+import { colorShift } from './mainView/color-shift';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -108,11 +109,6 @@ export class View {
                 switchHeader(USR_OBJ[0].name);
                 isLogin = true;
             } else localStorage.clear();
-        }
-        if (sessionStorage.dark) {
-            const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
-            document.body.classList.add('darkTheme');
-            THEME_CHECKBOX.setAttribute('checked', '');
         }
         switch (path) {
             case '':
@@ -203,5 +199,12 @@ export class View {
     renderContent() {
         const main = create<HTMLElement>('main', 'main');
         this.root.append(main);
+        const PRODUCED = document.getElementsByClassName('footer__header')[0] as HTMLHeadingElement;
+        colorShift(PRODUCED);
+        if (sessionStorage.dark) {
+            const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+            document.body.classList.add('darkTheme');
+            THEME_CHECKBOX.setAttribute('checked', '');
+        }
     }
 }
