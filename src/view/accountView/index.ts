@@ -233,7 +233,7 @@ export class AccountView {
                         <input type="text" class="form-control mt-1" id="inputDel">
                     </div>
                     <div class="delete__btn d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn text-secondary bg-none run">Удалить</button>
+                        <button type="submit" class="btn text-secondary bg-none visually-hidden">Удалить</button>
                     </div>
                     <div class="delete__error-part delete__error authorization__errors visually-hidden mt-3">
                          Невозможно удалить профиль, есть коробки в которых вы учавствуете.
@@ -290,12 +290,12 @@ export class AccountView {
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();
                     event.stopImmediatePropagation();
-                    if (!DELETE__BUTTON.classList.contains('run')) await deleteUser(this.controller, this.model);
+                    await deleteUser(this.controller, this.model);
                 });
                 DELETE__INPUT.addEventListener('input', () => {
                     if (DELETE__INPUT.value === 'Удалить профиль') {
-                        DELETE__BUTTON.classList.remove('run');
-                    }
+                        DELETE__BUTTON.classList.remove('visually-hidden');
+                    } else DELETE__BUTTON.classList.add('visually-hidden');
                 });
                 const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
                 const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
