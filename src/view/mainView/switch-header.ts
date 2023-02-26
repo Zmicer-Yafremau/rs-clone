@@ -26,5 +26,5 @@ export function switchHeader(name = '', notification = 'Уведомлений �
         content: notification,
         trigger: 'click',
     });
-    animateNavigation(-100, 0, 2.5);
+    animateNavigation(-100, 0, 2.5, NAVIGATION.children[0] as HTMLElement);
 }

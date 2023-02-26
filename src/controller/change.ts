@@ -1,6 +1,7 @@
 import { USR_STATE } from '../db/usr-state';
 import { Authorization } from '../model/authorization';
 import { switchHeader } from '../view/mainView/switch-header';
+import { animateNavigation } from '../view/mainView/animate-navigation';
 export async function change(form: HTMLFormElement) {
     form.addEventListener(
         'submit',
@@ -22,9 +23,11 @@ export async function change(form: HTMLFormElement) {
                     await USR.changeName(ID, NAME);
                     switchHeader(NAME);
                     USR_STATE.name = NAME;
-                    SAVED.classList.add('active');
+                    //SAVED.classList.add('active');
+                    animateNavigation(0, 80, 2.5, SAVED);
                     setTimeout(() => {
-                        SAVED.classList.remove('active');
+                        //SAVED.classList.remove('active');
+                        animateNavigation(80, 0, -2.5, SAVED);
                     }, 3000);
                 } else if (FORM_TYPE === 'mail-form') {
                     const MAIL_INPUT = document.getElementById('inputEmailChange') as HTMLInputElement;
@@ -36,9 +39,11 @@ export async function change(form: HTMLFormElement) {
                     } else {
                         USER_EXIST.classList.add('visually-hidden');
                         USR_STATE.email = MAIL;
-                        SAVED.classList.add('active');
+                        //SAVED.classList.add('active');
+                        animateNavigation(0, 80, 2.5, SAVED);
                         setTimeout(() => {
-                            SAVED.classList.remove('active');
+                            //SAVED.classList.remove('active');
+                            animateNavigation(80, 0, -2.5, SAVED);
                         }, 3000);
                     }
                 } else if (FORM_TYPE === 'form') {
@@ -49,8 +54,10 @@ export async function change(form: HTMLFormElement) {
                         await USR.changePassword(ID, PASS_REPEAT.value);
                         PASS_EQUAL.classList.add('visually-hidden');
                         PASS_SAVED.classList.add('active');
+                        //animateNavigation(80, 0, -2.5, PASS_SAVED);
                         setTimeout(() => {
                             PASS_SAVED.classList.remove('active');
+                            //animateNavigation(80, 0, -2.5, PASS_SAVED);
                         }, 3000);
                     } else PASS_EQUAL.classList.remove('visually-hidden');
                 }
