@@ -59,6 +59,6 @@ export class LoginView {
         const PASS_INPUT = document.getElementsByClassName('log__pass')[0] as HTMLInputElement;
         const PASS_ICONS = document.getElementsByClassName('log__icon')[0] as HTMLInputElement;
         hideSymbols(PASS_INPUT, PASS_ICONS);
-        checkValidation(FORM);
+        checkValidation(FORM, this.controller, this.model);
     }
 }

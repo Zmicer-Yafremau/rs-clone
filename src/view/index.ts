@@ -10,7 +10,6 @@ import { getSelector } from '../utils/utils';
 import { LoginView } from './loginView';
 import { RegView } from './regView';
 import { switchHeader } from './mainView/switch-header';
-import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { CardView } from './cardView';
@@ -22,7 +21,7 @@ import { BoxMenu } from './boxView/boxMenu';
 import { Hotkeys } from '../components/hotkeys';
 import { BoxTable } from './boxTable/boxTable';
 import { USR_STATE } from '../db/usr-state';
-
+import { NewCardView } from './newCardView';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -35,6 +34,7 @@ export class View {
     faqView: FaqView;
     cardView: CardView;
     newBoxView: NewBoxView;
+    newCardView: NewCardView;
     inviteView: InviteView;
     editBoxView: EditBoxView;
     editCardView: EditCardView;
@@ -52,6 +52,7 @@ export class View {
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
         this.newBoxView = new NewBoxView(this.controller, this.model, main);
+        this.newCardView = new NewCardView(this.controller, this.model, main);
         this.inviteView = new InviteView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
@@ -85,6 +86,8 @@ export class View {
         const BODY = document.body;
         THEME_CHECKBOX.addEventListener('change', () => {
             BODY.classList.toggle('darkTheme');
+            if (BODY.classList.contains('darkTheme')) sessionStorage.dark = true;
+            else sessionStorage.dark = '';
         });
     }
 
@@ -92,7 +95,7 @@ export class View {
         const route = this.model.route;
         const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
-        const USR = new Authorization();
+        const USR = this.model.authorizationModel;
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
@@ -105,6 +108,11 @@ export class View {
                 switchHeader(USR_OBJ[0].name);
                 isLogin = true;
             } else localStorage.clear();
+        }
+        if (sessionStorage.dark) {
+            const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+            document.body.classList.add('darkTheme');
+            THEME_CHECKBOX.setAttribute('checked', '');
         }
         switch (path) {
             case '':
@@ -180,6 +188,10 @@ export class View {
             case Routing.FAQ:
                 this.faqView.render();
                 this.faqView.addListeners();
+                break;
+            case Routing.CARD:
+                this.newCardView.render();
+                this.newCardView.addListeners();
                 break;
             default:
                 this.errorView.render();
