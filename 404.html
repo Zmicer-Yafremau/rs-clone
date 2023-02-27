@@ -19,8 +19,8 @@
         localStorage.setItem("restore", wLocation.replace(base, "/", wLocation))
         window.location = origin + base
       } else {
-        console.log(404404)
-        document.body.innerHTML = '<img style="display: block;" src="./assets/404.jpg" alt="" />'
+        localStorage.setItem("restore",`${origin}/404`);
+        window.location = origin + base;
       }
     </script>
   </body>

@@ -12900,8 +12900,28 @@ fieldset:disabled .btn {
 
 @font-face {
   font-family: Gilroy;
-  src: url(/assets/fonts/Gilroy-ExtraBold.otf);
-  src: url(/assets/fonts/Gilroy-Light.otf)
+  src: url(assets/fonts/Gilroy-ExtraBold.otf);
+  src: url(assets/fonts/Gilroy-Light.otf)
+}
+
+.note {
+  padding: 10px
+}
+
+.notifications__content {
+  position: absolute;
+  min-width: 200px;
+  border-radius: 10px;
+  background-color: #ffeff3;
+  top: -510px;
+  right: 11%;
+  z-index: 90;
+  cursor: pointer;
+  text-align: center
+}
+
+#notifications {
+  cursor: pointer
 }
 
 .accordion-button {
@@ -13027,7 +13047,6 @@ textarea {
 
 .nav {
   width: fit-content;
-  min-width: 150px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -13136,7 +13155,17 @@ textarea {
   margin-bottom: 5px
 }
 
-@media(max-width: 700px) {
+@media(max-width: 1700px) {
+  .notifications__content {
+    right: 3.5%
+  }
+}
+
+@media(max-width: 750px) {
+  .notifications__content {
+    right: 0
+  }
+
   .main__button {
     margin: 10px 0
   }
@@ -13156,10 +13185,18 @@ textarea {
   }
 
   .nav {
-    width: 170px
+    width: fit-content
   }
 
   .form-check label {
+    display: none !important
+  }
+
+  nav>a span:last-child {
+    display: none !important
+  }
+
+  #notifications span:last-child {
     display: none !important
   }
 }
@@ -14144,6 +14181,7 @@ textarea {
 .copy-email {
   border: none;
   outline: none;
+  background: inherit;
   cursor: pointer;
   font-weight: 600;
   width: fit-content;
