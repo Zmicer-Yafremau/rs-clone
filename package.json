@@ -65,6 +65,7 @@
         "resetMocks": false,
         "setupFiles": [
             "jest-localstorage-mock"
-        ]
+        ],
+        "testEnvironment": "jsdom"
     }
 }
