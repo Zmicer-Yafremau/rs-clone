@@ -54,6 +54,7 @@
     },
     "dependencies": {
         "bootstrap": "^5.2.3",
+        "isomorphic-fetch": "^3.0.0",
         "hotkeys-js": "^3.10.1",
         "jsdom": "^20.0.3",
         "mini-css-extract-plugin": "^2.7.2",

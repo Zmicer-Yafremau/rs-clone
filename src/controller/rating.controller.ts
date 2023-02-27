@@ -7,6 +7,11 @@ export class RatingController {
         return await this.model.createFeedback(rating, text, userName, userId);
     }
 
+    async getByUser(id: number) {
+        return await this.model.getByUser(id);
+    }
+
+
     async getAll() {
         return await this.model.getAll();
     }

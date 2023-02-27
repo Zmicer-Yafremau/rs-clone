@@ -31,6 +31,10 @@ export class Controller {
         return await this.ratingController.createFeedback(rating, text, userName, userId);
     }
 
+    async getByUser(id: number) {
+        return await this.ratingController.getByUser(id);
+    }
+
     async getAll() {
         return await this.ratingController.getAll();
     }

@@ -38,6 +38,10 @@ export class Model extends Observer {
         return await this.feedback.create(rating, text, userName, userId);
     }
 
+    async getByUser(id: number) {
+        return await this.feedback.getByUser(id);
+    }
+
     async getAll() {
         return await this.feedback.getAll();
     }

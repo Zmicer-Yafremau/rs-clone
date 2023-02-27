@@ -23,7 +23,6 @@ export class BoxView {
     async render(path2: string) {
         const box = await getParticipants(path2, this.controller.boxesController);
         this.box = box;
-
         const userId = USR_STATE.id;
         userId ? (this.userId = userId) : null;
         const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];

@@ -5,7 +5,7 @@ export class Feedback {
     constructor() {
         this.url = `https://santa-secret-clone.up.railway.app/feedback`;
     }
-    async getByUser(id: number): Promise<IFeedback> {
+    async getByUser(id: number): Promise<IFeedback[]> {
         return (await fetch(`${this.url}/${id}`)).json();
     }
     async getAll(): Promise<IFeedback[]> {
