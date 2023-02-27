@@ -193,7 +193,7 @@ button,
 input {
   /* 1 */
   overflow: visible;
-}"
+}
 
 /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
@@ -13060,6 +13060,10 @@ textarea {
   border-width: 0
 }
 
+.list-group-horizontal>.list-group-item:first-child:not(:last-child) {
+  width: 72px
+}
+
 #root {
   flex: 1 1 auto
 }
@@ -13444,13 +13448,28 @@ textarea {
   position: relative
 }
 
-.screenshot__ward-icons {
-  display: flex;
-  flex-direction: row
+.screenshot--ward {
+  height: fit-content !important;
+  padding-top: 50px;
+  padding-bottom: 50px
+}
+
+.screenhot__ward-footer {
+  height: 20%;
+  font-size: 100%;
+  color: #8d96a8
 }
 
 .screenshot__icon {
   margin-left: 20px
+}
+
+.screenshot__ward-icon {
+  width: 100%
+}
+
+.screenshot__ward-icon svg {
+  display: block
 }
 
 .screenshot__name {
@@ -13487,18 +13506,6 @@ textarea {
   line-height: 1.375rem;
   padding: 1.5rem;
   text-align: center
-}
-
-.screenshot__icon-left {
-  left: 90px;
-  background-color: #ffecd7;
-  z-index: 2
-}
-
-.screenshot__icon-right {
-  right: 90px;
-  z-index: 3;
-  background-color: #ffeaed
 }
 
 .screenshot__create {
