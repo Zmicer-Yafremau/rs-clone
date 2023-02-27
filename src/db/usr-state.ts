@@ -6,4 +6,5 @@ export const USR_STATE: USR_STATE_TYPE = {
     phonenumber: '',
     password: '',
     dark: false,
+    token: '',
 };
