@@ -63,15 +63,19 @@ export function switchHeader(name = '', notification = '') {
                 NAME_ARR.push(BOX_OBJ.box_name);
             }
         }
-        const UNIC_BOX = Array.from(new Set([NAME_ARR]));
-        for (const box_name of UNIC_BOX) {
-            createNote(`В коробке ${box_name} прошла жеребьёвка`);
-        }
+        const UNIC_BOX = Array.from(new Set(NAME_ARR));
         const NOTIFICATIONS_CONTENT = document.getElementsByClassName(`notifications__content`)[0] as HTMLDivElement;
-        if (NOTIFICATIONS_CONTENT) {
-            if (!NOTIFICATIONS_CONTENT.innerHTML.length) {
-                createNote('Уведомлений нет');
+        console.log('hello');
+        if (UNIC_BOX.length) {
+            for (const box_name of UNIC_BOX) {
+                createNote(`В коробке ${box_name} прошла жеребьёвка`);
             }
+        } else {
+            NOTIFICATIONS_CONTENT.innerHTML = '';
+            createNote('Уведомлений нет');
+        }
+
+        if (NOTIFICATIONS_CONTENT) {
             NOTIFICATIONS_CONTENT.addEventListener(
                 'click',
                 (event) => {
