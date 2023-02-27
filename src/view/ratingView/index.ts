@@ -1,6 +1,6 @@
 import { Model } from '../../model/index';
 import { Controller } from '../../controller';
-import { getSelector } from '../../utils/utils';
+import { getSelector, toggleLoader } from '../../utils/utils';
 import { FeedbackView } from './feedbackView';
 
 export class RatingView {
@@ -189,11 +189,13 @@ export class RatingView {
             } else {
                 e.preventDefault();
                 e.stopPropagation();
+                toggleLoader();
                 await this.controller.createFeedback(currentNumber, text, userName, userId);
                 currentNumber = 1;
                 clear();
                 textFeedback.value = '';
                 this.feedbackView.render(feedbackWrapper);
+                toggleLoader();
                 this.render();
             }
         });

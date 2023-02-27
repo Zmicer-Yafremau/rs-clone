@@ -45,6 +45,7 @@ export class View {
 
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
+        this.addHandlers();
         this.addListeners();
         this.renderContent();
         const main = document.querySelector('.main') as Element;
@@ -66,7 +67,6 @@ export class View {
         this.hotkeys = new Hotkeys(this.controller, this.model);
         this.boxTable = new BoxTable(this.controller, this.model, main);
         this.checkRestoreRoute();
-        this.addHandlers();
     }
 
     checkRestoreRoute() {
@@ -95,6 +95,9 @@ export class View {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
         });
+        window.onload = function () {
+            localStorage.setItem('header', 'reload');
+        };
         this.model.on('route', () => {
             this.renderRoute();
         });
@@ -112,7 +115,7 @@ export class View {
         const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
         const USR = this.model.authorizationModel;
-        console.log(localStorage.token && localStorage.switched !== 'true');
+
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
@@ -122,9 +125,9 @@ export class View {
                 USR_STATE.phonenumber = USR_OBJ[0].phonenumber;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
-                localStorage.isLogin === 'true' ? localStorage.switched : switchHeader(USR_OBJ[0].name);
                 isLogin = true;
-                localStorage.isLogin = 'true';
+                localStorage.getItem('header') ? switchHeader(USR_STATE.name) : null;
+                localStorage.removeItem('header');
             } else localStorage.clear();
         }
         switch (path) {
@@ -205,6 +208,9 @@ export class View {
             case Routing.CARD:
                 this.newCardView.render();
                 this.newCardView.addListeners();
+                break;
+            case '404':
+                this.errorView.render();
                 break;
             default:
                 this.errorView.render();

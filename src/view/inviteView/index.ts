@@ -21,6 +21,7 @@ export class InviteView {
                     if (CHECK_CARDS) {
                         localStorage.invite = '';
                         this.controller.route(`${this.model.route.origin}/box/${localStorage.boxId}`);
+                        return;
                     }
                 }
                 this.controller.route(this.model.route.origin + '/card');

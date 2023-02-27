@@ -6,6 +6,7 @@ import { copy, toggleLoader } from '../../utils/utils';
 import { errorCats } from '../../db/errorCats';
 import { drawRandomCards, getBoxCards, getParticipants } from './boxManage';
 import { USR_STATE } from '../../db/usr-state';
+import { State } from '../../types/routing';
 
 export class BoxView {
     cards: ICardReq[] | undefined;
@@ -110,7 +111,8 @@ export class BoxView {
     addListeners() {
         const link = document.querySelector('.copy-link') as HTMLInputElement;
         if (link) {
-            link.value = `${this.model.route.origin}/invite/${this.box?.invited_key}`;
+            const addPath = location.origin.includes('github') ? State.deployPath : '';
+            link.value = `${this.model.route.origin}${addPath}/invite/${this.box?.invited_key}`;
             copy(link);
         }
         const buttonBack = document.querySelector('#back');

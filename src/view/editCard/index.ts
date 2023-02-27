@@ -215,7 +215,7 @@ export class EditCardView {
                         phone: newNumber,
                         wishes: newWishes,
                     });
-                    this.controller.route(location.href);
+                    this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/card`);
                     toggleLoader();
                 }
             });

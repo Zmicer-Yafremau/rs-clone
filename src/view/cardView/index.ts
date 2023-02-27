@@ -363,7 +363,7 @@ export class CardView {
 
         Array.from(editCard).forEach((button) => {
             button.addEventListener('click', () => {
-                this.controller.route(location.href + `/edit`);
+                this.controller.route(`${this.model.route.origin}/box/${this.box?.box_id}/card/edit`);
             });
         });
     }
