@@ -193,7 +193,7 @@ button,
 input {
   /* 1 */
   overflow: visible;
-}
+}"
 
 /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
@@ -12900,8 +12900,8 @@ fieldset:disabled .btn {
 
 @font-face {
   font-family: Gilroy;
-  src: url(assets/fonts/Gilroy-ExtraBold.otf);
-  src: url(assets/fonts/Gilroy-Light.otf)
+  src: url(/assets/fonts/Gilroy-ExtraBold.otf);
+  src: url(/assets/fonts/Gilroy-Light.otf)
 }
 
 .note {
