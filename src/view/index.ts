@@ -65,6 +65,16 @@ export class View {
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
         this.hotkeys = new Hotkeys(this.controller, this.model);
         this.boxTable = new BoxTable(this.controller, this.model, main);
+        this.checkRestoreRoute();
+        this.addHandlers();
+    }
+
+    checkRestoreRoute() {
+        const route = localStorage.getItem('restore');
+        if (route) {
+            localStorage.removeItem('restore');
+            this.controller.route(route);
+        }
         this.renderRoute();
     }
 
