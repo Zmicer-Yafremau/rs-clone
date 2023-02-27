@@ -249,7 +249,7 @@ export class AccountView {
     }
 
     addListeners() {
-        if (location.pathname === '/account/boxes') {
+        if (location.pathname.includes('/account/boxes')) {
             const boxesList = document.querySelectorAll('.boxes__list');
             if (boxesList) {
                 boxesList.forEach((list) =>

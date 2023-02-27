@@ -41,13 +41,14 @@ export class BoxMenu {
             }
             const locationArr = window.location.pathname.split('/');
             const wardInPath = locationArr.slice(-1)[0];
-            const active1 = locationArr.length === 3 || locationArr.includes('santas') ? 'active' : '';
+            const active1 =
+                (locationArr.length >= 3 && locationArr.length <= 4) || locationArr.includes('santas') ? 'active' : '';
             const active2 =
-                locationArr.length > 3 && locationArr[3].includes('card') && Number(wardInPath) !== userCard?.ward_id
+                locationArr.length >= 3 && locationArr.includes('card') && Number(wardInPath) !== userCard?.ward_id
                     ? 'active'
                     : '';
             const active3 =
-                (locationArr.length > 3 && locationArr[3].includes('ward')) || Number(wardInPath) === userCard?.ward_id
+                (locationArr.length >= 3 && locationArr.includes('ward')) || Number(wardInPath) === userCard?.ward_id
                     ? 'active'
                     : '';
             this.root.innerHTML = box

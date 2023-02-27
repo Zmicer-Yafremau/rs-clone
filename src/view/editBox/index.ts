@@ -5,6 +5,7 @@ import { copy, toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { deleteBox, drawRandomCards, redrawRandomCards } from '../boxView/boxManage';
 import { USR_STATE } from '../../db/usr-state';
+import { State } from '../../types/routing';
 
 export class EditBoxView {
     box: IBoxReq | undefined;
@@ -156,7 +157,8 @@ export class EditBoxView {
             });
         }
         const link = document.querySelector('.copy-link') as HTMLInputElement;
-        link.value = `${this.model.route.origin}/invite/${this.box?.invited_key}`;
+        const addPath = location.origin.includes('github') ? State.deployPath : '';
+        link.value = `${this.model.route.origin}${addPath}/invite/${this.box?.invited_key}`;
         link ? copy(link) : null;
         const deleteBoxInput = document.querySelector('#inputDeleteBox');
         const submitDeleteButton = document.querySelector('#submit-delete');
