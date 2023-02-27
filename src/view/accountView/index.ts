@@ -20,6 +20,7 @@ export class AccountView {
             userBoxes.forEach((boxes) => (!years.includes(boxes.year) ? years.push(boxes.year) : null));
         }
         if (path2 === 'boxes') {
+            console.log(userBoxes)
             this.root.innerHTML = `<div class="boxes log center">
             <div class="menu__wrapper">
                 <div class="boxes__view"><p>Мои Коробки</p></div>

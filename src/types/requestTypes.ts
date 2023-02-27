@@ -55,12 +55,14 @@ export interface IUserBoxesReq {
     account_id: number;
 }
 export interface IFeedback {
+    id: number;
     rating: number;
     text: string;
     user_name: string;
     userId: number | null;
 }
 export interface IFeedbackReq {
+    id: number;
     rating: number;
     text: string;
     user_name: string;
