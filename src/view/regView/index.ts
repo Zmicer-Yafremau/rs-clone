@@ -80,6 +80,6 @@ export class RegView {
         const PASS_INPUT = document.getElementsByClassName('reg__pass')[0] as HTMLInputElement;
         const PASS_ICONS = document.getElementsByClassName('reg__icon')[0] as HTMLInputElement;
         hideSymbols(PASS_INPUT, PASS_ICONS);
-        checkValidation(FORM);
+        checkValidation(FORM, this.controller, this.model);
     }
 }

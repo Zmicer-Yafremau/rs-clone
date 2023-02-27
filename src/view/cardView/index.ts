@@ -71,7 +71,8 @@ export class CardView {
                 `;
         } else {
             div.classList.add('box__cards', 'center');
-            div.innerHTML = `
+            div.innerHTML = this.card
+                ? `
                 <div class="my-card__wrapper center">
                 <div class="my-card">
                     <span class="my-card__bg">
@@ -305,7 +306,8 @@ export class CardView {
                 </div>
             </div>
             
-    `;
+    `
+                : '';
         }
         placeToInsert ? placeToInsert.append(div) : null;
     }
@@ -361,7 +363,7 @@ export class CardView {
 
         Array.from(editCard).forEach((button) => {
             button.addEventListener('click', () => {
-                this.controller.route(location.href + `/edit`);
+                this.controller.route(`${this.model.route.origin}/box/${this.box?.box_id}/card/edit`);
             });
         });
     }

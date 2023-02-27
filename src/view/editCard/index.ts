@@ -37,6 +37,9 @@ export class EditCardView {
 
         if (box && userId) {
             const placeToInsert = document.querySelector('.box__view');
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
             const div = document.createElement('div');
             div.classList.add('box__edit', 'box');
             div.innerHTML = `
@@ -183,15 +186,15 @@ export class EditCardView {
 
         inputNameUser.addEventListener('input', (e) => {
             const target = e.target as HTMLInputElement;
-            newName = target.value;
+            newName = target.value.trim();
         });
         inputNumberPhone.addEventListener('input', (e) => {
             const target = e.target as HTMLInputElement;
-            newNumber = target.value;
+            newNumber = target.value.trim();
         });
         inputWishes.addEventListener('input', (e) => {
             const target = e.target as HTMLInputElement;
-            newWishes = target.value;
+            newWishes = target.value.trim();
         });
 
         if (submitCardEdit) {
@@ -212,7 +215,7 @@ export class EditCardView {
                         phone: newNumber,
                         wishes: newWishes,
                     });
-                    this.controller.route(location.href);
+                    this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/card`);
                     toggleLoader();
                 }
             });
@@ -221,7 +224,7 @@ export class EditCardView {
         const buttonBack = document.querySelector('.btn-back');
         if (buttonBack) {
             buttonBack.addEventListener('click', () => {
-                this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
+                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/card`);
             });
         }
 
@@ -229,7 +232,7 @@ export class EditCardView {
         if (buttonDelete) {
             buttonDelete.addEventListener('click', async () => {
                 toggleLoader();
-                if (this.box && this.card && this.cards) {
+                if (this.box && this.card && this.cards && this.userId) {
                     if (this.box.is_draw) {
                         const santa = this.cards.find((card) => card.ward_id === this.card?.card_id);
                         if (santa) {
@@ -241,9 +244,18 @@ export class EditCardView {
                     const newBox = this.box?.cards_id.filter((id) => id !== this.card?.card_id);
                     await this.controller.boxesController.updateBox(this.box.box_id, { cardsId: newBox });
                     await this.controller.cardController.deleteCard(this.card.card_id);
+                    if (this.box.admin_id !== Number(this.userId)) {
+                        const userBox = await this.controller.userBoxesController.getUserBoxes(this.userId);
+                        const newUserBox = userBox[0].user_boxes.filter((box) => box !== this.box?.box_id);
+                        await this.controller.userBoxesController.updateUserBoxes(
+                            userBox[0].id,
+                            newUserBox,
+                            this.userId
+                        );
+                    }
                 }
                 toggleLoader();
-                this.controller.route(location.origin + `/box/${this.box?.box_id}`);
+                this.controller.route(this.model.route.origin + `/account/boxes`);
             });
         }
     }

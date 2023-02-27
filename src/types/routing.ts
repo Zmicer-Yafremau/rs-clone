@@ -7,6 +7,7 @@ export enum Routing {
     RATING = 'rating',
     FAQ = 'faq',
     BOX = 'box',
+    CARD = 'card',
     NEW_BOX = 'box/new',
 }
 

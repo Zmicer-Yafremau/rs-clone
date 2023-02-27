@@ -6,6 +6,7 @@ import { copy, toggleLoader } from '../../utils/utils';
 import { errorCats } from '../../db/errorCats';
 import { drawRandomCards, getBoxCards, getParticipants } from './boxManage';
 import { USR_STATE } from '../../db/usr-state';
+import { State } from '../../types/routing';
 
 export class BoxView {
     cards: ICardReq[] | undefined;
@@ -37,7 +38,9 @@ export class BoxView {
                         </button></div>`;
         } else {
             const placeToInsert = document.querySelector('.box__view');
-
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
             const div = document.createElement('div');
             div.classList.add('box__cards', 'center');
             div.innerHTML = `
@@ -90,7 +93,7 @@ export class BoxView {
                       Ccылка-приглашение (кликните, чтобы скопировать):
                      
                      </p> 
-                     <input id="copy-link" type="text" class="copy-link-input"  data-tippy-arrow="false" data-tippy-content="Ссылка скопирована" data-tippy-placement="bottom-start",  readonly>
+                     <input id="copy" type="text" class="copy-link-input copy-link"  data-tippy-arrow="false" data-tippy-content="Ссылка скопирована" data-tippy-placement="bottom-start",  readonly>
                      </div>
                   </div>`
             }
@@ -105,15 +108,16 @@ export class BoxView {
     }
 
     addListeners() {
-        const link = document.querySelector('.copy-link-input') as HTMLInputElement;
+        const link = document.querySelector('.copy-link') as HTMLInputElement;
         if (link) {
-            link.value = `${location.origin}/invite/${this.box?.invited_key}`;
+            const addPath = location.origin.includes('github') ? State.deployPath : '';
+            link.value = `${this.model.route.origin}${addPath}/invite/${this.box?.invited_key}`;
             copy(link);
         }
         const buttonBack = document.querySelector('#back');
         if (buttonBack) {
             buttonBack.addEventListener('click', () => {
-                this.controller.route(location.origin + '/');
+                this.controller.route(this.model.route.origin + '/');
             });
         }
 
@@ -121,7 +125,7 @@ export class BoxView {
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await drawRandomCards(this.cards, this.box, this.controller);
+                const result = await drawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -137,12 +141,15 @@ export class BoxView {
                     const cardId = Number(target.closest('LI')?.id);
                     if (cardId && this.box?.admin_id === Number(this.userId)) {
                         if (this.userCard?.card_id === cardId) {
-                            this.controller.route(location.origin + `/box/${this.box.box_id}/card`);
-                        } else this.controller.route(location.origin + `/box/${this.box.box_id}/card/edit/${cardId}`);
+                            this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/card`);
+                        } else
+                            this.controller.route(
+                                this.model.route.origin + `/box/${this.box.box_id}/card/edit/${cardId}`
+                            );
                     } else if (this.userCard?.card_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/card`);
+                        this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/card`);
                     } else if (this.userCard?.ward_id === cardId) {
-                        this.controller.route(location.origin + `/box/${this.box?.box_id}/ward`);
+                        this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/ward`);
                     }
                 }
             });

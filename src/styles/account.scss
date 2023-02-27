@@ -22,9 +22,11 @@
     min-width: 300px;
     height: 50px;
 }
+
 .account__container {
     min-width: 330px;
 }
+
 .pass__saved,
 .private__saved {
     transition: all 1s;
@@ -38,4 +40,11 @@
 .private__saved.active {
     transition: all 1s;
     transform: translateY(80px);
+}
+
+.delete__error {
+    max-width: 360px;
+}
+.delete__btn {
+    height: 50px;
 }

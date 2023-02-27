@@ -10,7 +10,6 @@ import { getSelector } from '../utils/utils';
 import { LoginView } from './loginView';
 import { RegView } from './regView';
 import { switchHeader } from './mainView/switch-header';
-import { Authorization } from '../model/authorization';
 import { BoxView } from './boxView';
 import { FaqView } from './faqView';
 import { CardView } from './cardView';
@@ -19,9 +18,11 @@ import { InviteView } from './inviteView';
 import { EditBoxView } from './editBox';
 import { EditCardView } from './editCard';
 import { BoxMenu } from './boxView/boxMenu';
+import { Hotkeys } from '../components/hotkeys';
 import { BoxTable } from './boxTable/boxTable';
 import { USR_STATE } from '../db/usr-state';
-
+import { NewCardView } from './newCardView';
+import { colorShift } from './mainView/color-shift';
 export class View {
     root: Element;
     accountView: AccountView;
@@ -34,14 +35,17 @@ export class View {
     faqView: FaqView;
     cardView: CardView;
     newBoxView: NewBoxView;
+    newCardView: NewCardView;
     inviteView: InviteView;
     editBoxView: EditBoxView;
     editCardView: EditCardView;
     boxMenu: BoxMenu;
+    hotkeys: Hotkeys;
     boxTable: BoxTable;
 
     constructor(private controller: Controller, private model: Model) {
         this.root = document.getElementById('root') as Element;
+        this.addHandlers();
         this.addListeners();
         this.renderContent();
         const main = document.querySelector('.main') as Element;
@@ -50,6 +54,7 @@ export class View {
         this.accountView = new AccountView(this.controller, this.model, main);
         this.boxView = new BoxView(this.controller, this.model, main);
         this.newBoxView = new NewBoxView(this.controller, this.model, main);
+        this.newCardView = new NewCardView(this.controller, this.model, main);
         this.inviteView = new InviteView(this.controller, this.model, main);
         this.faqView = new FaqView(this.controller, this.model, main);
         this.mainView = new MainView(this.controller, this.model, main);
@@ -59,24 +64,49 @@ export class View {
         this.editBoxView = new EditBoxView(this.controller, this.model, main);
         this.editCardView = new EditCardView(this.controller, this.model, main);
         this.boxMenu = new BoxMenu(this.controller, this.model, main);
+        this.hotkeys = new Hotkeys(this.controller, this.model);
         this.boxTable = new BoxTable(this.controller, this.model, main);
+        this.checkRestoreRoute();
+    }
+
+    checkRestoreRoute() {
+        const route = localStorage.getItem('restore');
+        if (route) {
+            localStorage.removeItem('restore');
+            this.controller.route(route);
+        }
         this.renderRoute();
     }
 
     addHandlers() {
         for (const link of getSelector('.nav__link') as NodeListOf<Element>) {
-            link.addEventListener('click', (e: Event) => {
-                const href = this.model.route.origin + link.getAttribute('href');
-                this.controller.route(href, e);
-            });
+            link.addEventListener(
+                'click',
+                (e: Event) => {
+                    e.stopImmediatePropagation();
+                    const href = this.model.route.origin + link.getAttribute('href');
+                    this.controller.route(href, e);
+                },
+                false
+            );
         }
     }
     addListeners() {
         window.addEventListener('popstate', () => {
             this.controller.updateRoute(window.location.href);
         });
+        window.onload = function () {
+            localStorage.setItem('header', 'reload');
+        };
         this.model.on('route', () => {
             this.renderRoute();
+        });
+        const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+        const BODY = document.body;
+        THEME_CHECKBOX.addEventListener('change', () => {
+            BODY.classList.toggle('darkTheme');
+            if (BODY.classList.contains('darkTheme')) sessionStorage.dark = true;
+            else sessionStorage.dark = '';
         });
     }
 
@@ -84,18 +114,21 @@ export class View {
         const route = this.model.route;
         const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
-        const USR = new Authorization();
+        const USR = this.model.authorizationModel;
+
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
                 USR_STATE.id = USR_OBJ[0].id;
                 USR_STATE.name = USR_OBJ[0].name;
                 USR_STATE.email = USR_OBJ[0].email;
+                USR_STATE.phonenumber = USR_OBJ[0].phonenumber;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
-                switchHeader(USR_OBJ[0].name);
                 isLogin = true;
-            } else localStorage.token = '';
+                localStorage.getItem('header') ? switchHeader(USR_STATE.name) : null;
+                localStorage.removeItem('header');
+            } else localStorage.clear();
         }
         switch (path) {
             case '':
@@ -143,12 +176,10 @@ export class View {
                         await this.editBoxView.render(path2);
                         this.editBoxView.addListeners();
                         break;
-                    } else {
-                        await this.boxMenu.render(path2);
-                        await this.boxView.render(path2);
-                        this.boxView.addListeners();
-                        break;
-                    }
+                    } else await this.boxMenu.render(path2);
+                    await this.boxView.render(path2);
+                    this.boxView.addListeners();
+                    break;
                 } else {
                     this.loginView.render();
                     this.loginView.addListeners();
@@ -174,14 +205,29 @@ export class View {
                 this.faqView.render();
                 this.faqView.addListeners();
                 break;
+            case Routing.CARD:
+                this.newCardView.render();
+                this.newCardView.addListeners();
+                break;
+            case '404':
+                this.errorView.render();
+                break;
             default:
                 this.errorView.render();
         }
         this.addHandlers();
+        this.hotkeys.addHotKeys();
     }
 
     renderContent() {
         const main = create<HTMLElement>('main', 'main');
         this.root.append(main);
+        const PRODUCED = document.getElementsByClassName('footer__header')[0] as HTMLHeadingElement;
+        colorShift(PRODUCED);
+        if (sessionStorage.dark) {
+            const THEME_CHECKBOX = document.getElementsByClassName('form-check-input')[0] as HTMLInputElement;
+            document.body.classList.add('darkTheme');
+            THEME_CHECKBOX.setAttribute('checked', '');
+        }
     }
 }

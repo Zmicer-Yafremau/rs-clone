@@ -6,7 +6,23 @@
     src: url('./assets/fonts/Gilroy-ExtraBold.otf');
     src: url('./assets/fonts/Gilroy-Light.otf');
 }
-
+.note {
+    padding: 10px;
+}
+.notifications__content {
+    position: absolute;
+    min-width: 200px;
+    border-radius: 10px;
+    background-color: $part-bg;
+    top:-510px;
+    right:11%;
+    z-index: 90;
+    cursor: pointer;
+    text-align: center;
+}
+#notifications {
+    cursor: pointer;
+}
 .accordion-button {
     background-color: unset !important;
     color: unset !important;
@@ -32,7 +48,17 @@ h1 {
     outline: 0 !important;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
-
+.form-check-input:checked {
+    background-color: $faq-text;
+    border-color: $faq-text;
+}
+.form-check-input:focus {
+    border-color:$faq-text;
+    background-color: $faq-text;
+}
+.form-switch .form-check-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='white'/%3e%3c/svg%3e");
+  }
 textarea {
     resize: none;
 }
@@ -110,11 +136,17 @@ textarea {
 }
 .nav {
     width: fit-content;
-    min-width: 150px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-wrap: wrap;
+}
+
+.btn-modal {
+    color: white;
+    margin-right: 30px;
+    padding: 0;
+    border-width: 0;
 }
 #root {
     flex: 1 1 auto;
@@ -205,8 +237,15 @@ textarea {
     text-align: start;
     margin-bottom: 5px;
 }
-
-@media (max-width: 700px) {
+@media (max-width: 1700px) {
+    .notifications__content {
+        right:3.5%;
+    }
+}
+@media (max-width: 750px) {
+    .notifications__content {
+        right:0;
+    }
     .main__button {
         margin: 10px 0;
     }
@@ -223,8 +262,17 @@ textarea {
         font-size: 14px;
     }
     .nav {
-        width: 200px;
+        width: fit-content;
     }
+    .form-check label {
+        display: none !important;
+    }
+    nav > a span:last-child {
+        display: none !important;
+       }
+       #notifications span:last-child {
+        display: none !important;
+       }
 }
 .loader {
     position: absolute;

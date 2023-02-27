@@ -15,7 +15,6 @@ export class AccountView {
         const userBoxes = await this.controller.boxesController.getBoxes();
         const years: string[] = [];
         const userId: number | undefined = USR_STATE.id;
-        console.log(USR_STATE);
         if (userBoxes && userBoxes.length > 0) {
             userBoxes.forEach((boxes) => (!years.includes(boxes.year) ? years.push(boxes.year) : null));
         }
@@ -229,14 +228,21 @@ export class AccountView {
                 <div class="col-4 account__section">
                     <h5 class="">Удаление профиля</h5>
                 </div>
-                <form class="col-auto delete__form mt-3" novalidate>
+                <form class="col-auto delete__form mt-3" d-flex novalidate>
                     <div class="d-flex flex-column justify-content-center align-items-start">
                         <label for="inputDel" class="text-secondary">Для подтверждения введите: <b> Удалить профиль</b></label>
-                        <input type="text" class="form-control" id="inputDel">
+                        <input type="text" class="form-control mt-1" id="inputDel">
                     </div>
-                    <div class="d-flex justify-content-end visually-hidden">
-                        <button type="submit" class="btn text-secondary bg-none">Удалить</button>
+                    <div class="delete__btn d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn text-secondary bg-none visually-hidden">Удалить</button>
                     </div>
+                    <div class="delete__error-part delete__error authorization__errors visually-hidden mt-3">
+                         Невозможно удалить профиль, есть коробки в которых вы учавствуете.
+                         Обратитесь к <span class="account__admins"></span> для того, что бы Вас удалили.
+                    </div>
+                    <div class="delete__error-admin delete__error authorization__errors visually-hidden mt-3">
+                    Невозможно удалить профиль, сначала удалите свои коробки.
+               </div>
                 </form>
             </div>
         </div>
@@ -244,7 +250,7 @@ export class AccountView {
     }
 
     addListeners() {
-        if (location.pathname === '/account/boxes') {
+        if (location.pathname.includes('/account/boxes')) {
             const boxesList = document.querySelectorAll('.boxes__list');
             if (boxesList) {
                 boxesList.forEach((list) =>
@@ -252,14 +258,16 @@ export class AccountView {
                         const target = e.target as HTMLElement;
                         if (target && target.closest('LI')) {
                             const box_id = target.closest('LI')?.getAttribute('data-id');
-                            this.controller.route(location.origin + `/box/${box_id}`);
+                            this.controller.route(this.model.route.origin + `/box/${box_id}`);
                         }
                     })
                 );
             }
             const CREATE__BUTTON = document.getElementById('create');
             if (CREATE__BUTTON) {
-                CREATE__BUTTON.addEventListener('click', () => this.controller.route(location.origin + `/box/new`));
+                CREATE__BUTTON.addEventListener('click', () =>
+                    this.controller.route(this.model.route.origin + `/box/new`)
+                );
             }
         }
         if (location.pathname !== '/account/boxes') {
@@ -278,17 +286,17 @@ export class AccountView {
                 EXIT.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    exit();
+                    exit(this.controller, this.model);
                 });
                 DELETE__BUTTON.addEventListener('click', async (event) => {
                     event.preventDefault();
                     event.stopImmediatePropagation();
-                    await deleteUser();
+                    await deleteUser(this.controller, this.model);
                 });
                 DELETE__INPUT.addEventListener('input', () => {
                     if (DELETE__INPUT.value === 'Удалить профиль') {
-                        DELETE__DIV.classList.remove('visually-hidden');
-                    }
+                        DELETE__BUTTON.classList.remove('visually-hidden');
+                    } else DELETE__BUTTON.classList.add('visually-hidden');
                 });
                 const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
                 const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;

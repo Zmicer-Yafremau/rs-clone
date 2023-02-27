@@ -391,10 +391,10 @@
     position: relative;
     width: 100%;
 }
-#copy-email {
+.copy-email {
     border: none;
     outline: none;
-
+    background: inherit;
     cursor: pointer;
     font-weight: 600;
     width: fit-content;

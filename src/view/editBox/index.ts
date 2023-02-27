@@ -5,6 +5,7 @@ import { copy, toggleLoader } from '../../utils/utils';
 import { IBoxReq, ICardReq } from '../../types/requestTypes';
 import { deleteBox, drawRandomCards, redrawRandomCards } from '../boxView/boxManage';
 import { USR_STATE } from '../../db/usr-state';
+import { State } from '../../types/routing';
 
 export class EditBoxView {
     box: IBoxReq | undefined;
@@ -30,11 +31,14 @@ export class EditBoxView {
         this.cards = allCards;
         if (box && userId) {
             const placeToInsert = document.querySelector('.box__view');
-            const menuItem = document.querySelector('#num-1');
-            const menuItemSlider = document.querySelector('.toggle-menu-item--slider.num-1');
-            if (menuItemSlider && menuItem) {
-                menuItem.classList.add('active');
-                menuItemSlider.classList.add('active');
+            if (placeToInsert && placeToInsert.children.length > 1) {
+                placeToInsert.children[1].remove();
+            }
+            const menuItem = document.querySelectorAll('.toggle-menu-item');
+            const menuItemSlider = document.querySelectorAll('.toggle-menu-item--slider');
+            if (menuItemSlider.length && menuItem.length) {
+                menuItem.forEach((item) => item.classList.remove('active'));
+                menuItemSlider.forEach((item) => item.classList.remove('active'));
             }
             const div = document.createElement('div');
             div.classList.add('box__edit', 'box');
@@ -80,9 +84,9 @@ export class EditBoxView {
                     </p>
                     <p class="link-copy">Ccылка-приглашение (кликните, чтобы скопировать):</p>
                     <input
-                        id="copy-link"
+                        id="copy"
                         type="text"
-                        class="copy-link-input"
+                        class="copy-link-input copy-link"
                         data-tippy-arrow="false"
                         data-tippy-content="Ссылка скопирована"
                         data-tippy-placement="bottom-start"
@@ -132,7 +136,7 @@ export class EditBoxView {
         if (buttonDraw && this.cards && this.box) {
             buttonDraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await drawRandomCards(this.cards, this.box, this.controller);
+                const result = await drawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -144,7 +148,7 @@ export class EditBoxView {
         if (buttonRedraw && this.cards && this.box) {
             buttonRedraw.addEventListener('click', async () => {
                 toggleLoader();
-                const result = await redrawRandomCards(this.cards, this.box, this.controller);
+                const result = await redrawRandomCards(this.cards, this.box, this.controller, this.model);
                 if (result) {
                     this.box = result.box;
                     this.cards = result.cards;
@@ -152,8 +156,9 @@ export class EditBoxView {
                 toggleLoader();
             });
         }
-        const link = document.querySelector('#copy-link') as HTMLInputElement;
-        link.value = `${location.origin}/invite/${this.box?.invited_key}`;
+        const link = document.querySelector('.copy-link') as HTMLInputElement;
+        const addPath = location.origin.includes('github') ? State.deployPath : '';
+        link.value = `${this.model.route.origin}${addPath}/invite/${this.box?.invited_key}`;
         link ? copy(link) : null;
         const deleteBoxInput = document.querySelector('#inputDeleteBox');
         const submitDeleteButton = document.querySelector('#submit-delete');
@@ -185,7 +190,7 @@ export class EditBoxView {
                 if (newImg && this.box) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxImg: newImg });
-                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
+                    this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
@@ -195,13 +200,13 @@ export class EditBoxView {
             let newName = '';
             inputNameBox.addEventListener('input', (e) => {
                 const target = e.target as HTMLInputElement;
-                newName = target.value;
+                newName = target.value.trim();
             });
             submitBoxName.addEventListener('click', async () => {
                 if (newName && this.box && this.userId) {
                     toggleLoader();
                     this.box = await this.controller.boxesController.updateBox(this.box.box_id, { boxName: newName });
-                    this.controller.route(location.origin + `/box/${this.box.box_id}/edit`);
+                    this.controller.route(this.model.route.origin + `/box/${this.box.box_id}/edit`);
                     toggleLoader();
                 }
             });
@@ -209,16 +214,17 @@ export class EditBoxView {
         const buttonTable = document.querySelector('#showTable');
         if (buttonTable && this.box) {
             buttonTable.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${(this.box as IBoxReq).box_id}/santas`)
+                this.controller.route(this.model.route.origin + `/box/${(this.box as IBoxReq).box_id}/santas`)
             );
         }
-        const buttonDelete = document.querySelector('#submit-delete');
+        const buttonDelete: HTMLButtonElement | null = document.querySelector('#submit-delete');
         if (buttonDelete) {
             buttonDelete.addEventListener('click', async () => {
+                buttonDelete.setAttribute('disabled', '');
                 toggleLoader();
                 await deleteBox(this.cards, this.box, this.controller, Number(this.userId));
+                this.controller.route(this.model.route.origin + `/account/boxes`);
                 toggleLoader();
-                this.controller.route(location.origin + `/account/boxes`);
             });
         }
     }

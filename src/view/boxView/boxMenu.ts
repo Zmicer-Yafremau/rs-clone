@@ -25,32 +25,34 @@ export class BoxMenu {
     async render(path2: string) {
         this.boxId = path2;
         const box = await getParticipants(path2, this.controller.boxesController);
-        this.box = box;
-        const userId = USR_STATE.id;
-        userId ? (this.userId = userId) : null;
-        const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
-        this.cards = cards;
-        const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
-        if (userCard) {
-            this.userCard = userCard;
-        }
+        if (box) {
+            this.box = box;
+            const userId = USR_STATE.id;
+            userId ? (this.userId = userId) : null;
+            const cards = box ? await getBoxCards(box.box_id, this.controller.cardController) : [];
+            this.cards = cards;
+            const userCard = cards && cards.length > 0 ? cards.find((card) => card.user_id === Number(userId)) : null;
+            if (userCard) {
+                this.userCard = userCard;
+            }
 
-        if (this.userCard && this.userCard.ward_id) {
-            this.wardId = this.userCard?.ward_id;
-        }
-        const locationArr = window.location.pathname.split('/');
-        const wardInPath = locationArr.slice(-1)[0];
-        const active1 = locationArr.length === 3 || locationArr.includes('santas') ? 'active' : '';
-        const active2 =
-            locationArr.length > 3 && locationArr[3].includes('card') && Number(wardInPath) !== userCard?.ward_id
-                ? 'active'
-                : '';
-        const active3 =
-            (locationArr.length > 3 && locationArr[3].includes('ward')) || Number(wardInPath) === userCard?.ward_id
-                ? 'active'
-                : '';
-        this.root.innerHTML = box
-            ? `
+            if (this.userCard && this.userCard.ward_id) {
+                this.wardId = this.userCard?.ward_id;
+            }
+            const locationArr = window.location.pathname.split('/');
+            const wardInPath = locationArr.slice(-1)[0];
+            const active1 =
+                (locationArr.length >= 3 && locationArr.length <= 4) || locationArr.includes('santas') ? 'active' : '';
+            const active2 =
+                locationArr.length >= 3 && locationArr.includes('card') && Number(wardInPath) !== userCard?.ward_id
+                    ? 'active'
+                    : '';
+            const active3 =
+                (locationArr.length >= 3 && locationArr.includes('ward')) || Number(wardInPath) === userCard?.ward_id
+                    ? 'active'
+                    : '';
+            this.root.innerHTML = box
+                ? `
             <div class="box__view">
             <div class="box__menu-wrapper">
 <div class="box__menu">
@@ -63,12 +65,11 @@ export class BoxMenu {
       <div class="dot"></div></div>
       <div  class="admin"><span>Организатор:</span> <span class="admin-name">${
           this.userId !== this.box?.admin_id
-              ? `<input id="copy-email"
+              ? `<input id="copy"
         type="text"
-        class="copy-link-input" data-tippy-arrow="false"
+        class="copy-link-input copy-email" data-tippy-arrow="false"
         data-tippy-content="Email скопирован"
-        data-tippy-placement="bottom-start"
-        readonly value=${box.admin_name}/>`
+        data-tippy-placement="bottom-start" readonly />`
               : `<span class="admin-name">Вы организатор</span>`
       }</div>
       </div>
@@ -101,41 +102,44 @@ export class BoxMenu {
               fill="none"
               style="width: 1.5rem; height: 1.5rem; background: none"
           >
+          <animateTransform attributeName="transform" type="rotate" dur="5s" values="0 0 0;360 0 0;" repeatCount="indefinite"/>
               <path
                   d="M12.8 3v0a1 1 0 01.941.662l.508 1.415v0c.08.223.237.41.442.528l1.507.87v0a1 1 0 00.677.118l1.48-.267v0a1 1 0 011.045.484l.8 1.38v0a1 1 0 01-.1 1.146l-.97 1.148v0a1 1 0 00-.238.646v1.74a1 1 0 00.237.646l.971 1.148v0a1 1 0 01.1 1.146l-.8 1.38v0a1 1 0 01-1.044.484l-1.48-.267v0a1 1 0 00-.677.118l-1.507.87v0a1.005 1.005 0 00-.442.528l-.508 1.415v0A1 1 0 0112.8 21h-1.6v0a1 1 0 01-.94-.662l-.509-1.415v0a1.009 1.009 0 00-.44-.528l-1.509-.87v0a1 1 0 00-.677-.118l-1.48.267v0A1 1 0 014.6 17.19l-.8-1.38v0a1 1 0 01.1-1.146l.971-1.148v0a1 1 0 00.237-.646v-1.74 0a1 1 0 00-.237-.646l-.96-1.148v0a1 1 0 01-.1-1.146l.8-1.38v0a1 1 0 011.043-.484l1.48.267v0a1 1 0 00.677-.118l1.508-.87h0c.204-.119.36-.306.441-.528l.508-1.415v0A1 1 0 0111.2 3h1.6z"
                   stroke="#333640"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-              ></path>
+              >
+              </path>
               <path
                   d="M12 14.75a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z"
                   stroke="#333640"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-              ></path></svg
+              >
+              </path>
+              </svg
       ></span>
   </div></div>`
           : ''
   }
 </div></div></div></div>            
 `
-            : '  <div class="box__view"></div>';
-
-        this.addListeners();
+                : '  <div class="box__view"></div>';
+            this.addListeners();
+        }
     }
-    addListeners() {
-        if (this.userId !== this.box?.admin_id) {
-            const link = document.querySelector('#copy-email') as HTMLInputElement;
-            link.value = `${this.box?.admin_name}`;
 
+    addListeners() {
+        const link = document.querySelector('.copy-email') as HTMLInputElement;
+        if (this.userId !== this.box?.admin_id) {
+            link.value = `${this.box?.admin_name}`;
             const adminCard = this.cards?.find((card) => card.user_id === this.box?.admin_id);
-            link.value = `${adminCard?.email}`;
+            link.value = `${adminCard ? adminCard.email : this.box?.admin_name}`;
             link ? copy(link) : null;
             link.value = `${this.box?.admin_name}`;
         }
-
         const toggleMenu = document.querySelector('.box__toggle');
         const allMenuItem: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item');
         const allMenuSlider: NodeListOf<Element> = document.querySelectorAll('.toggle-menu-item--slider');
@@ -156,15 +160,15 @@ export class BoxMenu {
                         if (this.box && this.boxId && this.userCard) {
                             switch (menuNumber.split('-')[1]) {
                                 case '1':
-                                    this.controller.route(location.origin + `/box/${this.boxId}`);
+                                    this.controller.route(this.model.route.origin + `/box/${this.boxId}`);
                                     break;
                                 case '2':
-                                    this.controller.route(location.origin + `/box/${this.boxId}/card`);
+                                    this.controller.route(this.model.route.origin + `/box/${this.boxId}/card`);
                                     break;
                                 case '3':
                                     this.userCard.ward_id
-                                        ? this.controller.route(location.origin + `/box/${this.boxId}/ward`)
-                                        : this.controller.route(location.origin + `/box/${this.boxId}/ward=0`);
+                                        ? this.controller.route(this.model.route.origin + `/box/${this.boxId}/ward`)
+                                        : this.controller.route(this.model.route.origin + `/box/${this.boxId}/ward=0`);
 
                                     break;
                                 default:
@@ -178,13 +182,13 @@ export class BoxMenu {
         const currentBox = document.getElementById('curr-box');
         if (currentBox) {
             currentBox.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${this.box?.box_id}`)
+                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}`)
             );
         }
         const settings = document.getElementById('setting');
         if (settings) {
             settings.addEventListener('click', () =>
-                this.controller.route(location.origin + `/box/${this.box?.box_id}/edit`)
+                this.controller.route(this.model.route.origin + `/box/${this.box?.box_id}/edit`)
             );
         }
     }

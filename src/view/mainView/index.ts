@@ -2,6 +2,7 @@ import { Model } from '../../model/index';
 import { Controller } from '../../controller';
 import Snowflakes from 'magic-snowflakes';
 import { addBoxPics } from '../newBoxView/add-box-pics';
+
 export class MainView {
     constructor(private controller: Controller, private model: Model, private root: Element) {}
     render() {
@@ -9,6 +10,7 @@ export class MainView {
         <div class="main__banner center-col overflow-hidden" id="snowflakes-container">
             <svg class="main__animals" width="1321" height="344" viewBox="0 0 1321 344" fill="none"
                 style="background: none; width: 65rem; height: 16.9266rem">
+                <animate attributeName="height" values="0; 130; 240; 344;" dur="1s"/>
                 <path
                     d="M620.9 100.12c-6.48.85-13.87 7.2-12.61 9.86 1.25 2.67 5.73 1.44 8.88.2 3.16-1.23 6.02-3.58 7.16-6.78.23-.63.38-1.34.14-1.97-.49-1.29-2.21-1.49-3.58-1.31z"
                     fill="#F9D03D"></path>
@@ -552,7 +554,9 @@ export class MainView {
             </svg>
             <svg class="main__lights" width="4006" height="159" viewBox="0 0 4006 159" fill="none"
                 style="background: none; width: 175rem; height: 6.94583rem">
+                <animate attributeName="y" values="0; 50; 100; 150;" dur="2s"/>
                 <path
+                    class="main__lights-bg"
                     d="M968.88 31.88l239.47 4.6 255.47-4.6 129.48-5.73h176.48l199.48 5.73 234.97 2.87h102.98l191.98-6.88L2618.17 25h117.49l117.98 2.87 286.97 6.88h228.47l165.98-5.16h227.97L4005 37.05V158.5H15.5V28.44l123.98 4.6 258.47 1.71L643.42 25H799.4l169.48 6.88z"
                     fill="#FDFDFF"></path>
                 <g filter="url(#prefix__a)">

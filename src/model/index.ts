@@ -4,12 +4,16 @@ import { RouterModel } from './router.model';
 import { Feedback } from './feedback';
 import { UserBoxes } from './userBoxes';
 import { Card } from './card';
+import { Authorization } from './authorization';
+import { Notifications } from './notifications';
 export class Model extends Observer {
     routerModel: RouterModel;
     userBoxesModel: UserBoxes;
     boxModel: Box;
     feedback: Feedback;
     cardModel: Card;
+    authorizationModel: Authorization;
+    notificationsModel: Notifications;
     constructor() {
         super();
         this.routerModel = new RouterModel();
@@ -17,6 +21,8 @@ export class Model extends Observer {
         this.boxModel = new Box();
         this.feedback = new Feedback();
         this.cardModel = new Card();
+        this.authorizationModel = new Authorization();
+        this.notificationsModel = new Notifications();
     }
 
     setRoute(route: string, noEmit = false) {
