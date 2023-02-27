@@ -148,6 +148,11 @@ textarea {
     padding: 0;
     border-width: 0;
 }
+
+.list-group-horizontal > .list-group-item:first-child:not(:last-child) {
+    width: 72px;
+}
+
 #root {
     flex: 1 1 auto;
     &.shadow {
