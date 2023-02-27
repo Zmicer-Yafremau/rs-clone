@@ -201,16 +201,25 @@
     border: solid white;
     position: relative;
 }
-
-.screenshot__ward-icons {
-    display: flex;
-    flex-direction: row;
+.screenshot--ward {
+    height: fit-content !important;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
-
+.screenhot__ward-footer{
+    height: 20%;
+    font-size: 100%;
+    color: #8d96a8;
+}
 .screenshot__icon {
     margin-left: 20px;
 }
-
+.screenshot__ward-icon {
+    width: 100%;
+}
+.screenshot__ward-icon svg {
+    display: block;
+}
 .screenshot__name {
     display: inline-block;
     width: 70%;
@@ -247,16 +256,8 @@
     text-align: center;
 }
 
-.screenshot__icon-left {
-    left: 90px;
-    background-color: $oct-bg;
-    z-index: 2;
-}
+.screenshot__ward-footer {
 
-.screenshot__icon-right {
-    right: 90px;
-    z-index: 3;
-    background-color: $gir-bg;
 }
 .screenshot__create {
     cursor: unset !important;
