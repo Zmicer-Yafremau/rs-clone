@@ -114,7 +114,7 @@ describe('take any data to create new feedback, get and delete it', () => {
     it('delete feedback', async () => {
         const feedbackId = await (await feedback.getByUser(145))[0].id;
         await feedback.delete(feedbackId);
-        const data = await feedback.getByUser(147);
+        const data = await feedback.getByUser(145);
         expect(data).toStrictEqual([]);
     });
 });
