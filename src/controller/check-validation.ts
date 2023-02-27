@@ -1,5 +1,7 @@
 import { Controller } from '.';
+import { USR_STATE } from '../db/usr-state';
 import { Model } from '../model';
+import { switchHeader } from '../view/mainView/switch-header';
 
 export function checkValidation(form: HTMLFormElement, controller: Controller, model: Model) {
     form.addEventListener(
@@ -25,6 +27,7 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                     const PASS = INPUTS[3].value;
                     const res = await USR.create(NAME, MAIL, PHONE, PASS);
                     if (res) {
+                        switchHeader(USR_STATE.name);
                         const ID = localStorage.id;
                         await USR_BOXES.create([], ID);
                         if (localStorage.inviteKey) controller.route(model.route.origin + '/card');
@@ -36,6 +39,7 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                     const PASS = INPUTS[1].value;
                     const res = await USR.login(MAIL, PASS);
                     if (res) {
+                        switchHeader(USR_STATE.name);
                         if (localStorage.inviteKey) {
                             const ID = +localStorage.id;
                             const U_BOX_OBJ = await USR_BOXES.getByUserId(ID);
