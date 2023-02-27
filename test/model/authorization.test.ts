@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
-import { Authorization } from '../model/authorization';
-import { USR_STATE } from '../db/usr-state';
+import { Authorization } from '../../src/model/authorization';
+import { USR_STATE } from '../../src/db/usr-state';
 
 const USR = new Authorization();
 test('Сreate user', async () => {
@@ -8,9 +8,9 @@ test('Сreate user', async () => {
         name_1: 'Valeront',
         email_1: 'valeronchig@mail.val',
         phonenumber_1: '123123123123',
-        password_1:'1234567' 
-    }
-    const {name_1, email_1, phonenumber_1, password_1} = USR_1
+        password_1: '1234567',
+    };
+    const { name_1, email_1, phonenumber_1, password_1 } = USR_1;
     const res_1 = await USR.create(name_1, email_1, phonenumber_1, password_1);
     const res_2 = await USR.create(name_1, email_1, phonenumber_1, password_1);
     expect(res_1).toBe(true);
