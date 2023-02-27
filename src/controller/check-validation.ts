@@ -1,7 +1,5 @@
 import { Controller } from '.';
-import { USR_STATE } from '../db/usr-state';
 import { Model } from '../model';
-import { switchHeader } from '../view/mainView/switch-header';
 
 export function checkValidation(form: HTMLFormElement, controller: Controller, model: Model) {
     form.addEventListener(

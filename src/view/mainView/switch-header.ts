@@ -2,7 +2,7 @@ import { animateNavigation } from './animate-navigation';
 import { createNote } from './create-note';
 import { UserBoxes } from '../../model/userBoxes';
 import { Box } from '../../model/box';
-export function switchHeader(name = '', notification = '') {
+export function switchHeader(name = '') {
     const NAVIGATION = document.getElementsByClassName('navigation')[0] as HTMLDivElement;
     if (name) {
         NAVIGATION.innerHTML = `
