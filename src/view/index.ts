@@ -70,10 +70,15 @@ export class View {
 
     addHandlers() {
         for (const link of getSelector('.nav__link') as NodeListOf<Element>) {
-            link.addEventListener('click', (e: Event) => {
-                const href = this.model.route.origin + link.getAttribute('href');
-                this.controller.route(href, e);
-            });
+            link.addEventListener(
+                'click',
+                (e: Event) => {
+                    e.stopImmediatePropagation();
+                    const href = this.model.route.origin + link.getAttribute('href');
+                    this.controller.route(href, e);
+                },
+                false
+            );
         }
     }
     addListeners() {
@@ -97,6 +102,7 @@ export class View {
         const [, path, path2, path3, path4, path5] = route.path;
         let isLogin = false;
         const USR = this.model.authorizationModel;
+        console.log(localStorage.token && localStorage.switched !== 'true');
         if (localStorage.token) {
             const USR_OBJ = await USR.get(localStorage.token);
             if (!(USR_OBJ.msg === 'authorization denied' || USR_OBJ.msg === 'Token is not valid')) {
@@ -106,8 +112,9 @@ export class View {
                 USR_STATE.phonenumber = USR_OBJ[0].phonenumber;
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
-                switchHeader(USR_OBJ[0].name);
+                localStorage.isLogin === 'true' ? localStorage.switched : switchHeader(USR_OBJ[0].name);
                 isLogin = true;
+                localStorage.isLogin = 'true';
             } else localStorage.clear();
         }
         switch (path) {
