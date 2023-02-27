@@ -11,7 +11,6 @@ export class RatingController {
         return await this.model.getByUser(id);
     }
 
-
     async getAll() {
         return await this.model.getAll();
     }

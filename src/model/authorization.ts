@@ -22,6 +22,7 @@ export class Authorization {
         });
         const result = await response.json();
         localStorage.name = name;
+        USR_STATE.name = result.name;
         return result;
     }
     async changeEmail(id: number, email: string) {
@@ -33,6 +34,7 @@ export class Authorization {
             },
         });
         const result = await response.json();
+        if (result !== 'User with this email already exist!') USR_STATE.email = result.email;
         return result;
     }
     async changePassword(id: number, password: string) {
@@ -44,6 +46,7 @@ export class Authorization {
             },
         });
         const result = await response.json();
+        USR_STATE.password = password;
         return result;
     }
     async create(name: string, email: string, phonenumber: string, password: string) {
@@ -63,8 +66,10 @@ export class Authorization {
             localStorage.id = result.id;
             USR_STATE.name = result.name;
             USR_STATE.email = result.email;
+            USR_STATE.password = password;
             USR_STATE.phonenumber = result.phonenumber;
             localStorage.token = result.jwtToken;
+            USR_STATE.token = result.jwtToken;
         }
         return true;
     }
@@ -83,6 +88,7 @@ export class Authorization {
             USR_STATE.id = result.id;
             localStorage.id = result.id;
             USR_STATE.name = result.name;
+            USR_STATE.password = password;
             localStorage.name = result.name;
             USR_STATE.email = result.email;
             USR_STATE.phonenumber = result.phonenumber;
