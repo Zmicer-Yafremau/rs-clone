@@ -12900,8 +12900,8 @@ fieldset:disabled .btn {
 
 @font-face {
   font-family: Gilroy;
-  src: url(/assets/fonts/Gilroy-ExtraBold.otf);
-  src: url(/assets/fonts/Gilroy-Light.otf)
+  src: url(assets/fonts/Gilroy-ExtraBold.otf);
+  src: url(assets/fonts/Gilroy-Light.otf)
 }
 
 .note {
@@ -14543,7 +14543,7 @@ textarea {
   font-size: 0;
   width: 250px;
   height: 50px;
-  background-image: url(/assets/icons/star.svg)
+  background-image: url(assets/icons/star.svg)
 }
 
 .star {
@@ -14556,12 +14556,12 @@ textarea {
 }
 
 .star.active {
-  background-image: url(/assets/icons/star-active.svg)
+  background-image: url(assets/icons/star-active.svg)
 }
 
 .current {
   outline: 1px solid;
-  background-image: url(/assets/icons/star-active.svg)
+  background-image: url(assets/icons/star-active.svg)
 }
 
 .star:nth-child(2) {
@@ -14600,7 +14600,7 @@ textarea {
 .star:hover {
   z-index: 2;
   left: 0;
-  background-image: url(/assets/icons/star-active.svg)
+  background-image: url(assets/icons/star-active.svg)
 }
 
 .rating-new {
@@ -15164,7 +15164,7 @@ textarea {
 }
 
 .darkTheme .rating-star {
-  background-image: url(/assets/icons/star-dark.svg)
+  background-image: url(assets/icons/star-dark.svg)
 }
 
 .darkTheme .extra-faq,
