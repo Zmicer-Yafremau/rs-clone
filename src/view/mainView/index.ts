@@ -1865,7 +1865,7 @@ export class MainView {
                     <p class="extra-faq__text">Поищите ответ на странице «Частые вопросы»</p>
                 </div>
                 <div>
-                <a href="/faq" class="navigation__link"><button type="button" class="btn main__button bg-light">Частые вопросы</button></a>
+                <a href="/faq" class="nav__link"><button type="button" class="btn main__button bg-light">Частые вопросы</button></a>
                 </div>
             </section>
         </div>`;
