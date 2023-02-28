@@ -13097,7 +13097,8 @@ textarea {
 
 .footer__buttons {
   color: #fff;
-  width: 40%;
+  width: fit-content;
+  min-width: 150px;
   height: fit-content
 }
 
@@ -13106,7 +13107,6 @@ textarea {
 }
 
 .footer__buttons .col {
-  min-width: 150px;
   height: fit-content
 }
 
@@ -13114,8 +13114,18 @@ textarea {
   color: #fff
 }
 
+.footer__produced {
+  width: 200px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: auto;
+  padding: 5px
+}
+
 .footer__link {
-  width: 100%;
+  width: 190px;
   display: block;
   text-decoration: none;
   color: #fff;
@@ -13133,20 +13143,9 @@ textarea {
 
 .footer__name {
   display: inline-block;
-  width: 65%;
+  width: 150px;
   font-weight: 500;
   font-family: Gilroy, sans-serif
-}
-
-.footer__produced {
-  width: 250px;
-  min-width: 230px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: auto;
-  padding: 5px
 }
 
 .footer__header {
@@ -13166,6 +13165,35 @@ textarea {
 }
 
 @media(max-width: 750px) {
+  .footer__buttons {
+    width: 170px;
+    margin-top: 20px
+  }
+
+  .footer__produced {
+    margin-right: 40px
+  }
+
+  .footer__buttons .row .col {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0
+  }
+
+  .footer__buttons .row .col a {
+    margin: 0;
+    padding: 0;
+    width: 140px;
+    margin-left: 5px
+  }
+
+  .footer__buttons .row .col .btn {
+    margin: 0;
+    padding: 0;
+    width: 160px;
+    margin-right: 30px
+  }
+
   .notifications__content {
     right: 0
   }
@@ -13182,6 +13210,16 @@ textarea {
   h4,
   .h4 {
     font-size: 16px
+  }
+
+  .footer_date {
+    display: none
+  }
+
+  .footer .footer__rs {
+    width: 120px !important;
+    margin: 0;
+    padding: 0
   }
 
   .accordion-body {
@@ -13311,7 +13349,7 @@ textarea {
 }
 
 .how__text {
-  width: 50%;
+  width: 70%;
   height: auto;
   padding-top: 25px
 }
@@ -13530,7 +13568,11 @@ textarea {
 
 @media(max-width: 700px) {
   .screenshot {
-    width: 90%
+    height: fit-content;
+    padding: 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%
   }
 
   .extra-faq {
@@ -13542,20 +13584,36 @@ textarea {
   }
 
   .box__pictures {
-    margin-top: 10px;
-    overflow-y: scroll;
+    margin-bottom: 20px;
+    overflow-y: hidden;
     height: 300px !important
+  }
+
+  .how__text {
+    width: 100%
   }
 }
 
 @media(max-width: 410px) {
+  .screenshot {
+    height: fit-content;
+    padding: 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%
+  }
+
+  .main__button {
+    width: 70px !important
+  }
+
   .how__text {
     width: 100%
   }
 
   .box__pictures {
-    margin-top: 10px;
-    overflow-y: scroll;
+    margin-bottom: 20px;
+    overflow-y: hidden;
     height: 300px !important
   }
 }
@@ -13566,6 +13624,12 @@ textarea {
   height: calc(100vh - 65px - 148px);
   margin: 0 auto;
   margin-top: 65px
+}
+
+.authorization h1,
+.authorization .h1 {
+  text-align: center;
+  width: 100%
 }
 
 .authorization__wrapper {
@@ -13627,6 +13691,14 @@ textarea {
 @media(max-height: 920px) {
   .authorization {
     height: 120vh
+  }
+}
+
+@media(max-width: 450px) {
+
+  h1,
+  .h1 {
+    font-size: 50px !important
   }
 }
 
