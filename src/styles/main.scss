@@ -67,7 +67,7 @@
 }
 
 .how__text {
-    width: 50%;
+    width: 70%;
     height: auto;
     padding-top: 25px;
 }
@@ -281,7 +281,11 @@
 @media (max-width: 700px) {
 
     .screenshot {
-        width: 90%;
+        height: fit-content;
+        padding: 0;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        width: 100%;
     }
 
     .extra-faq {
@@ -292,19 +296,32 @@
         padding: 10px;
     }
     .box__pictures {
-        margin-top: 10px;
-        overflow-y: scroll;
+        margin-bottom: 20px;
+        overflow-y: hidden;
         height: 300px !important;
+    }
+    .how__text {
+        width: 100%;
     }
 }
 
 @media (max-width: 410px) {
+    .screenshot {
+        height: fit-content;
+        padding: 0;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        width: 100%;
+    }
+    .main__button {
+        width: 70px !important;
+    }
     .how__text {
         width: 100%;
     }
     .box__pictures {
-        margin-top: 10px;
-        overflow-y: scroll;
+        margin-bottom: 20px;
+        overflow-y: hidden;
         height: 300px !important;
     }
 }
