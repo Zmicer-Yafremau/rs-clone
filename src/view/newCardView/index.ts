@@ -32,7 +32,7 @@ export class NewCardView {
            </div>
         </div>
         </div>
-        <div class="box__pictures center flex-wrap p-3">
+        <div class="box__pictures ucard__pictures center flex-wrap p-3">
 
 
         </div>
