@@ -21,7 +21,6 @@ test('Get user', async () => {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0N30sImlhdCI6MTY3NTY5Mzc5NCwiZXhwIjoxNjc1NzgwMTk0fQ.0l8WSB4xTS9rGxEBqkaC6hj-QBiZ5iNie1DSEknjYQ4';
     const res = await USR.get(jwtToken);
     const res_1 = await USR.get(USR_STATE.token);
-    console.log('res', res_1);
     expect(res_1[0].name).toBe('Valeront');
     expect(res_1[0].phonenumber).toBe('123123123123');
     expect(res.msg).toBe('Token is not valid');

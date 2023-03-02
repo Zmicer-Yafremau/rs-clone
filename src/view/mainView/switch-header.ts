@@ -36,7 +36,6 @@ export function switchHeader(name = '') {
                 (event) => {
                     event.stopImmediatePropagation();
                     NOTIFICATIONS.classList.toggle('active');
-                    console.log(event.target);
                     if (NOTIFICATIONS.classList.contains('active')) {
                         animateNavigation(0, 580, 20, NOTIFICATIONS_CONTENT);
                     } else {
@@ -65,7 +64,6 @@ export function switchHeader(name = '') {
         }
         const UNIC_BOX = Array.from(new Set(NAME_ARR));
         const NOTIFICATIONS_CONTENT = document.getElementsByClassName(`notifications__content`)[0] as HTMLDivElement;
-        console.log('hello');
         if (UNIC_BOX.length) {
             for (const box_name of UNIC_BOX) {
                 createNote(`В коробке ${box_name} прошла жеребьёвка`);
@@ -81,7 +79,6 @@ export function switchHeader(name = '') {
                 (event) => {
                     event.stopImmediatePropagation();
                     const ELEMENT = event.target as HTMLElement;
-                    console.log('E', ELEMENT);
                     if (ELEMENT.classList.contains('note__close')) {
                         const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
                         TO_REMOVE?.remove();

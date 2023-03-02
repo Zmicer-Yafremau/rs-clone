@@ -59,7 +59,6 @@ export class Authorization {
             },
         });
         const result = await response.json();
-        console.log('res', result);
         if (result === 'User already exist!') return false;
         else {
             USR_STATE.id = result.id;
@@ -93,7 +92,6 @@ export class Authorization {
             USR_STATE.email = result.email;
             USR_STATE.phonenumber = result.phonenumber;
             localStorage.token = result.jwtToken;
-            console.log('US', USR_STATE);
         }
         return true;
     }

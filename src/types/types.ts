@@ -16,5 +16,5 @@ export type USR_STATE_TYPE = {
     phonenumber: string;
     password: string;
     dark: boolean;
-    token:string;
+    token: string;
 };

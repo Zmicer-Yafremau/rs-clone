@@ -15,8 +15,6 @@ export async function deleteUser(controller: Controller, model: Model) {
     const ADMIN_BOX_ARR = await BOX.getByAdminId(localStorage.id);
     let admin_boxes = false;
     const PART_CHECK: string[] = [];
-    console.log('ADMIN_BOX_ARR', ADMIN_BOX_ARR);
-    console.log('USER_BOX_OBJ', USER_BOX_ARR);
     /*Правараяю на наяўнасць USER_BOX*/
     if (USER_BOX_ARR.length) {
         /*Правараяю на наяўнасць ці ёсць скрыні ў аккаўнта*/
@@ -31,13 +29,11 @@ export async function deleteUser(controller: Controller, model: Model) {
                         /*Закідваю імёны адмінаў ў массіў, каб потым дадаць у памылку, што выдаліць немагчыма*/
                         PART_CHECK.push(BOXES_OBJ.admin_name);
                     } else admin_boxes = true;
-                    console.log('p', PART_CHECK);
                 }
                 /*Калі хтосьці ў массіве выводжу паведамленне аб памылцы*/
                 if (admin_boxes) ADMIN_ERR.classList.remove('visually-hidden');
                 else if (PART_CHECK.length) {
                     PART_ERR.classList.remove('visually-hidden');
-                    console.log('hello');
                     ADMINS.innerHTML = PART_CHECK.toString();
                 }
             })();
@@ -60,8 +56,6 @@ export async function deleteUser(controller: Controller, model: Model) {
             }
         }
     } else {
-        console.log(`Ня мае user-box аб'екта`);
         const USR_DEL = await USR.remove(localStorage.id);
-        console.log(`${JSON.stringify(USR_DEL)}`);
     }
 }
