@@ -1,8 +1,10 @@
 import { animateNavigation } from './animate-navigation';
 import { createNote } from './create-note';
-import { UserBoxes } from '../../model/userBoxes';
-import { Box } from '../../model/box';
-export function switchHeader(name = '') {
+import { Controller } from '../../controller';
+import { Model } from '../../model/index';
+import { View } from '..';
+import { getSelector } from '../../utils/utils';
+export function switchHeader(name = '', controller: Controller, model: Model) {
     const NAVIGATION = document.getElementsByClassName('navigation')[0] as HTMLDivElement;
     if (name) {
         NAVIGATION.innerHTML = `
@@ -51,11 +53,15 @@ export function switchHeader(name = '') {
       <a href="/login" class="nav__link">Вход и регистрация</a>
   </span>`;
     }
-    const U_BOXES = new UserBoxes();
-    const BOXES = new Box();
+    const U_BOXES = model.userBoxesModel;
+    const BOXES = model.boxModel;
     setTimeout(async () => {
         const U_BOX_ARR = await U_BOXES.getByUserId(localStorage.id);
         if (!('error' in U_BOX_ARR)) {
+            const NOTIFICATIONS_CONTENT = document.getElementsByClassName(
+                `notifications__content`
+            )[0] as HTMLDivElement;
+            NOTIFICATIONS_CONTENT.innerHTML = '';
             const NAME_ARR = [];
             for (const box_id of U_BOX_ARR[0].user_boxes) {
                 const BOX_OBJ = await BOXES.getByBoxId(box_id);
@@ -64,9 +70,6 @@ export function switchHeader(name = '') {
                 }
             }
             const UNIC_BOX = Array.from(new Set(NAME_ARR));
-            const NOTIFICATIONS_CONTENT = document.getElementsByClassName(
-                `notifications__content`
-            )[0] as HTMLDivElement;
             if (UNIC_BOX.length) {
                 for (const box_name of UNIC_BOX) {
                     createNote(`В коробке ${box_name} прошла жеребьёвка`);
@@ -83,6 +86,7 @@ export function switchHeader(name = '') {
                         event.stopImmediatePropagation();
                         const ELEMENT = event.target as HTMLElement;
                         if (ELEMENT.classList.contains('note__close')) {
+                            NOTIFICATIONS_CONTENT.parentElement?.classList.toggle('active');
                             const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
                             TO_REMOVE?.remove();
                         }
@@ -93,4 +97,18 @@ export function switchHeader(name = '') {
         }
     }, 0);
     animateNavigation(-100, 0, 2.5, NAVIGATION.children[0] as HTMLElement);
+    //const VIEW = new View(controller, model);
+    //VIEW.addHandlers();
+    //VIEW.addListeners();
+    for (const link of getSelector('.nav__link') as NodeListOf<Element>) {
+        link.addEventListener(
+            'click',
+            (e: Event) => {
+                e.stopImmediatePropagation();
+                const href = model.route.origin + link.getAttribute('href');
+                controller.route(href, e);
+            },
+            false
+        );
+    }
 }

@@ -1,8 +1,10 @@
 import { USR_STATE } from '../db/usr-state';
-import { Authorization } from '../model/authorization';
 import { switchHeader } from '../view/mainView/switch-header';
 import { animateNavigation } from '../view/mainView/animate-navigation';
-export async function change(form: HTMLFormElement) {
+import { Controller } from '.';
+import { Model } from '../model';
+import { View } from '../view';
+export async function change(form: HTMLFormElement, controller: Controller, model: Model) {
     form.addEventListener(
         'submit',
         async (event) => {
@@ -12,7 +14,7 @@ export async function change(form: HTMLFormElement) {
             } else {
                 event.preventDefault();
                 event.stopPropagation();
-                const USR = new Authorization();
+                const USR = model.authorizationModel;
                 const ID = localStorage.id;
                 const FORM_TYPE = form.classList[1].split('__')[1];
                 const SAVED = document.getElementsByClassName('private__saved')[0] as HTMLDivElement;
@@ -21,7 +23,7 @@ export async function change(form: HTMLFormElement) {
                     const NAME_INPUT = document.getElementById('inputNameChange') as HTMLInputElement;
                     const NAME = NAME_INPUT.value.trim();
                     await USR.changeName(ID, NAME);
-                    switchHeader(NAME);
+                    switchHeader(NAME, controller, model);
                     USR_STATE.name = NAME;
                     //SAVED.classList.add('active');
                     animateNavigation(0, 80, 2.5, SAVED);

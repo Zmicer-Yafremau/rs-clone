@@ -300,9 +300,9 @@ export class AccountView {
                 const P_NAME_FORM = document.getElementsByClassName('private__name-form')[0] as HTMLFormElement;
                 const P_MAIL_FORM = document.getElementsByClassName('private__mail-form')[0] as HTMLFormElement;
                 const PASS_FORM = document.getElementsByClassName('pass__form')[0] as HTMLFormElement;
-                change(P_NAME_FORM);
-                change(P_MAIL_FORM);
-                change(PASS_FORM);
+                change(P_NAME_FORM, this.controller, this.model);
+                change(P_MAIL_FORM, this.controller, this.model);
+                change(PASS_FORM, this.controller, this.model);
                 hideSymbols(PASS_CHANGE, CHANGE_ICONS);
                 hideSymbols(PASS_REPEAT, REPEAT_ICONS);
             }

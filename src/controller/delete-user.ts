@@ -52,7 +52,7 @@ export async function deleteUser(controller: Controller, model: Model) {
                 /*Калі выдаліўся чышчу і раблю рэдырэкт*/
                 localStorage.clear();
                 controller.route(model.route.origin);
-                switchHeader();
+                switchHeader('', controller, model);
             }
         }
     } else {
