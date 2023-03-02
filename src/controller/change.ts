@@ -3,7 +3,7 @@ import { switchHeader } from '../view/mainView/switch-header';
 import { animateNavigation } from '../view/mainView/animate-navigation';
 import { Controller } from '.';
 import { Model } from '../model';
-import { View } from '../view';
+//import { View } from '../view';
 export async function change(form: HTMLFormElement, controller: Controller, model: Model) {
     form.addEventListener(
         'submit',

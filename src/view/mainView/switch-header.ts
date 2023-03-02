@@ -2,7 +2,7 @@ import { animateNavigation } from './animate-navigation';
 import { createNote } from './create-note';
 import { Controller } from '../../controller';
 import { Model } from '../../model/index';
-import { View } from '..';
+//import { View } from '..';
 import { getSelector } from '../../utils/utils';
 export function switchHeader(name = '', controller: Controller, model: Model) {
     const NAVIGATION = document.getElementsByClassName('navigation')[0] as HTMLDivElement;
@@ -62,6 +62,7 @@ export function switchHeader(name = '', controller: Controller, model: Model) {
                 `notifications__content`
             )[0] as HTMLDivElement;
             NOTIFICATIONS_CONTENT.innerHTML = '';
+            NOTIFICATIONS_CONTENT.parentElement?.classList.remove('active');
             const NAME_ARR = [];
             for (const box_id of U_BOX_ARR[0].user_boxes) {
                 const BOX_OBJ = await BOXES.getByBoxId(box_id);
@@ -86,9 +87,11 @@ export function switchHeader(name = '', controller: Controller, model: Model) {
                         event.stopImmediatePropagation();
                         const ELEMENT = event.target as HTMLElement;
                         if (ELEMENT.classList.contains('note__close')) {
-                            NOTIFICATIONS_CONTENT.parentElement?.classList.toggle('active');
                             const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
                             TO_REMOVE?.remove();
+                            if (!NOTIFICATIONS_CONTENT.innerHTML) {
+                                NOTIFICATIONS_CONTENT.parentElement?.classList.remove('active');
+                            }
                         }
                     },
                     false
