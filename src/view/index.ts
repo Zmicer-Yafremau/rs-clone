@@ -167,7 +167,6 @@ export class View {
                         this.newBoxView.addListeners();
                         break;
                     } else if (path3 === 'santas') {
-                        console.log(path3);
                         await this.boxMenu.render(path2);
                         await this.boxTable.render(path2);
                         break;

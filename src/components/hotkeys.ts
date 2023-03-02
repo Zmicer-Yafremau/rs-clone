@@ -8,35 +8,38 @@ export class Hotkeys {
     async addHotKeys() {
         hotkeys('alt+s', (event) => {
             event.preventDefault();
-            this.controller.route(location.origin + `/box/new`);
+            this.controller.route(this.model.route.origin + `/box/new`);
         });
 
         hotkeys('alt+r', (event) => {
             event.preventDefault();
-            this.controller.route(location.origin + `/rating`);
+            this.controller.route(this.model.route.origin + `/rating`);
         });
 
         hotkeys('alt+c', (event) => {
             event.preventDefault();
-            this.controller.route(location.origin + `/faq`);
+            this.controller.route(this.model.route.origin + `/faq`);
         });
 
         hotkeys('alt+e', (event) => {
             event.preventDefault();
             const setting = document.getElementById('setting') as HTMLDivElement;
-            const path = window.location.pathname.split('/')[2];
+            const path = this.model.route.path[2];
             if (setting) {
-                this.controller.route(location.origin + `/box/${path}/edit`);
+                this.controller.route(this.model.route.origin + `/box/${path}/edit`);
             }
         });
 
         hotkeys('alt+t', (event) => {
             event.preventDefault();
-            const path = window.location.pathname.split('/')[2];
-            const pathCard = window.location.pathname.split('/')[3];
-            const pathEdit = window.location.pathname.split('/')[4];
+            const path = this.model.route.path[2];
+            const pathCard = this.model.route.path[3];
+            const pathEdit = this.model.route.path[4];
+            // const path = window.location.pathname.split('/')[2];
+            // const pathCard = window.location.pathname.split('/')[3];
+            // const pathEdit = window.location.pathname.split('/')[4];
             if (pathCard === 'card' && !pathEdit) {
-                this.controller.route(location.origin + `/box/${path}/card/edit`);
+                this.controller.route(this.model.route.origin + `/box/${path}/card/edit`);
             }
         });
 

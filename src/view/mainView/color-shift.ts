@@ -6,7 +6,6 @@ export function colorShift(element: HTMLElement) {
         step = (start / finish) * 360;
         element.style.color = `hsl(${step}, 80%, 50%)`;
         start++;
-        //console.log(step);
         requestAnimationFrame(makeStep);
         if (start === finish) {
             start = 0;
