@@ -107,7 +107,7 @@ export class AccountView {
                 </div>
                 <div class="col d-flex justify-content-end align-items-center">
                     <div>
-                        <a href="/" class="account__link">Выйти с сайта</a>
+                        <a class="account__link">Выйти с сайта</a>
                     </div>
                 </div>
             </div>

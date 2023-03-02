@@ -55,37 +55,41 @@ export function switchHeader(name = '') {
     const BOXES = new Box();
     setTimeout(async () => {
         const U_BOX_ARR = await U_BOXES.getByUserId(localStorage.id);
-        const NAME_ARR = [];
-        for (const box_id of U_BOX_ARR[0].user_boxes) {
-            const BOX_OBJ = await BOXES.getByBoxId(box_id);
-            if (BOX_OBJ.is_draw) {
-                NAME_ARR.push(BOX_OBJ.box_name);
+        if (!('error' in U_BOX_ARR)) {
+            const NAME_ARR = [];
+            for (const box_id of U_BOX_ARR[0].user_boxes) {
+                const BOX_OBJ = await BOXES.getByBoxId(box_id);
+                if (BOX_OBJ.is_draw) {
+                    NAME_ARR.push(BOX_OBJ.box_name);
+                }
             }
-        }
-        const UNIC_BOX = Array.from(new Set(NAME_ARR));
-        const NOTIFICATIONS_CONTENT = document.getElementsByClassName(`notifications__content`)[0] as HTMLDivElement;
-        if (UNIC_BOX.length) {
-            for (const box_name of UNIC_BOX) {
-                createNote(`В коробке ${box_name} прошла жеребьёвка`);
+            const UNIC_BOX = Array.from(new Set(NAME_ARR));
+            const NOTIFICATIONS_CONTENT = document.getElementsByClassName(
+                `notifications__content`
+            )[0] as HTMLDivElement;
+            if (UNIC_BOX.length) {
+                for (const box_name of UNIC_BOX) {
+                    createNote(`В коробке ${box_name} прошла жеребьёвка`);
+                }
+            } else {
+                NOTIFICATIONS_CONTENT.innerHTML = '';
+                createNote('Уведомлений нет');
             }
-        } else {
-            NOTIFICATIONS_CONTENT.innerHTML = '';
-            createNote('Уведомлений нет');
-        }
 
-        if (NOTIFICATIONS_CONTENT) {
-            NOTIFICATIONS_CONTENT.addEventListener(
-                'click',
-                (event) => {
-                    event.stopImmediatePropagation();
-                    const ELEMENT = event.target as HTMLElement;
-                    if (ELEMENT.classList.contains('note__close')) {
-                        const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
-                        TO_REMOVE?.remove();
-                    }
-                },
-                false
-            );
+            if (NOTIFICATIONS_CONTENT) {
+                NOTIFICATIONS_CONTENT.addEventListener(
+                    'click',
+                    (event) => {
+                        event.stopImmediatePropagation();
+                        const ELEMENT = event.target as HTMLElement;
+                        if (ELEMENT.classList.contains('note__close')) {
+                            const TO_REMOVE = ELEMENT.parentNode?.parentNode as HTMLDivElement;
+                            TO_REMOVE?.remove();
+                        }
+                    },
+                    false
+                );
+            }
         }
     }, 0);
     animateNavigation(-100, 0, 2.5, NAVIGATION.children[0] as HTMLElement);
