@@ -27,6 +27,7 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                     if (res) {
                         const ID = localStorage.id;
                         await USR_BOXES.create([], ID);
+                        localStorage.header = 'reload';
                         if (localStorage.inviteKey) controller.route(model.route.origin + '/card');
                         else controller.route(model.route.origin);
                     } else USER_EXIST.classList.remove('visually-hidden');
@@ -36,6 +37,7 @@ export function checkValidation(form: HTMLFormElement, controller: Controller, m
                     const PASS = INPUTS[1].value;
                     const res = await USR.login(MAIL, PASS);
                     if (res) {
+                        localStorage.header = 'reload';
                         if (localStorage.inviteKey) {
                             const ID = +localStorage.id;
                             const U_BOX_OBJ = await USR_BOXES.getByUserId(ID);

@@ -126,7 +126,7 @@ export class View {
                 localStorage.name = USR_OBJ[0].name;
                 localStorage.id = USR_OBJ[0].id;
                 isLogin = true;
-                localStorage.getItem('header') ? switchHeader(USR_STATE.name) : null;
+                localStorage.getItem('header') ? switchHeader(USR_STATE.name, this.controller, this.model) : null;
                 localStorage.removeItem('header');
             } else localStorage.clear();
         }

@@ -12,7 +12,7 @@ export async function deleteUser(controller: Controller, model: Model) {
     const BOX = model.boxModel;
     const USER_BOX = model.userBoxesModel;
     const USER_BOX_ARR = await USER_BOX.getByUserId(localStorage.id);
-    const ADMIN_BOX_ARR = await BOX.getByAdminId(localStorage.id);
+    //const ADMIN_BOX_ARR = await BOX.getByAdminId(localStorage.id);
     let admin_boxes = false;
     const PART_CHECK: string[] = [];
     /*Правараяю на наяўнасць USER_BOX*/
@@ -52,10 +52,10 @@ export async function deleteUser(controller: Controller, model: Model) {
                 /*Калі выдаліўся чышчу і раблю рэдырэкт*/
                 localStorage.clear();
                 controller.route(model.route.origin);
-                switchHeader();
+                switchHeader('', controller, model);
             }
         }
     } else {
-        const USR_DEL = await USR.remove(localStorage.id);
+        await USR.remove(localStorage.id);
     }
 }
