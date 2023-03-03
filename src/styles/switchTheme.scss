@@ -1,0 +1,60 @@
+@import './variables/var.scss';
+.darkTheme {
+    background-color: $cost-bg;
+    .header {
+        background-color: $cost-bg;
+    } 
+    .main__lights-bg {
+        fill: $cost-bg !important;
+    }
+    .modal {
+        --bs-modal-bg:  #f1ecfe !important;
+    }
+    .rating-star {
+        background-image: url(/src/assets/icons/star-dark.svg);
+    }
+    .extra-faq, .feedback-text, .card__wrapper   {
+        background-color: #e5dcfd;
+    }
+    .boxes__list {
+        .box__wrapper {
+            background-color: #e5dcfd !important;
+        }
+    } 
+    .accordion-item, .list-group-horizontal > .list-group-item {
+        background-color:  $limit-bg !important;
+    }
+    .form-control,
+    .screenshot__container,
+    .plus,
+    .toggle-menu-button--inner,
+    .my-card {
+        background-color: $limit-bg;
+    }
+    .toggle-menu-panel .toggle-menu-item--slider.active {
+        background-color:  $limit-bg;
+    }
+    .boxes__view p {
+        background-color:  $limit-bg;
+    }
+    .boxes__view,
+    .box__svg {
+        background-color:  #b1c5d8;
+    }
+    .boxes__section{
+        .boxes__year {
+            h4::after{
+            background-color:  #b1c5d8;
+            }
+        }
+    }
+    .toggle__wrapper,
+    .toggle-menu,
+    .toggle-menu-button {
+        background:  #b1c5d8;
+    }
+    .box__edit .section,
+    .cards__not .section{
+        border-color:  #b1c5d8;
+    }
+}

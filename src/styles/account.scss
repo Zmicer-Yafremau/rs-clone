@@ -1,0 +1,50 @@
+.account {
+    width: 100%;
+    margin-top: 100px;
+    padding-bottom: 100px;
+}
+
+.account__header,
+.account__wrapper {
+    width: 100%;
+    max-width: 1520px;
+}
+
+.account .row {
+    padding: 25px 0;
+}
+
+.account__section {
+    min-width: 250px;
+}
+
+.account input {
+    min-width: 300px;
+    height: 50px;
+}
+
+.account__container {
+    min-width: 330px;
+}
+
+.pass__saved,
+.private__saved {
+    transition: all 1s;
+    top: -100px;
+    border-radius: 5px;
+    width: fit-content;
+    transform: translateY(-80px);
+}
+
+.pass__saved.active,
+.private__saved.active {
+    transition: all 1s;
+    transform: translateY(80px);
+}
+
+.delete__error {
+    max-width: 360px;
+}
+.delete__btn {
+    height: 50px;
+}

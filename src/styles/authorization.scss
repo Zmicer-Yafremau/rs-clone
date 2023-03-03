@@ -1,0 +1,74 @@
+@import './variables/var.scss';
+
+.authorization {
+    padding: 10px;
+    width: 100%;
+    height: calc(100vh - 65px - 148px);
+    margin: 0 auto;
+    margin-top: 65px;
+}
+.authorization h1 {
+    text-align: center;
+    width: 100%;
+}
+.authorization__wrapper {
+    max-width: 500px;
+    max-height: 50vh;
+    width: 100%;
+    margin: 0 auto;
+    flex-direction: column;
+    height: auto;
+}
+.authorization__switch {
+    width: 100%;
+    text-align: center;
+}
+
+.authorization__form {
+    width: 100%;
+    flex-direction: column;
+}
+.authorization__input {
+    height: 50px;
+}
+.authorization__btn {
+    margin: 0 auto;
+}
+.authorization__errors {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $number-bg;
+    color: $reg-color;
+}
+.authorization__icon {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    z-index: 90;
+    cursor: pointer;
+}
+.authorization__pas {
+    position: relative;
+}
+.authorization__switch a {
+    color: $reg-color;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+.authorization__to-reg a:hover {
+    cursor: pointer;
+}
+@media (max-height: 920px) {
+
+    .authorization {
+        height: 120vh;
+    }
+
+}
+@media (max-width: 450px) {
+
+    h1 {
+        font-size: 50px !important;
+    }
+
+}

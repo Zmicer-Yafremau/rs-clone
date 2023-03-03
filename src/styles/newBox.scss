@@ -1,0 +1,92 @@
+@import './variables/var.scss';
+
+.box {
+    margin-top: 90px;
+}
+
+.box__container {
+    max-width: 640px;
+    border-radius: 30px;
+    min-width: 290px;
+    height: 700px;
+    border-radius: 30px;
+}
+
+.box__container.rounded {
+    border-radius: 30px !important;
+}
+.box__form,
+.ucard__form {
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+}
+.box__pictures {
+    width: fit-content;
+    height: auto;
+    max-height: 350px;
+}
+.box .screenshot__body {
+    height: auto;
+}
+.box__svg {
+    width: fit-content;
+    height: auto;
+    padding: 15px;
+    margin: 10px;
+    background-color: $ward-bg;
+    border-radius: 100%;
+}
+.box__svg svg {
+    width: 75px !important;
+    height: 75px !important;
+}
+.box .box__svg:hover {
+    transition: all 0.3s;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.box .box__svg.active {
+    transform: scale(1.2);
+}
+
+.box .box__pictures .active::before,
+.box__pictures .active::before {
+    content: url("data:image/svg+xml;charset=UTF-8, <svg xmlns='http://www.w3.org/2000/svg' fill='white' class='bi bi-check' viewBox='0 0 16 16'><path d='M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z'/></svg>");
+    position: absolute;
+    background-color: #ff6960;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    top: 0;
+    right: 0;
+    text-align: center;
+}
+@media (max-width: 700px) {
+    .box .box__pictures {
+        margin-top: 10px;
+        overflow-y: scroll;
+        height: 350px !important;
+    }
+    .box .screenshot__body {
+        height: 570px !important;
+    }
+}
+@media (max-width: 410px) {
+    .box .box__pictures {
+        margin-top: 10px;
+        overflow-y: scroll;
+        height: 350px !important;
+    }
+    .ucard__pictures {
+        padding-top: 0;
+        margin-top: 0;
+        overflow-y: scroll;
+        height: 200px !important;
+        margin-bottom: 70px;
+    }
+    .box .screenshot__body {
+        height: 600px !important;
+    }
+}

@@ -1,0 +1,378 @@
+// Import all of Bootstrap's CSS
+@import './variables/var.scss';
+
+@font-face {
+    font-family: Gilroy;
+    src: url('./assets/fonts/Gilroy-ExtraBold.otf');
+    src: url('./assets/fonts/Gilroy-Light.otf');
+}
+
+.note {
+    padding: 10px;
+}
+
+.notifications__content {
+    position: absolute;
+    min-width: 320px;
+    border-radius: 10px;
+    background-color: $part-bg;
+    top: -510px;
+    right: 11%;
+    z-index: 90;
+    cursor: pointer;
+    text-align: center;
+}
+
+#notifications {
+    cursor: pointer;
+}
+
+.accordion-button {
+    background-color: unset !important;
+    color: unset !important;
+}
+
+html {
+    height: 100%;
+}
+
+a {
+    text-decoration: none !important;
+    color: $reg-color;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 64px;
+    font-weight: 600;
+    font-family: Gilroy, sans-serif;
+}
+
+:focus {
+    outline: 0 !important;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.form-check-input:checked {
+    background-color: $faq-text;
+    border-color: $faq-text;
+}
+
+.form-check-input:focus {
+    border-color: $faq-text;
+    background-color: $faq-text;
+}
+
+.form-switch .form-check-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='white'/%3e%3c/svg%3e");
+}
+
+textarea {
+    resize: none;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fixed_center {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.header {
+    width: 100%;
+    max-height: 80px;
+    z-index: 100;
+    background-color: white;
+    border-bottom: 1px solid #ebf1f6;
+}
+
+.header__wrapper {
+    height: 100%;
+    width: 95%;
+    max-width: 1500px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo::after {
+    content: '.';
+    color: red;
+}
+
+.logo .nav__link {
+    color: var(--bs-body-color);
+}
+
+.footer .nav__link {
+    margin-right: 30px;
+}
+
+.navigation__reg {
+    color: $reg-color;
+    font-family: Gilroy, sans-serif;
+    font-size: 1rem;
+}
+
+.navigation__reg .nav__link {
+    color: $reg-color;
+    font-family: Gilroy, sans-serif;
+    font-size: 1rem;
+}
+
+.nav {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-modal {
+    color: white;
+    margin-right: 30px;
+    padding: 0;
+    border-width: 0;
+}
+
+.list-group-horizontal>.list-group-item:first-child:not(:last-child) {
+    width: 72px;
+}
+
+#root {
+    flex: 1 1 auto;
+
+    &.shadow {
+        opacity: 0.4;
+    }
+}
+
+.footer {
+    width: 100%;
+    height: auto;
+    background-color: $footer-bg;
+    margin-top: 20px;
+}
+
+.footer__wrapper {
+    max-width: 1500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+}
+
+.footer_img-rs {
+    width: 100px;
+    height: auto;
+}
+
+.footer__buttons {
+    color: white;
+    width: fit-content;
+    min-width: 150px;
+    height: fit-content;
+}
+
+.footer__buttons .nav__link {
+    color: white;
+}
+
+.footer__buttons .col {
+    height: fit-content;
+}
+
+.footer_date {
+    color: white;
+}
+.footer__produced {
+    width: 200px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: auto;
+    padding: 5px;
+}
+.footer__link {
+    width: 190px;
+    display: block;
+    text-decoration: none;
+    color: white;
+    font-weight: 100;
+}
+
+.footer_img-git {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 0.1px solid white;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.footer__name {
+    display: inline-block;
+    width: 150px;
+    font-weight: 500;
+    font-family: Gilroy, sans-serif;
+}
+
+
+.footer__header {
+    display: block;
+    color: white;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    text-align: start;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 1700px) {
+    .notifications__content {
+        right: 3.5%;
+    }
+}
+
+@media (max-width: 750px) {
+    .footer__buttons {
+       width: 170px;
+       margin-top: 20px;
+    }
+    .footer__produced {
+        margin-right: 40px;
+    }
+    .footer__buttons .row .col {
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 0;
+
+     }
+     .footer__buttons .row .col a {
+        margin: 0;
+        padding: 0;
+        width: 140px;
+        margin-left: 5px;
+     }
+     .footer__buttons .row .col .btn {
+        margin: 0;
+        padding: 0;
+        width: 160px;
+        margin-right: 30px;
+     }
+    .notifications__content {
+        right: 0;
+    }
+
+    .main__button {
+        margin: 10px 0;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    .footer_date {
+        display: none;
+    }
+
+    .footer .footer__rs {
+        width: 120px !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    .accordion-body {
+        font-size: 14px;
+    }
+
+    .nav {
+        width: fit-content;
+    }
+
+    .form-check label {
+        display: none !important;
+    }
+
+    nav>a span:last-child {
+        display: none !important;
+    }
+
+    #notifications span:last-child {
+        display: none !important;
+    }
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &.hidden {
+        display: none;
+    }
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-dual-ring:after {
+    content: ' ';
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid#2da8dd;
+    border-color: #2da8dd transparent #2da8dd transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
